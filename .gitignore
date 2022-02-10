@@ -1,0 +1,10 @@
+.vscode/
+.idea/
+__pycache__/
+venv/
+**/.DS_Store
+.DS_Store
+./.DS_Store
+
+build/
+./build/
