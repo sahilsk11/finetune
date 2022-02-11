@@ -33,3 +33,6 @@ class Profile_Page(Base):
     age = Column(String, nullable=True)
     about = Column(String, nullable=True)
     image = Column(String, nullable=True)
+
+if __name__ == "__main__":
+    pass
