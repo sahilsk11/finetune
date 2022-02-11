@@ -4,7 +4,15 @@ from db.authentication_utils import (
     create_auth_token,
     reset_auth_token,
     token_validation,
-    get_username,
+    get_username
+)
+
+from db.profile_page_utils import (
+    get_profile_details,
+    update_profile_details,
+    insert_profile_details,
+    update_profile_image
+    #haven't added delete functionalities yet
 )
 
 from flask import Flask
@@ -75,5 +83,75 @@ def make_app():
         except Exception as e:
             print("logout exception")
             return jsonify("failed")
+
+    @app.route("/get_profile_page", methods=["POST"])
+    def get_user_profile():
+        # This is the user's username
+        username = request.headers.get("username")
+        # This is the username of the profile we want to get
+        profile_user = request.headers.get("profile_user")
+        print("profile_user:" + profile_user)
+        # This is auth token front frontedn
+        auth_token = request.headers.get("auth_token")
+
+        # if username=="null" or profile_user=="null" or auth_token=="null":
+        #     return jsonify("failed")
+
+        # Check if the user is logged in, check the auth token
+        if username != "null":
+            # verify the token with username
+            status = token_validation(username, auth_token)
+            # print(status)
+            if status:
+                profile_details = get_profile_details(profile_user)
+                return jsonify(profile_details)
+            else:
+                return jsonify("failed")
+        # If the user is not logged in and it requests other user's profile
+        else:
+            profile_details = get_profile_details(profile_user)
+            return jsonify(profile_details)
+
+    @app.route("/update_profile_page", methods=["POST"])
+    def update_profile():
+        email = request.headers.get("email")
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        phone_number = request.headers.get("tel")
+        age = request.headers.get("age")
+        about = request.headers.get("about")
+
+        # check if the authentication token is valid
+        status = token_validation(username, auth_token)
+        if status:
+            # update database with the related fields.
+            update_status = update_profile_details(
+                username, email, phone_number, age, about
+            )
+            if update_status == False:
+                return jsonify("This email already used!")
+
+            return jsonify("success")
+
+        else:
+            return jsonify("failed")
+
+    # Update user's profile image
+
+    @app.route("/update_profile_photo", methods=["POST"])
+    def update_profile_photo():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        image = request.headers.get("image")
+
+        status = token_validation(username, auth_token)
+        if status:
+            update_profile_image(username, image)
+
+            return jsonify("success")
+
+        else:
+            return jsonify("failed")
+
 
     return app
