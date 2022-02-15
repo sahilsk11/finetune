@@ -8,6 +8,7 @@ import {
 
 import Profile from "./Profile/Profile";
 import CreateAccount from "./CreateAccount/CreateAccount";
+import Login from "./Login/Login";
 import "./index.css";
 
 
@@ -18,7 +19,7 @@ function App() {
 
         <Route exact path="/" element={<p>hi</p>} />
         <Route path="/create-account" element={<CreateAccount />} />
-        <Route path="/login"  element={<p>hi</p>}/>
+        <Route path="/login"  element={<Login />}/>
         <Route path="/profile"  element={<Profile />}/>
 
       </Routes>
