@@ -24,49 +24,6 @@
   font-size: 14px;
 }
 
-.create-account-picture-container {
-  width: 200px;
-  height: 200px;
-  display: block;
-  margin: 0px auto;
-  margin-top: 5%;
-}
-
-.create-account-picture {
-  width: 100%;
-  border-radius: 50%;
-}
-
-.create-account-user-details-container {
-  width: 80%;
-  margin: 0px auto;
-  display: block;
-  margin-top: 5%;
-}
-
-.create-account-user-details {
-  margin: 0px auto;
-  width: 100%;
-}
-
-.create-account-user-details-left-col {
-  text-align: left;
-}
-
-.create-account-user-details-right-col {
-  text-align: right;
-}
-
-.user-actions-container {
-  margin-top: 10%;
-}
-
-.create-account-user-actions {
-  width: 100%;
-  margin: 0px auto;
-  display: block;
-  margin-top: 10%;
-}
 
 .create-account-submit-btn {
   display: block;
@@ -81,18 +38,6 @@
   margin-top: 30px;
 }
 
-.user-actions-logout:hover {
+.create-account-submit-btn:hover {
   background-color: rgb(95, 17, 10);
-}
-
-.user-actions-delete-account {
-  margin-top: 5px;
-  text-align: center;
-  font-size: 12px;
-}
-
-.user-actions-delete-account:hover {
-  color: rgb(95, 17, 10);
-  text-decoration: underline;
-  cursor: pointer;
 }
