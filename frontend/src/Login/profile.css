@@ -1,0 +1,85 @@
+.profile-container {
+  border: 3px solid rgb(105, 105, 105);
+  width: 50%;
+  max-width: 400px;
+  min-height: 420px;
+  display: block;
+  margin: 0px auto;
+  margin-top: 5%;
+  padding: 2%;
+  background-color: rgb(243, 243, 243);
+  border-radius: 10px;
+  padding-bottom: 5px;
+}
+
+.profile-picture-container {
+  width: 200px;
+  height: 200px;
+  display: block;
+  margin: 0px auto;
+  margin-top: 5%;
+}
+
+.profile-picture {
+  width: 100%;
+  border-radius: 50%;
+}
+
+.profile-user-details-container {
+  width: 80%;
+  margin: 0px auto;
+  display: block;
+  margin-top: 5%;
+}
+
+.profile-user-details {
+  margin: 0px auto;
+  width: 100%;
+}
+
+.profile-user-details-left-col {
+  text-align: left;
+}
+
+.profile-user-details-right-col {
+  text-align: right;
+}
+
+.user-actions-container {
+  margin-top: 10%;
+}
+
+.profile-user-actions {
+  width: 100%;
+  margin: 0px auto;
+  display: block;
+  margin-top: 10%;
+}
+
+.user-actions-logout {
+  display: block;
+  margin: 0px auto;
+  background-color: rgb(117,	20,	12);
+  color: white;
+  border: none;
+  width: 200px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.user-actions-logout:hover {
+  background-color: rgb(95, 17, 10);
+}
+
+.user-actions-delete-account {
+  margin-top: 5px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.user-actions-delete-account:hover {
+  color: rgb(95, 17, 10);
+  text-decoration: underline;
+  cursor: pointer;
+}
