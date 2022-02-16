@@ -9,7 +9,7 @@ export default function CreateAccount() {
         <h1 className="create-account-title">
           Welcome to FineTune!
         </h1>
-        <p style={{textAlign:"center"}}><img src="/public/images/logo.jpg" alt="Logo"/></p>
+        <p style={{textAlign:"center"}}><img src="/public/images/logo.png" alt="Logo"/></p>
      
         < a href="/login"><button class="button">Enter Finetune</button></a>
    
