@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { Link, useState, useEffect } from 'react';
 import './create-account.css';
 
 
 export default function CreateAccount() {
   return (
-    <div className='create-account-container'>
+    <div style={{marginTop: "4%", alignItems: "center"}}>
       <h1 className="create-account-title">
         Welcome to FineTune!
       </h1>
@@ -19,26 +19,14 @@ export default function CreateAccount() {
 
 function CreateAccountForm() {
   return (
-    <form>
-      <label>First Name</label>
-      <br />
-      <input />
-      <br />
-      <label>Last Name</label>
-      <br />
-      <input />
-      <br />
-      <label>Email</label>
-      <br />
-      <input />
-      <br />
-      <label>Phone Number</label>
-      <br />
-      <input />
-
-      <button className="create-account-submit-btn">
-        Create Account
-      </button>
+    <form class="form">
+      <input type="text" placeholder="First Name"/>
+      <input type="text" placeholder="Last Name"/>
+      <input type="text" placeholder="Email"/>
+      <input type="text" placeholder="Username"/>
+      <input type="password" placeholder="password"/>
+      <button>Create Account</button>
+      <p class="message">Already Have an account? <a href="/login">Login</a></p>
     </form>
   )
 }

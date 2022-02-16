@@ -1,10 +1,11 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import './login.css';
 
 
 export default function Login() {
   return (
-    <div className='login-container'>
+    <div style={{marginTop: "10%", alignItems: "center"}}>
       <h1 className="login-title">
         Welcome back
       </h1>
@@ -19,19 +20,11 @@ export default function Login() {
 
 function LoginForm() {
   return (
-    <form>
-      <label>Username</label>
-      <br />
-      <input />
-      <br />
-      <label>Password</label>
-      <br />
-      <input />
-
-      <button className="login-submit-btn">
-        Log In
-      </button>
-      <p className='login-forgot-password'>Forgot Password?</p>
+    <form class="form">
+      <input type="text" placeholder="username"/>
+      <input type="password" placeholder="password"/>
+      <button>login</button>
+      <p class="message">Not registered? <a href="/create-account">Create an account</a></p>
     </form>
   )
 }

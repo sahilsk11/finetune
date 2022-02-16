@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import Profile from "./Profile/Profile";
+import Homepage from "./Homepage/home"
 import CreateAccount from "./CreateAccount/CreateAccount";
 import Login from "./Login/Login";
 import "./index.css";
@@ -18,6 +19,7 @@ function App() {
       <Routes>
 
         <Route exact path="/" element={<p>hi</p>} />
+        <Route path="/home" element={<Homepage/>} />
         <Route path="/create-account" element={<CreateAccount />} />
         <Route path="/login"  element={<Login />}/>
         <Route path="/profile"  element={<Profile />}/>

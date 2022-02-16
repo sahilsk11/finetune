@@ -1,0 +1,68 @@
+body{
+    background: url("/public/images/background.jpg");
+    background-size: 1600px;
+    background-repeat: no-repeat;
+  
+  }
+
+  .wrapper {
+    text-align: center;
+}
+
+.create-account-submit-btn {
+    display: block;
+    margin: 0px auto;
+    background-color: rgb(117,	20,	12);
+    color: white;
+    border: none;
+    width: 200px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 30px;
+  }
+  
+  .create-account-submit-btn:hover {
+    background-color: rgb(95, 17, 10);
+  }
+
+.form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  }
+  
+  .button {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background:  rgb(117,	20,	12);
+    width: 100%;
+    border: 0;
+    margin-left: 600px;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+  }
+  .button a {
+      color: white;
+    text-decoration: none;
+  }
+  
+  
