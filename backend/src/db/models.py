@@ -21,6 +21,7 @@ class User_Credentials(Base):
     first_name = Column(String, nullable=True)
     last_name = Column(String, nullable=True)
     email = Column(String, nullable=False)
+    phone_number = Column(String, nullable=True)
     password = Column(String, nullable=False)
     auth_token = Column(String, nullable=True)
     followers = Column(ARRAY(String), nullable=True)

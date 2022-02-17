@@ -84,6 +84,7 @@ def make_app():
             print("logout exception")
             return jsonify("failed")
 
+
     @app.route("/get_profile_page", methods=["POST"])
     def get_user_profile():
         # This is the user's username
@@ -96,7 +97,7 @@ def make_app():
 
         # if username=="null" or profile_user=="null" or auth_token=="null":
         #     return jsonify("failed")
-
+ 
         # Check if the user is logged in, check the auth token
         if username != "null":
             # verify the token with username
@@ -137,7 +138,6 @@ def make_app():
             return jsonify("failed")
 
     # Update user's profile image
-
     @app.route("/update_profile_photo", methods=["POST"])
     def update_profile_photo():
         username = request.headers.get("username")
