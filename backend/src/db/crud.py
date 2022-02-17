@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from src.db.models import User_Credentials, Base, Profile_Page, Posts, Likes, Genres, Comments
+from src.db.models import User_Credentials, Base, Profile_Page, Posts, Likes, Comments
 from src.config import postgres_config
 
 logger = logging.getLogger(__name__)
@@ -18,7 +18,6 @@ Session = sessionmaker(bind=engine)
 def create_tables():
     logger.info("Creating the database if it does not already exist")
     Base.metadata.create_all(bind=engine)
-
 
 def fetch_rows(BaseClass):
     """
@@ -106,6 +105,9 @@ def update_user_credentials(BaseClass, username, email):
     )
     session.commit()
     session.close()
+
+create_tables()
+
 
 if __name__ == '__main__':
     pass
