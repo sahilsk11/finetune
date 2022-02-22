@@ -32,6 +32,9 @@ def make_app():
 
     @app.route("/sign_up", methods=["POST"])
     def create_account():
+        first_name = request.headers.get("first_name")
+        last_name = request.headers.get("last_name")
+        phone_number = request.headers.get("phone_number")
         username = request.headers.get("username")
         email = request.headers.get("email")
         password = request.headers.get("password")

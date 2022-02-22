@@ -31,7 +31,7 @@ def emailIsValid(email):
         return False
 
 
-def insert_user_credentials(username, email, password):
+def insert_user_credentials(first_name, last_name, phone_number, username, email, password):
     #check if email or usename is already present in the database
     df = fetch_rows(User_Credentials)
     email_df = df["email"]
@@ -53,7 +53,9 @@ def insert_user_credentials(username, email, password):
     hashed_password = hash_password(password)
 
     # data = {"name": [name], 'surname': [surname], "email": [email], "password":[hashed_password]}
-    data = {"username": [username], "email": [email], "password":[hashed_password]}
+    data = {"username": [username], "first_name": first_name, "last_name": last_name, "phone_number": phone_number, 
+    "email": [email], "password":[hashed_password]}
+    
     new_df = pd.DataFrame(data)
 
     update_table(new_df, User_Credentials)
