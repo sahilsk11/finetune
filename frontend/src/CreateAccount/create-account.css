@@ -1,3 +1,13 @@
+.image {
+  display: flex;
+  justify-content: center;
+}
+
+img {
+  width: 200px;
+}
+
+
 .create-account-container {
   border: 3px solid rgb(105, 105, 105);
   width: 50%;
@@ -14,9 +24,9 @@
 
 body{
   background: url("/public/images/background.jpg");
-  background-size: 1600px;
-  background-repeat: no-repeat;
-
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 .create-account-title {
