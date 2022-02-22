@@ -22,18 +22,18 @@ export default function CreateAccount() {
   // }, [])
   // const navigate = useNavigate();
   // const classes = useStyles();
-  // const [username, setUsername] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [error, setError] = useState(false);
-  // const [errorMessage, setErrorMessage] = useState("");
-  // const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
    const API_URL = "http://127.0.0.1:5000";
    const navigate = useNavigate();
 
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     const requestOptions = {
       method: "POST",
       headers: {
@@ -61,7 +61,7 @@ export default function CreateAccount() {
           navigate("/profile");
         }
       })
-      .catch(err => {
+      .catch(error => {
         setLoading(false);
         setError(true);
         setErrorMessage("Could not connect to server");
@@ -103,17 +103,17 @@ export default function CreateAccount() {
   //     });
   // }
 
-  const [values, setValues] = useState({
-    email:"",
-    username:"",
-    password:"", 
-  });
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
+  // const [values, setValues] = useState({
+  //   email:"",
+  //   username:"",
+  //   password:"", 
+  // });
+  // const handleChange = (event) => {
+  //   setValues({
+  //     ...values,
+  //     [event.target.name]: event.target.value,
+  //   });
+  // };
   
   return (
     <div style={{marginTop: "4%", alignItems: "center"}}>
@@ -129,9 +129,9 @@ export default function CreateAccount() {
 
 
       <form className="form" onSubmit={handleSubmit} >
-      <input type="text" placeholder="email" name="email" value={values.email} onChange={handleChange} required/>
-      <input type="text" placeholder="username" name="username" value={values.username} onChange={handleChange} required />
-      <input type="password" placeholder="password" name="password"  value={values.password} onChange={handleChange} required/>
+      <input type="text" placeholder="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+      <input type="text" placeholder="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
+      <input type="password" placeholder="password" name="password"  value={password} onChange={(e) => setPassword(e.target.value)} required/>
       <button type="submit">Create Account</button>
       <p className="message">Already Have an account? <a href="/login">Login</a></p>
     </form>
