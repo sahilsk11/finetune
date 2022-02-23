@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './profile.css';
 import Modal from 'react-modal';
+import { useNavigate } from 'react-router-dom';
 
 Modal.setAppElement(document.getElementById('root'));
 
@@ -102,6 +103,10 @@ function UserDetails({userData}) {
 
 function UserActions() {
 
+  const API_URL = "http://127.0.0.1:5000";
+  const navigate = useNavigate();
+
+
   const [deleteModalOpen, setDeleteModal] = useState(false);
 
   function openDeleteModal() {
@@ -112,22 +117,50 @@ function UserActions() {
     setDeleteModal(false);
   }
 
+  function handleDelete() {
+    console.log("deleting user")
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token")
+      }
+    };
+
+    fetch(API_URL + "/delete_user", requestOptions)
+      .then(res => res.json())
+      .then(data => {
+        if (data !== "success") {
+          alert("delete account failed!");
+        }
+      })
+      .catch(err => {
+        alert("server can not delete account " + err);
+      });
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("username");
+
+      navigate("/login");
+    }
+
   return (
     <div className='profile-user-actions'>
       <button className='user-actions-logout'>
         Log out
       </button>
-      <button onClick={openDeleteModal} className='user-actions-logout'>
+      <button onClick={openDeleteModal} className='user-actions-delete-account'>
         Delete Account
       </button>
       <Modal
         isOpen={deleteModalOpen}
         onRequestClose={closeDeleteModal}
         contentLabel="Delete Account"
+        className='delete-modal'
       >
         <h2>Are you sure?</h2>
-        <button>Delete Account</button>
-        <button onClick={closeDeleteModal}>Cancel</button>
+        <button className='modal-delete-button' onClick={handleDelete}>Delete Account</button>
+        <button className='modal-delete-button' onClick={closeDeleteModal}>Cancel</button>
       </Modal>
     </div>
   )
