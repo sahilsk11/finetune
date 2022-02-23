@@ -135,3 +135,7 @@
   align-content: center;
   text-align: center;
 }
+
+body {
+  background-color: #6c574e;
+}

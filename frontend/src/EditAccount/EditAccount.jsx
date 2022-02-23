@@ -3,10 +3,12 @@ import './edit-account.css';
 import logo from './logo.png';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
+import { NavBar } from '../NavBar/NavBar'
 
 export default function EditAccount() {
     return (
       <div style={{alignItems: "center"}}>
+        {NavBar()}
         <h1 className="create-account-title">
         Edit Account
         </h1>
