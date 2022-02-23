@@ -25,6 +25,9 @@ export default function CreateAccount() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [first_name, setFirst] = useState("");
+  const [last_name, setLast] = useState("");
+  const [phone_number, setPhone] = useState("");
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -38,6 +41,9 @@ export default function CreateAccount() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        first_name: first_name,
+        last_name: last_name,
+        phone_number: phone_number,
         username: username,
         email: email,
         password: password
@@ -67,53 +73,7 @@ export default function CreateAccount() {
         setErrorMessage("Could not connect to server");
       });
   }
-  // function handleSubmit(e) {
-  //   e.preventDefault();
-  //   const requestOptions = {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       username: username,
-  //       email: email,
-  //       password: password
-  //     }
-  //   };
-  //   setLoading(true);
-  //   fetch(API_URL + "/sign_up", requestOptions)
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       setLoading(false);
-  //       if (
-  //         data === "Email or Username already exists!" ||
-  //         data === "Invalid Email!"
-  //       ) {
-  //         setError(true);
-  //         setErrorMessage(data);
-  //       } else {
-  //         console.log(data);
-  //         localStorage.setItem("username", username);
-  //         localStorage.setItem("auth_token", data.auth_token);
-  //         navigate("/profile");
-  //       }
-  //     })
-  //     .catch(err => {
-  //       setLoading(false);
-  //       setError(true);
-  //       setErrorMessage("Could not connect to server");
-  //     });
-  // }
-
-  // const [values, setValues] = useState({
-  //   email:"",
-  //   username:"",
-  //   password:"", 
-  // });
-  // const handleChange = (event) => {
-  //   setValues({
-  //     ...values,
-  //     [event.target.name]: event.target.value,
-  //   });
-  // };
+ 
   
   return (
     <div style={{marginTop: "4%", alignItems: "center"}}>
@@ -129,11 +89,12 @@ export default function CreateAccount() {
 
 
       <form className="form" onSubmit={handleSubmit} >
-      <input type="text" placeholder="First Name" value={first_name} onChange={(e) => setEmail(e.target.value)} required/>
-      <input type="text" placeholder="Last Name" value={last_name} onChange={(e) => setEmail(e.target.value)} required/>
-      <input type="text" placeholder="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
-      <input type="text" placeholder="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
-      <input type="password" placeholder="password" name="password"  value={password} onChange={(e) => setPassword(e.target.value)} required/>
+      <input type="text" placeholder="First Name" value={first_name} onChange={(e) => setFirst(e.target.value)} required/>
+      <input type="text" placeholder="Last Name" value={last_name} onChange={(e) => setLast(e.target.value)} required/>
+      <input type="text" placeholder="Phone Number" value={phone_number} onChange={(e) => setPhone(e.target.value)} required/>
+      <input type="text" placeholder="Email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+      <input type="text" placeholder="Username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
+      <input type="password" placeholder="Password" name="password"  value={password} onChange={(e) => setPassword(e.target.value)} required/>
       <button type="submit">Create Account</button>
       <p className="message">Already Have an account? <a href="/login">Login</a></p>
     </form>
