@@ -36,6 +36,9 @@ def insert_user_credentials(first_name, last_name, phone_number, username, email
     df = fetch_rows(User_Credentials)
     email_df = df["email"]
     username_df=df["username"]
+    phone_number_df = df["phone_number"]
+    first_name_df = df["first_name"]
+    last_name_df = df["last_name"]
 
     # Check If username already exists
     if username in username_df.values:
@@ -43,6 +46,9 @@ def insert_user_credentials(first_name, last_name, phone_number, username, email
 
     #if email is already present, don't upload the info to table
     if email in email_df.values:
+        return False
+
+    if phone_number in phone_number_df:
         return False
 
     # if email format is invalid, don't upload info
