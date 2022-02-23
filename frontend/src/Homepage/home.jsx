@@ -3,7 +3,7 @@ import './home.css';
 import logo from './logo.png';
 
 
-export default function CreateAccount() {
+export default function Homepage() {
     return (
       <div style={{marginTop: "4%", alignItems: "center"}}>
         <h1 className="create-account-title">

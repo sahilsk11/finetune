@@ -151,7 +151,13 @@ function UserActions() {
       </button>
       <button onClick={openDeleteModal} className='user-actions-delete-account'>
         Delete Account
-      </button>
+      </button><br/>
+      <br/>
+     
+     
+      <a href="/edit-account"><button className='user-actions-edit-account'> Edit Profile </button></a>
+      
+     
       <Modal
         isOpen={deleteModalOpen}
         onRequestClose={closeDeleteModal}

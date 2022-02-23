@@ -1,0 +1,165 @@
+.profile-container {
+    border: 3px solid rgb(105, 105, 105);
+    width: 50%;
+    max-width: 400px;
+    min-height: 420px;
+    display: block;
+    margin: 0px auto;
+    padding: 2%;
+    background-color: rgb(243, 243, 243);
+    border-radius: 10px;
+    padding-bottom: 5px;
+  }
+  
+  .profile-picture-container {
+    width: 200px;
+    height: 200px;
+    display: block;
+    margin: 0px auto;
+    margin-top: 5%;
+  }
+  
+  .profile-picture {
+    width: 100%;
+    border-radius: 50%;
+  }
+  
+  .profile-user-details-container {
+    width: 80%;
+    margin: 0px auto;
+    display: block;
+    margin-top: 5%;
+  }
+  
+  .profile-user-details {
+    margin: 0px auto;
+    width: 100%;
+  }
+  
+  .profile-user-details-left-col {
+    text-align: left;
+  }
+  
+  .profile-user-details-right-col {
+    text-align: right;
+  }
+  
+  .user-actions-container {
+    margin-top: 10%;
+  }
+  
+  .profile-user-actions {
+    width: 100%;
+    margin: 0px auto;
+    display: block;
+    margin-top: 10%;
+  }
+  
+  .user-actions-logout {
+    display: inline-block;
+    margin: 0px auto;
+    background-color: rgb(117,	20,	12);
+    color: white;
+    border: none;
+    width: 180px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+  
+  .user-actions-logout:hover {
+    background-color: rgb(95, 17, 10);
+  }
+  
+  .user-actions-delete-account {
+    margin-left: 10px;
+    display: inline-block;
+    background-color: rgb(117,20,12);
+    color: white;
+    border: none;
+    width: 180px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+  
+  .user-actions-delete-account:hover {
+    background-color: rgb(95, 17, 10);
+  }
+  
+  .vertical-center {
+    margin: 0;
+    position: absolute;
+    margin-left: 5%;
+  }
+  
+  .user-actions-edit-account {
+    margin-left: 10px;
+    display: inline-block;
+    background-color: rgb(117,20,12);
+    color: white;
+    border: none;
+    width: 180px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 10px;
+    position: center;
+    margin-left: 25%;
+  }
+  
+  .user-actions-edit-account:hover {
+    background-color: rgb(95, 17, 10);
+  }
+  
+  
+  .modal-delete-button {
+    margin: 10px;
+    display: inline-block;
+    background-color: rgb(117,20,12);
+    color:white;
+    border: none;
+    width: 150px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+  
+  .modal-delete-button:hover {
+    background-color: rgb(95, 17, 10);
+  }
+  
+  .delete-modal {
+    width: 40%;
+    height: 40%;
+    align-content: center;
+    text-align: center;
+  }
+  
+
+  .button {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background:  rgb(117,	20,	12);
+    width: 100%;
+    border: 0;
+    margin-left: 600px;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+  }
+  .button a {
+      color: white;
+    text-decoration: none;
+  }
