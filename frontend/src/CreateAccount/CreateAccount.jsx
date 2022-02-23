@@ -51,9 +51,6 @@ export default function CreateAccount() {
         } else {
           console.log(data);
           localStorage.setItem("username", username);
-          // localStorage.setItem("phone_number", phone_number);
-          // localStorage.setItem("first_name", first_name);
-          // localStorage.setItem("last_name", last_name);
           localStorage.setItem("auth_token", data.auth_token);
           navigate("/profile");
         }
@@ -80,9 +77,9 @@ export default function CreateAccount() {
 
 
       <form className="form" onSubmit={handleSubmit} >
-      <input type="text" placeholder="First Name" value={first_name} onChange={(e) => setFirst(e.target.value)} required/>
-      <input type="text" placeholder="Last Name" value={last_name} onChange={(e) => setLast(e.target.value)} required/>
-      <input type="text" placeholder="Phone Number" value={phone_number} onChange={(e) => setPhone(e.target.value)} required/>
+      <input type="text" placeholder="First Name" name="first_name" value={first_name} onChange={(e) => setFirst(e.target.value)} required/>
+      <input type="text" placeholder="Last Name" name="last_name" value={last_name} onChange={(e) => setLast(e.target.value)} required/>
+      <input type="text" placeholder="Phone Number" name="phone_number" value={phone_number} onChange={(e) => setPhone(e.target.value)} required/>
       <input type="text" placeholder="Email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
       <input type="text" placeholder="Username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
       <input type="password" placeholder="Password" name="password"  value={password} onChange={(e) => setPassword(e.target.value)} required/>
