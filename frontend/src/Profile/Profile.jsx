@@ -2,15 +2,57 @@ import React, { useState, useEffect } from 'react';
 import './profile.css';
 
 
-export default function Profile() {
+export default function Profile({apiURL}) {
+  const [profilePictureURL, setProfilePictureURL] = useState("https://pbs.twimg.com/profile_images/1477952761262055425/7VE1jYkE_400x400.jpg")
+  const [userData, setUserData] = useState({
+    email: ""
+  });
+  const [pageErr, updatePageErr] = useState(null);
+
+  useEffect(function() {
+    fetch("http://localhost:5000/get_profile_page", {
+      method: "POST",
+      headers: {
+        username: "",
+        profile_user: "",
+      },
+    }).then(response => {
+      console.log("hit")
+      if (response.status !== 200) {
+        updatePageErr("could not reach backend");
+        return null;
+      }
+      return response.json()
+    }).then(data => {
+      if (data != null ) {
+        setProfilePictureURL(data.image)
+        setUserData({
+          email: data.email,
+          username: data.username,
+          phoneNumber: data.phone_number,
+          age: data.age,
+          about: data.about
+        })
+      }
+    }).catch(err => {
+      updatePageErr(err);
+    })
+  }, []);
+
+  useEffect(function() {
+    if (pageErr != null) {
+      alert(pageErr);
+    }
+  }, [pageErr]);
+
   return (
     <div className='profile-container'>
       <div className='profile-picture-container'>
-        <ProfilePicture />
+        <ProfilePicture imageSrc={profilePictureURL} />
       </div>
 
       <div className='profile-user-details-container'>
-        <UserDetails />
+        <UserDetails userData={userData}/>
       </div>
 
       <div className='user-actions-container'>
@@ -20,16 +62,24 @@ export default function Profile() {
   )
 }
 
-function ProfilePicture() {
+function ProfilePicture({imageSrc}) {
   return (
     <img
-      src='https://pbs.twimg.com/profile_images/1477952761262055425/7VE1jYkE_400x400.jpg'
+      src={imageSrc}
+      alt={"profile picture"}
       className='profile-picture'
     />
   )
 }
 
-function UserDetails() {
+function UserDetails({userData}) {
+  const {
+    email,
+    username,
+    phoneNumber,
+    age,
+    about
+  } = userData;
   return (
     <table className='profile-user-details'>
       <tr>
@@ -42,7 +92,7 @@ function UserDetails() {
       </tr>
       <tr>
         <td className='profile-user-details-left-col'>Email</td>
-        <td className='profile-user-details-right-col'>sahilkapur@gmail.com</td>
+        <td className='profile-user-details-right-col'>{email}</td>
       </tr>
     </table>
   )
