@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
@@ -14,12 +14,13 @@ import "./index.css";
 
 
 function App() {
+
+  
   return (
     <Router>
       <Routes>
 
-        <Route exact path="/" element={<p>hi</p>} />
-        <Route path="/home" element={<Homepage/>} />
+        <Route exact path="/" element={<Homepage/>} />
         <Route path="/create-account" element={<CreateAccount />} />
         <Route path="/login"  element={<Login />}/>
         <Route path="/profile"  element={<Profile />}/>

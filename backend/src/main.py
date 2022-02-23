@@ -50,7 +50,7 @@ def make_app():
             return jsonify("Invalid Email!")
 
         auth_token = create_auth_token(username)
-        # insert email and username to profile_table
+        # insert email and username to profile_table  
         insert_profile_details(email, username)
 
         # return username and token
