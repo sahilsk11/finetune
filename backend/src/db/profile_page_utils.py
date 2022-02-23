@@ -9,8 +9,8 @@ from src.db.models import User_Credentials, Profile_Page
 
 
 # def insert_profile_details(email, name, surname):
-def insert_profile_details(email, username):
-    data = {"email": [email], "username": [username]}
+def insert_profile_details(email, username, phone_number):
+    data = {"email": [email], "username": [username], "phone_number": [phone_number]}
 
     new_df = pd.DataFrame(data)
     update_table(new_df,Profile_Page)

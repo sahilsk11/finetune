@@ -51,7 +51,7 @@ def make_app():
 
         auth_token = create_auth_token(username)
         # insert email and username to profile_table  
-        insert_profile_details(email, username)
+        insert_profile_details(email, username, phone_number)
 
         # return username and token
         return jsonify(username=username, auth_token=auth_token)
