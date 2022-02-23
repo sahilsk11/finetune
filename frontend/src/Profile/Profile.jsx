@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './profile.css';
+import Modal from 'react-modal';
 
+Modal.setAppElement(document.getElementById('root'));
 
 export default function Profile({apiURL}) {
   const [profilePictureURL, setProfilePictureURL] = useState("https://pbs.twimg.com/profile_images/1477952761262055425/7VE1jYkE_400x400.jpg")
@@ -99,12 +101,34 @@ function UserDetails({userData}) {
 }
 
 function UserActions() {
+
+  const [deleteModalOpen, setDeleteModal] = useState(false);
+
+  function openDeleteModal() {
+    setDeleteModal(true);
+  }
+
+  function closeDeleteModal() {
+    setDeleteModal(false);
+  }
+
   return (
     <div className='profile-user-actions'>
       <button className='user-actions-logout'>
         Log out
       </button>
-      <p className='user-actions-delete-account'>delete account</p>
+      <button onClick={openDeleteModal} className='user-actions-logout'>
+        Delete Account
+      </button>
+      <Modal
+        isOpen={deleteModalOpen}
+        onRequestClose={closeDeleteModal}
+        contentLabel="Delete Account"
+      >
+        <h2>Are you sure?</h2>
+        <button>Delete Account</button>
+        <button onClick={closeDeleteModal}>Cancel</button>
+      </Modal>
     </div>
   )
 }

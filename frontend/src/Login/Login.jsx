@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './login.css';
 import logo from './logo.png';
 
@@ -9,28 +10,42 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const API_URL = "http://127.0.0.1:5000";
+  const navigate = useNavigate();
 
 
-  const handleClick= () => {
+
+  const handleClick= (e) => {
+    e.preventDefault();
     const options = {
-      mehtod: 'POST',
-      body: JSON.stringify({
-        "email": email,
-        "password": password
-      })
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        email: email,
+        password: password
+      }
     }
     fetch(API_URL + "/login", options)
     .then(resp => {
-      if(resp.status === 200) return resp.json();
-      else alert("there has been an error!!");
+      if(resp.status === 200) {
+        return resp.json();
+      }
+      else {
+        alert("there has been an error!!");
+      }
     })
-    .then()
+    .then(data => {
+      console.log(data)
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("auth_token", data.auth_token);
+      console.log(localStorage.getItem("username"))
+      navigate("/profile");
+    })
     .catch(error => {
       console.error("ther was an error", error);
     })
   }
 
-  
+
 
   return (
     <div style={{marginTop: "10%", alignItems: "center"}}>
@@ -45,7 +60,7 @@ export default function Login() {
       </div>
 
       <form className="form">
-      <input type="text" placeholder="username" required value={email} onChange={(e) => setEmail(e.target.value)} />
+      <input type="text" placeholder="Email or Phone Number" required value={email} onChange={(e) => setEmail(e.target.value)} />
       <input type="password" placeholder="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
       <button onClick={handleClick}>login</button>
       <p className="message">Not registered? <a href="/create-account">Create an account</a></p>
