@@ -75,3 +75,9 @@ def update_profile_details(username, email, phone_number, age, about):
 def update_profile_image(username, image):
     update_profile_photo(Profile_Page, username, image)
     return True
+
+# Update username
+def update_username(old_username, new_username):
+    
+
+    return True

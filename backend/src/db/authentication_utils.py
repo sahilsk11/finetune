@@ -5,8 +5,8 @@ import os
 import sys
 import re
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from src.db.crud import update_table, fetch_rows, update_authentication_token
-from src.db.models import User_Credentials
+from src.db.crud import update_table, fetch_rows, update_authentication_token, delete_rows, update_user_password
+from src.db.models import User_Credentials, Profile_Page, Posts, Likes
 
 def hash_password(password):
     """
@@ -62,7 +62,7 @@ def insert_user_credentials(first_name, last_name, phone_number, username, email
     return True
 
 #check the email and password of a user in the database
-def check_login_credentials(email, password):
+def check_login_credentials_email(email, password):
     df = fetch_rows(User_Credentials)
     dfemail = df["email"] #load the email values into dfemail
 
@@ -74,6 +74,23 @@ def check_login_credentials(email, password):
     if email in dfemail.values and hashed_password in dfpass.values:
         #check if the corresponding email has the corresponding password
         if ((df['email'] == email) & (df['password'] == hashed_password)).any():
+            return True
+
+    return False
+
+#check the email and password of a user in the database
+def check_login_credentials_phone_number(phone_number, password):
+    df = fetch_rows(User_Credentials)
+    df_phone_number = df["phone_number"] #load the email values into dfemail
+
+    hashed_password = hash_password(password) #hash the password that is inputted
+
+    dfpass = df["password"] #load the password values into dfpass
+
+    #check if the email and the password exist in the database
+    if phone_number in df_phone_number.values and hashed_password in dfpass.values:
+        #check if the corresponding email has the corresponding password
+        if ((df['phone_number'] == phone_number) & (df['password'] == hashed_password)).any():
             return True
 
     return False
@@ -124,5 +141,21 @@ def get_username(email):
     df= fetch_rows(User_Credentials)
     df=df.loc[df['email']== email]
     username=df.iloc[0]['username']
+    return username
+
+
+def update_password(username,new_password):
+    hashed_password = hash_password(new_password)
+    update_user_password(User_Credentials, username, new_password)
+
+
+
+# for this sprint, only deleting frm these 2 tables
+def delete_user_information(username):
+    delete_rows(User_Credentials, username)
+    delete_rows(Profile_Page, username)
+
+
+
 
     return username

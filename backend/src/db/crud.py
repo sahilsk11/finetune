@@ -106,7 +106,26 @@ def update_user_credentials(BaseClass, username, email):
     session.commit()
     session.close()
 
-create_tables()
+def update_user_password(BaseClass, username, password):
+    session = Session()
+
+    session.query(BaseClass).filter(BaseClass.username == username).update(
+        {
+            BaseClass.password: password,
+
+        }
+    )
+    session.commit()
+    session.close()
+
+
+def delete_rows(BaseClass, username):
+    session = Session()
+    session.query(BaseClass).filter(BaseClass.username == username).delete()
+    session.commit()
+    session.close()
+
+#create_tables()
 
 
 if __name__ == '__main__':

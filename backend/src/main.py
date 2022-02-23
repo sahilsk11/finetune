@@ -1,18 +1,21 @@
 from db.authentication_utils import (
     insert_user_credentials,
-    check_login_credentials,
+    check_login_credentials_email,
     create_auth_token,
     reset_auth_token,
     token_validation,
-    get_username
+    get_username,
+    check_login_credentials_phone_number,
+    delete_user_information,
+    update_password
 )
 
 from db.profile_page_utils import (
     get_profile_details,
     update_profile_details,
     insert_profile_details,
-    update_profile_image
-    #haven't added delete functionalities yet
+    update_profile_image,
+    update_username
 )
 
 from flask import Flask
@@ -39,7 +42,7 @@ def make_app():
         email = request.headers.get("email")
         password = request.headers.get("password")
 
-        status = insert_user_credentials(username, email, password)
+        status = insert_user_credentials(first_name, last_name, phone_number, username, email, password)
 
         if status is False:
             return jsonify("Email or Username already exists!")
@@ -55,10 +58,15 @@ def make_app():
 
     @app.route("/login", methods=["POST"])
     def check_login():
+        phone_number = request.headers.get("phone_number")
         email = request.headers.get("email")
         password = request.headers.get("password")
 
-        status = check_login_credentials(email, password)
+        if not phone_number:
+            status = check_login_credentials_email(email, password)
+        else:
+            status = check_login_credentials_phone_number(phone_number,password)
+
 
         if status is False:
             return jsonify("Incorrect Password or Email!")
@@ -74,7 +82,6 @@ def make_app():
 
     @app.route("/logout", methods=["POST"])
     def log_out():
-
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
         # reset authentication token associated with the username once user logs out
@@ -97,9 +104,6 @@ def make_app():
         print("profile_user:" + profile_user)
         # This is auth token front frontedn
         auth_token = request.headers.get("auth_token")
-
-        # if username=="null" or profile_user=="null" or auth_token=="null":
-        #     return jsonify("failed")
  
         # Check if the user is logged in, check the auth token
         if username != "null":
@@ -133,7 +137,7 @@ def make_app():
                 username, email, phone_number, age, about
             )
             if update_status == False:
-                return jsonify("This email already used!")
+                return jsonify("This email is already used!")
 
             return jsonify("success")
 
@@ -155,6 +159,51 @@ def make_app():
 
         else:
             return jsonify("failed")
+
+    @app.route("/change_password", methods=["POST"])
+    def alter_password():
+        username = request.headers.get("username")
+        new_password = request.headers.get("new_password")
+        auth_token = request.headers.get("auth_token")
+
+        # check if the authentication token is valid
+        status = token_validation(username, auth_token)
+        if status:
+            update_password(username)
+            return jsonify("success")
+        else:
+            return jsonify("failed")
+
+    """
+    @app.route("/change_username", methods=["POST"])
+    def alter_username():
+        old_username = request.headers.get("username")
+        new_username = request.headers.get("new_username")
+        auth_token = request.headers.get("auth_token")
+
+        # check if the authentication token is valid
+        status = token_validation(old_username, auth_token)
+        if status:
+            update_username(old_username, new_username)
+            return jsonify("success")
+        else:
+            return jsonify("failed")
+    """
+
+    @app.route("/delete_user", methods=["POST"])
+    def delete_user():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+
+        # check if the authentication token is valid
+        status = token_validation(username, auth_token)
+        if status:
+            delete_user_information(username)
+            return jsonify("success")
+        else:
+            return jsonify("failed")
+
+        
 
 
     return app
