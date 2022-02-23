@@ -10,18 +10,6 @@ import logo from './logo.png';
 export default function CreateAccount() {
  
 
-  // useEffect(() => {
-  //   fetch("/sign_up").then(
-  //     res => res.json()
-  //   ).then(
-  //     values => {
-  //       setValues(values)
-  //       console.log(values)
-  //     }
-  //   )
-  // }, [])
-  // const navigate = useNavigate();
-  // const classes = useStyles();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -63,6 +51,9 @@ export default function CreateAccount() {
         } else {
           console.log(data);
           localStorage.setItem("username", username);
+          // localStorage.setItem("phone_number", phone_number);
+          // localStorage.setItem("first_name", first_name);
+          // localStorage.setItem("last_name", last_name);
           localStorage.setItem("auth_token", data.auth_token);
           navigate("/profile");
         }
