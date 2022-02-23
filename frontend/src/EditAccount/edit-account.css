@@ -163,3 +163,7 @@
       color: white;
     text-decoration: none;
   }
+
+  body {
+    background: #6c574e !important;
+  }

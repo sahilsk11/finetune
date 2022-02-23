@@ -9,7 +9,7 @@ export default function EditAccount() {
     return (
       <div style={{alignItems: "center"}}>
         {NavBar()}
-        <h1 className="create-account-title">
+        <h1 style={{color: "beige"}} className="create-account-title">
         Edit Account
         </h1>
         <div className='profile-container'>
