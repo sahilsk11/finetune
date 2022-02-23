@@ -129,6 +129,8 @@ export default function CreateAccount() {
 
 
       <form className="form" onSubmit={handleSubmit} >
+      <input type="text" placeholder="First Name" value={first_name} onChange={(e) => setEmail(e.target.value)} required/>
+      <input type="text" placeholder="Last Name" value={last_name} onChange={(e) => setEmail(e.target.value)} required/>
       <input type="text" placeholder="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
       <input type="text" placeholder="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
       <input type="password" placeholder="password" name="password"  value={password} onChange={(e) => setPassword(e.target.value)} required/>
