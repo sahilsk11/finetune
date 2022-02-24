@@ -119,6 +119,18 @@ def update_user_password(BaseClass, username, password):
     session.close()
 
 
+def change_username(BaseClass, old_username, new_username):
+    session = Session()
+
+    session.query(BaseClass).filter(BaseClass.username == old_username).update(
+        {
+            BaseClass.username: new_username,
+
+        }
+    )
+    session.commit()
+    session.close()
+
 def delete_rows(BaseClass, username):
     session = Session()
     session.query(BaseClass).filter(BaseClass.username == username).delete()

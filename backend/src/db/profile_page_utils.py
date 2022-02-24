@@ -3,7 +3,7 @@ import datetime as dt
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from src.db.crud import update_table, fetch_rows, update_authentication_token, update_user_profile, update_user_credentials, update_profile_photo
+from src.db.crud import update_table, fetch_rows, update_authentication_token, update_user_profile, update_user_credentials, update_profile_photo, change_username
 
 from src.db.models import User_Credentials, Profile_Page
 
@@ -78,6 +78,6 @@ def update_profile_image(username, image):
 
 # Update username
 def update_username(old_username, new_username):
-    
-
+    change_username(Profile_Page, old_username, new_username)
+    change_username(User_Credentials, old_username, new_username)
     return True
