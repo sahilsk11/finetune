@@ -49,7 +49,7 @@ def make_app():
         elif status == "Invalid Email":
             return jsonify("Invalid Email!")
         elif status == "Password needs to be equal to or greater than 8 characters":
-            return jsonify("Password needs to be equal to or greater than 8 characters!")
+            return jsonify("Password needs to be equal to or greater than 8 characters")
 
         auth_token = create_auth_token(username)
         # insert email and username to profile_table  

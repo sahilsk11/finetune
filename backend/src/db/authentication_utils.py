@@ -34,7 +34,7 @@ def emailIsValid(email):
 
 
 def passwordIsValid(password):
-    if(password.length >= 8):
+    if(len(password) >= 8):
         return True
     else:
         return False

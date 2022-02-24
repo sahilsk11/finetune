@@ -44,7 +44,7 @@ export default function CreateAccount() {
         setLoading(false);
         if (
           data === "Email or Username already exists!" ||
-          data === "Invalid Email!"
+          data === "Invalid Email!" || data === "Password needs to be equal to or greater than 8 characters"
         ) {
           setError(true);
           setErrorMessage(data);
