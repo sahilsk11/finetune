@@ -27,8 +27,9 @@ export default function Homepage() {
         </h1>
         <p style={{textAlign:"center" }}><img src={logo} alt="Logo"/></p>
 
-        
+        <form className="form">
         <button onClick={handleClick}>Enter Finetune</button>
+        </form>
       </div>
     )
   }
