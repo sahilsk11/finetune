@@ -21,7 +21,9 @@ export default function Homepage() {
   }
 
     return (
+
       <div style={{marginTop: "4%", alignItems: "center"}}>
+
         <h1 className="create-account-title">
           Welcome to FineTune!
         </h1>
@@ -31,5 +33,7 @@ export default function Homepage() {
         <button onClick={handleClick}>Enter Finetune</button>
         </form>
       </div>
+  
+
     )
   }
