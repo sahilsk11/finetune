@@ -67,6 +67,7 @@ def insert_user_credentials(first_name, last_name, phone_number, username, email
 #check the email and password of a user in the database
 def check_login_credentials_email(email, password):
     df = fetch_rows(User_Credentials)
+    print(df)
     dfemail = df["email"] #load the email values into dfemail
 
     hashed_password = hash_password(password) #hash the password that is inputted

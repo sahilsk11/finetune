@@ -57,6 +57,10 @@ export default function Login() {
     })
   }
 
+  if (localStorage.getItem("username")) {
+    navigate("/profile");
+  }
+
 
 
   return (
