@@ -50,7 +50,7 @@ def make_app():
             return jsonify("Invalid Email!")
 
         auth_token = create_auth_token(username)
-        # insert email and username to profile_table  
+        # insert email and username to profile_table
         insert_profile_details(email, username, phone_number)
 
         # return username and token
@@ -104,7 +104,7 @@ def make_app():
         print("profile_user:" + profile_user)
         # This is auth token front frontedn
         auth_token = request.headers.get("auth_token")
- 
+
         # Check if the user is logged in, check the auth token
         if username != "null":
             # verify the token with username
@@ -169,7 +169,7 @@ def make_app():
         # check if the authentication token is valid
         status = token_validation(username, auth_token)
         if status:
-            update_password(username)
+            update_password(username, new_password)
             return jsonify("success")
         else:
             return jsonify("failed")
@@ -203,7 +203,7 @@ def make_app():
         else:
             return jsonify("failed")
 
-        
+
 
 
     return app

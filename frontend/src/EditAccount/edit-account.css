@@ -10,7 +10,7 @@
     border-radius: 10px;
     padding-bottom: 5px;
   }
-  
+
   .profile-picture-container {
     width: 200px;
     height: 200px;
@@ -18,43 +18,43 @@
     margin: 0px auto;
     margin-top: 5%;
   }
-  
+
   .profile-picture {
     width: 100%;
     border-radius: 50%;
   }
-  
+
   .profile-user-details-container {
     width: 80%;
     margin: 0px auto;
     display: block;
     margin-top: 5%;
   }
-  
+
   .profile-user-details {
     margin: 0px auto;
     width: 100%;
   }
-  
+
   .profile-user-details-left-col {
     text-align: left;
   }
-  
+
   .profile-user-details-right-col {
     text-align: right;
   }
-  
+
   .user-actions-container {
     margin-top: 10%;
   }
-  
+
   .profile-user-actions {
     width: 100%;
     margin: 0px auto;
     display: block;
     margin-top: 10%;
   }
-  
+
   .user-actions-logout {
     display: inline-block;
     margin: 0px auto;
@@ -66,11 +66,11 @@
     cursor: pointer;
     border-radius: 10px;
   }
-  
+
   .user-actions-logout:hover {
     background-color: rgb(95, 17, 10);
   }
-  
+
   .user-actions-delete-account {
     margin-left: 10px;
     display: inline-block;
@@ -82,17 +82,17 @@
     cursor: pointer;
     border-radius: 10px;
   }
-  
+
   .user-actions-delete-account:hover {
     background-color: rgb(95, 17, 10);
   }
-  
+
   .vertical-center {
     margin: 0;
     position: absolute;
     margin-left: 5%;
   }
-  
+
   .user-actions-edit-account {
     margin-left: 10px;
     display: inline-block;
@@ -106,12 +106,12 @@
     position: center;
     margin-left: 25%;
   }
-  
+
   .user-actions-edit-account:hover {
     background-color: rgb(95, 17, 10);
   }
-  
-  
+
+
   .modal-delete-button {
     margin: 10px;
     display: inline-block;
@@ -123,18 +123,18 @@
     cursor: pointer;
     border-radius: 10px;
   }
-  
+
   .modal-delete-button:hover {
     background-color: rgb(95, 17, 10);
   }
-  
+
   .delete-modal {
     width: 40%;
     height: 40%;
     align-content: center;
     text-align: center;
   }
-  
+
 
   .button {
     position: relative;
@@ -162,6 +162,40 @@
   .button a {
       color: white;
     text-decoration: none;
+  }
+
+  .edit-text-box {
+    margin-left: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+
+  .edit-profile-form {
+    display: inline-block;
+    text-align: left;
+  }
+
+  .edit-submit-button {
+    background: #FFFFFF;
+    max-width: 100px;
+    height: 30px;
+    margin: 0;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    font-family: "Roboto", sans-serif;
+    background:  rgb(117,	20,	12);
+    width: 90px;
+    color: #FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .edit-profile-form-div {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
   }
 
   body {

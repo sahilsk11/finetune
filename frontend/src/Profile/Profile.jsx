@@ -7,7 +7,7 @@ import { NavBar } from '../NavBar/NavBar'
 Modal.setAppElement(document.getElementById('root'));
 
 export default function Profile(props) {
-  const [profilePictureURL, setProfilePictureURL] = useState("https://pbs.twimg.com/profile_images/1477952761262055425/7VE1jYkE_400x400.jpg")
+  const [profilePictureURL, setProfilePictureURL] = useState()
   const [userData, setUserData] = useState({
     email: ""
   });
@@ -64,7 +64,7 @@ export default function Profile(props) {
     <div>
       {NavBar()}
       <br/>
-    <div className='profile-container'> 
+    <div className='profile-container'>
       <div className='profile-picture-container'>
         <ProfilePicture imageSrc={profilePictureURL} />
       </div>
@@ -101,6 +101,10 @@ function UserDetails({userData}) {
   } = userData;
   return (
     <table className='profile-user-details'>
+      <tr>
+        <td className='profile-user-details-left-col'>Username</td>
+        <td className='profile-user-details-right-col'>{localStorage.getItem("username")}</td>
+      </tr>
       <tr>
         <td className='profile-user-details-left-col'>Phone Number</td>
         <td className='profile-user-details-right-col'>{phoneNumber}</td>
@@ -191,11 +195,11 @@ function UserActions() {
         Delete Account
       </button><br/>
       <br/>
-     
-     
+
+
       <a href="/edit-account"><button className='user-actions-edit-account'> Edit Profile </button></a>
-      
-     
+
+
       <Modal
         isOpen={deleteModalOpen}
         onRequestClose={closeDeleteModal}

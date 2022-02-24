@@ -56,9 +56,9 @@ def insert_user_credentials(first_name, last_name, phone_number, username, email
     hashed_password = hash_password(password)
 
     # data = {"name": [name], 'surname': [surname], "email": [email], "password":[hashed_password]}
-    data = {"username": [username], "first_name": first_name, "last_name": last_name, "phone_number": phone_number, 
+    data = {"username": [username], "first_name": first_name, "last_name": last_name, "phone_number": phone_number,
     "email": [email], "password":[hashed_password]}
-    
+
     new_df = pd.DataFrame(data)
 
     update_table(new_df, User_Credentials)
@@ -103,7 +103,7 @@ def token_validation(username, auth_token):
     try:
         df = fetch_rows(User_Credentials)
         df = df.loc[df['username'] == username]
-        auth_db = df.iloc[0]['auth_token'] 
+        auth_db = df.iloc[0]['auth_token']
     except Exception as inst:
         return False
 
@@ -116,7 +116,7 @@ def token_validation(username, auth_token):
 def create_auth_token(username):
     #append username with datetime
     time = dt.datetime.utcnow().strftime("%m/%d/%Y, %H:%M:%S")
-    
+
     auth_string = username + time
     #hash the resulting string
     encrypted_auth_string = hash_password(auth_string)
@@ -150,7 +150,7 @@ def get_username(email):
 
 def update_password(username,new_password):
     hashed_password = hash_password(new_password)
-    update_user_password(User_Credentials, username, new_password)
+    update_user_password(User_Credentials, username, hashed_password)
 
 
 
