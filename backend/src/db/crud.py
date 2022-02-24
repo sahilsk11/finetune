@@ -119,6 +119,30 @@ def update_user_password(BaseClass, username, password):
     session.close()
 
 
+def update_user_email(BaseClass, email):
+    session = Session()
+
+    session.query(BaseClass).filter(BaseClass.email == email).update(
+        {
+            BaseClass.email: email,
+
+        }
+    )
+    session.commit()
+    session.close()
+
+def update_phone_number(BaseClass, phone_number):
+    session = Session()
+
+    session.query(BaseClass).filter(BaseClass.phone_number == phone_number).update(
+        {
+            BaseClass.phone_number: phone_number,
+
+        }
+    )
+    session.commit()
+    session.close()
+
 def change_username(BaseClass, old_username, new_username):
     session = Session()
 

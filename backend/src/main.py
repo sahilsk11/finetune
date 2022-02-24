@@ -7,7 +7,8 @@ from db.authentication_utils import (
     get_username,
     check_login_credentials_phone_number,
     delete_user_information,
-    update_password
+    update_password,
+    emailIsValid
 )
 
 from db.profile_page_utils import (
@@ -15,7 +16,9 @@ from db.profile_page_utils import (
     update_profile_details,
     insert_profile_details,
     update_profile_image,
-    update_username
+    update_username,
+    update_email,
+    update_user_phone_number
 )
 
 from flask import Flask
@@ -176,7 +179,6 @@ def make_app():
         else:
             return jsonify("failed")
 
-    
     @app.route("/change_username", methods=["POST"])
     def alter_username():
         old_username = request.headers.get("username")
@@ -191,6 +193,33 @@ def make_app():
         else:
             return jsonify("failed")
 
+
+    @app.route("/change_email", methods=["POST"])
+    def alter_email():
+        username = request.headers.get("username")
+        email = request.headers.get("email")
+        auth_token = request.headers.get("auth_token")
+
+        status = token_validation(username, auth_token)
+        if status and emailIsValid(email):
+                update_email(email)
+                return jsonify("success")
+        
+        return jsonify("failed")
+
+    
+    @app.route("/change_phone", methods=["POST"])
+    def alter_email():
+        username = request.headers.get("username")
+        phone_number = request.headers.get("phone_number")
+        auth_token = request.headers.get("auth_token")
+
+        status = token_validation(username, auth_token)
+        if status:
+            update_user_phone_number(phone_number)
+
+        return jsonify("failed")
+    
 
     @app.route("/delete_user", methods=["POST"])
     def delete_user():
