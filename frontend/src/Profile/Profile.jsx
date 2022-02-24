@@ -122,6 +122,32 @@ function UserActions() {
     setDeleteModal(false);
   }
 
+  function logout() {
+    console.log("logging out")
+    const logoutOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token")
+      }
+    }
+    fetch(API_URL + "/logout", logoutOptions)
+      .then(res => res.json())
+      .then(data => {
+        if(data != "success") {
+          alert("logout failed")
+        }
+      })
+      .catch(err => {
+        alert("server can't logout user")
+      });
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("username");
+
+      navigate("/login");
+  }
+
   function handleDelete() {
     console.log("deleting user")
     const requestOptions = {
@@ -151,7 +177,7 @@ function UserActions() {
 
   return (
     <div className='profile-user-actions'>
-      <button className='user-actions-logout'>
+      <button onClick={logout} className='user-actions-logout'>
         Log out
       </button>
       <button onClick={openDeleteModal} className='user-actions-delete-account'>
