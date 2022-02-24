@@ -9,16 +9,24 @@ import ImageUploader from 'react-images-upload';
 
 export default function EditAccount() {
   const [image, saveImage] = useState(null);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!localStorage.getItem("auth_token")) {
+      navigate("/login");
+    }
+  }, [])
 
   useEffect(() => {
     if (image !== null && image.length > 0) {
       const formData = new FormData();
       const lastImg = image[image.length - 1];
       formData.append('image', lastImg, lastImg.name);
-      fetch("http://localhost:5000/editprofilepic/", {
+      fetch("http://localhost:5000/update_profile_photo/", {
       method: "POST",
       headers: {
+        profile_user: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token")
       },
       body: formData
       }).then(response => response.json()).then(data => {
