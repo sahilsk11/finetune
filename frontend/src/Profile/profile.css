@@ -88,6 +88,31 @@
   background-color: rgb(95, 17, 10);
 }
 
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  margin-left: 5%;
+}
+
+.user-actions-edit-account {
+  margin-left: 10px;
+  display: inline-block;
+  background-color: rgb(117,20,12);
+  color: white;
+  border: none;
+  width: 180px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 10px;
+  position: center;
+  margin-left: 25%;
+}
+
+.user-actions-edit-account:hover {
+  background-color: rgb(95, 17, 10);
+}
+
+
 .modal-delete-button {
   margin: 10px;
   display: inline-block;
@@ -109,4 +134,8 @@
   height: 40%;
   align-content: center;
   text-align: center;
+}
+
+body {
+  background: #6c574e !important;
 }

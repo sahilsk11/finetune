@@ -48,6 +48,7 @@ export default function CreateAccount() {
         ) {
           setError(true);
           setErrorMessage(data);
+          alert(data);
         } else {
           console.log(data);
           localStorage.setItem("username", username);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './profile.css';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
+import { NavBar } from '../NavBar/NavBar'
 
 Modal.setAppElement(document.getElementById('root'));
 
@@ -49,7 +50,10 @@ export default function Profile({apiURL}) {
   }, [pageErr]);
 
   return (
-    <div className='profile-container'>
+    <div>
+      {NavBar()}
+      <br/>
+    <div className='profile-container'> 
       <div className='profile-picture-container'>
         <ProfilePicture imageSrc={profilePictureURL} />
       </div>
@@ -61,6 +65,7 @@ export default function Profile({apiURL}) {
       <div className='user-actions-container'>
         <UserActions />
       </div>
+    </div>
     </div>
   )
 }
@@ -177,7 +182,13 @@ function UserActions() {
       </button>
       <button onClick={openDeleteModal} className='user-actions-delete-account'>
         Delete Account
-      </button>
+      </button><br/>
+      <br/>
+     
+     
+      <a href="/edit-account"><button className='user-actions-edit-account'> Edit Profile </button></a>
+      
+     
       <Modal
         isOpen={deleteModalOpen}
         onRequestClose={closeDeleteModal}

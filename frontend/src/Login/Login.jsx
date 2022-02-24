@@ -9,6 +9,9 @@ import logo from './logo.png';
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const API_URL = "http://127.0.0.1:5000";
   const navigate = useNavigate();
 
@@ -26,6 +29,7 @@ export default function Login() {
     }
     fetch(API_URL + "/login", options)
     .then(resp => {
+      setLoading(false);
       if(resp.status === 200) {
         return resp.json();
       }
@@ -34,11 +38,19 @@ export default function Login() {
       }
     })
     .then(data => {
+      if(
+        data === "Incorrect Password or Email!"
+      ) {
+          setError(true);
+          setErrorMessage(data);
+          alert(data);
+      } else {
       console.log(data)
       localStorage.setItem("username", data.username);
       localStorage.setItem("auth_token", data.auth_token);
       console.log(localStorage.getItem("username"))
       navigate("/profile");
+      }
     })
     .catch(error => {
       console.error("ther was an error", error);
