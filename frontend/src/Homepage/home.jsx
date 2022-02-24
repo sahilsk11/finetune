@@ -5,7 +5,9 @@ import logo from './logo.png';
 
 export default function Homepage() {
     return (
+
       <div style={{marginTop: "4%", alignItems: "center"}}>
+
         <h1 className="create-account-title">
           Welcome to FineTune!
         </h1>
@@ -14,5 +16,7 @@ export default function Homepage() {
         <a href="/login"><button class="button">Enter Finetune</button></a>
 
       </div>
+  
+
     )
   }

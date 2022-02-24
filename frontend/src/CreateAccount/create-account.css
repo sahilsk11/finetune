@@ -23,7 +23,7 @@ img {
 }
 
 body{
-  background: url("/public/images/background.jpg");
+  background: url("/public/images/background.jpg") !important;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;

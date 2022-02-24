@@ -4,6 +4,8 @@ import datetime as dt
 import os
 import sys
 import re
+
+from sqlalchemy import false
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from src.db.crud import update_table, fetch_rows, update_authentication_token, delete_rows, update_user_password
 from src.db.models import User_Credentials, Profile_Page, Posts, Likes
@@ -31,6 +33,13 @@ def emailIsValid(email):
         return False
 
 
+def passwordIsValid(password):
+    if(password.length >= 8):
+        return True
+    else:
+        return False
+    
+
 def insert_user_credentials(first_name, last_name, phone_number, username, email, password):
     #check if email or usename is already present in the database
     df = fetch_rows(User_Credentials)
@@ -51,6 +60,9 @@ def insert_user_credentials(first_name, last_name, phone_number, username, email
     # if email format is invalid, don't upload info
     if not emailIsValid(email):
         return "Invalid Email"
+    
+    if not passwordIsValid(password):
+        return "Password needs to be equal to or greater than 8 characters"
 
     # else, hash the password, and append the credentials to the related table
     hashed_password = hash_password(password)
