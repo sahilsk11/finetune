@@ -10,7 +10,7 @@ export default function Homepage() {
 
   const handleClick= (e) => {
     if (localStorage.getItem("username")) {
-      navigate("/profile");
+      navigate("/profile/"+localStorage.getItem("username"));
     } else {
       navigate("/login");
     }

@@ -1,24 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import './profile.css';
 import Modal from 'react-modal';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { NavBar } from '../NavBar/NavBar'
 
 Modal.setAppElement(document.getElementById('root'));
 
-export default function Profile({apiURL}) {
+export default function Profile(props) {
   const [profilePictureURL, setProfilePictureURL] = useState("https://pbs.twimg.com/profile_images/1477952761262055425/7VE1jYkE_400x400.jpg")
   const [userData, setUserData] = useState({
     email: ""
   });
   const [pageErr, updatePageErr] = useState(null);
 
+  const navigate = useNavigate();
+  const params = useParams();
+
+ useEffect(() => {
+    if (!localStorage.getItem("auth_token")) {
+      navigate("/login");
+    }
+  }, [])
+
   useEffect(function() {
+
     fetch("http://localhost:5000/get_profile_page", {
       method: "POST",
       headers: {
-        username: "",
-        profile_user: "",
+        username: params.id,
+        profile_user: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token")
       },
     }).then(response => {
       console.log("hit")
@@ -91,12 +102,8 @@ function UserDetails({userData}) {
   return (
     <table className='profile-user-details'>
       <tr>
-        <td className='profile-user-details-left-col'>First Name</td>
-        <td className='profile-user-details-right-col'>Sahil</td>
-      </tr>
-      <tr>
-        <td className='profile-user-details-left-col'>Last Name</td>
-        <td className='profile-user-details-right-col'>Kapur</td>
+        <td className='profile-user-details-left-col'>Phone Number</td>
+        <td className='profile-user-details-right-col'>{phoneNumber}</td>
       </tr>
       <tr>
         <td className='profile-user-details-left-col'>Email</td>
@@ -135,7 +142,7 @@ function UserActions() {
     fetch(API_URL + "/logout", logoutOptions)
       .then(res => res.json())
       .then(data => {
-        if(data != "success") {
+        if(data !== "success") {
           alert("logout failed")
         }
       })
