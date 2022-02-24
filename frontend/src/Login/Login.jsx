@@ -16,6 +16,9 @@ export default function Login() {
   const navigate = useNavigate();
 
 
+  if (localStorage.getItem("username")) {
+    navigate("/profile");
+  }
 
   const handleClick= (e) => {
     e.preventDefault();
