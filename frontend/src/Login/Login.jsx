@@ -16,6 +16,9 @@ export default function Login() {
   const navigate = useNavigate();
 
 
+  if (localStorage.getItem("username")) {
+    navigate("/profile");
+  }
 
   const handleClick= (e) => {
     e.preventDefault();
@@ -55,6 +58,10 @@ export default function Login() {
     .catch(error => {
       console.error("ther was an error", error);
     })
+  }
+
+  if (localStorage.getItem("username")) {
+    navigate("/profile");
   }
 
 
