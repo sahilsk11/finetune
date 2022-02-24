@@ -209,7 +209,7 @@ def make_app():
 
     
     @app.route("/change_phone", methods=["POST"])
-    def alter_email():
+    def alter_phone_number():
         username = request.headers.get("username")
         phone_number = request.headers.get("phone_number")
         auth_token = request.headers.get("auth_token")
