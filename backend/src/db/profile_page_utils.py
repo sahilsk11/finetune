@@ -3,7 +3,7 @@ import datetime as dt
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from src.db.crud import update_table, fetch_rows, update_authentication_token, update_user_profile, update_user_credentials, update_profile_photo, change_username, update_user_email, update_phone_number
+from src.db.crud import update_table, fetch_rows, update_authentication_token, update_user_profile, update_user_credentials, update_profile_photo, change_username, update_user_email, update_phone_number, change_spotify
 
 from src.db.models import User_Credentials, Profile_Page
 
@@ -43,12 +43,13 @@ def get_profile_details(username):
         phone_number = profile_page_df.iloc[0]['phone_number']
         age = profile_page_df.iloc[0]['age']
         about = profile_page_df.iloc[0]['about']
+        spotify = profile_page_df.iloc[0]['spotify']
 
         image=profile_page_df.iloc[0]['image']
     except Exception as inst:
         return {"error": "can not get profile"}
 
-    return {"email": email, "username": username, "phone_number": phone_number, "age": age, "about": about, "image": image}
+    return {"email": email, "username": username, "phone_number": phone_number, "age": age, "about": about, "image": image, "spotify": spotify}
 
 
 def update_profile_details(username, email, phone_number, age, about):
@@ -92,4 +93,8 @@ def update_user_phone_number(username, phone_number):
 def update_email(username, email):
     update_user_email(User_Credentials, username, email)
     update_user_email(Profile_Page, username, email)
+    return True
+
+def update_user_spotify(username, spotify):
+    change_spotify(Profile_Page, username, spotify)
     return True

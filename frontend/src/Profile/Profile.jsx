@@ -50,7 +50,8 @@ export default function Profile(props) {
           username: data.username,
           phoneNumber: data.phone_number,
           age: data.age,
-          about: data.about
+          about: data.about,
+          spotifyLink: data.spotify
         })
       }
     }).catch(err => {
@@ -101,8 +102,11 @@ function UserDetails({userData}) {
     username,
     phoneNumber,
     age,
-    about
+    about,
+    spotifyLink
   } = userData;
+
+  let link = (spotifyLink === null || spotifyLink === "") ? <a href="/edit-account">Add a Link</a> : <a href={spotifyLink}>Go to Spotify</a>;
   return (
     <table className='profile-user-details'>
       <tr>
@@ -117,103 +121,19 @@ function UserDetails({userData}) {
         <td className='profile-user-details-left-col'>Email</td>
         <td className='profile-user-details-right-col'>{email}</td>
       </tr>
+        <td className='profile-user-details-left-col'>Spotify Link</td>
+        <td className='profile-user-details-right-col'>{link}</td>
+      <tr>
+
+      </tr>
     </table>
   )
 }
 
 function UserActions() {
-
-  const API_URL = "http://127.0.0.1:5000";
-  const navigate = useNavigate();
-
-
-  const [deleteModalOpen, setDeleteModal] = useState(false);
-
-  function openDeleteModal() {
-    setDeleteModal(true);
-  }
-
-  function closeDeleteModal() {
-    setDeleteModal(false);
-  }
-
-  function logout() {
-    console.log("logging out")
-    const logoutOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        username: localStorage.getItem("username"),
-        auth_token: localStorage.getItem("auth_token")
-      }
-    }
-    fetch(API_URL + "/logout", logoutOptions)
-      .then(res => res.json())
-      .then(data => {
-        if(data !== "success") {
-          alert("logout failed")
-        }
-      })
-      .catch(err => {
-        alert("server can't logout user")
-      });
-      localStorage.removeItem("auth_token");
-      localStorage.removeItem("username");
-
-      navigate("/login");
-  }
-
-  function handleDelete() {
-    console.log("deleting user")
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        username: localStorage.getItem("username"),
-        auth_token: localStorage.getItem("auth_token")
-      }
-    };
-
-    fetch(API_URL + "/delete_user", requestOptions)
-      .then(res => res.json())
-      .then(data => {
-        if (data !== "success") {
-          alert("delete account failed!");
-        }
-      })
-      .catch(err => {
-        alert("server can not delete account " + err);
-      });
-      localStorage.removeItem("auth_token");
-      localStorage.removeItem("username");
-
-      navigate("/login");
-    }
-
   return (
     <div className='profile-user-actions'>
-      <button onClick={logout} className='user-actions-logout'>
-        Log out
-      </button>
-      <button onClick={openDeleteModal} className='user-actions-delete-account'>
-        Delete Account
-      </button><br/>
-      <br/>
-
-
       <a href="/edit-account"><button className='user-actions-edit-account'> Edit Profile </button></a>
-
-
-      <Modal
-        isOpen={deleteModalOpen}
-        onRequestClose={closeDeleteModal}
-        contentLabel="Delete Account"
-        className='delete-modal'
-      >
-        <h2>Are you sure?</h2>
-        <button className='modal-delete-button' onClick={handleDelete}>Delete Account</button>
-        <button className='modal-delete-button' onClick={closeDeleteModal}>Cancel</button>
-      </Modal>
     </div>
   )
 }

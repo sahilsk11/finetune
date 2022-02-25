@@ -12,6 +12,7 @@ import RecoverPassword from "./Homepage/RecoverPassword";
 import CreateAccount from "./CreateAccount/CreateAccount";
 import EditAccount from './EditAccount/EditAccount';
 import Login from "./Login/Login";
+import Settings from "./Settings/Settings";
 import "./index.css";
 
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/profile/:id"  element={<Profile />}/>
         <Route path="/edit-account"  element={<EditAccount />}/>
         <Route path="/recover-password" element={<RecoverPassword />} />
+        <Route path="/settings" element={<Settings />} />
 
       </Routes>
     </Router>

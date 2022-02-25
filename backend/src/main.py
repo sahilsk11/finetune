@@ -5,10 +5,12 @@ from db.authentication_utils import (
     reset_auth_token,
     token_validation,
     get_username,
+    get_email,
     check_login_credentials_phone_number,
     delete_user_information,
     update_password,
-    emailIsValid
+    emailIsValid,
+    recover_user_password
 )
 
 from db.profile_page_utils import (
@@ -16,6 +18,7 @@ from db.profile_page_utils import (
     update_profile_details,
     insert_profile_details,
     update_profile_image,
+    update_user_spotify,
     update_username,
     update_email,
     update_user_phone_number
@@ -69,10 +72,11 @@ def make_app():
         email = request.headers.get("email")
         password = request.headers.get("password")
 
-        if not phone_number:
+        if emailIsValid(email):
             status = check_login_credentials_email(email, password)
         else:
             status = check_login_credentials_phone_number(phone_number,password)
+            email = get_email(email)
 
 
         if status is False:
@@ -254,6 +258,30 @@ def make_app():
             return jsonify("success")
         else:
             return jsonify("failed")
+
+    @app.route("/recoverpassword", methods=["POST"])
+    def recover_password():
+        email = request.headers.get("email")
+        password = recover_user_password(email)
+        if password:
+            return jsonify("success")
+        else:
+            return jsonify("failed")
+
+    @app.route("/change_spotify", methods=["POST"])
+    def alter_spotify():
+        username = request.headers.get("username")
+        spotify = request.headers.get("spotify")
+        auth_token = request.headers.get("auth_token")
+
+        status = token_validation(username, auth_token)
+        if status:
+            update_user_spotify(username, spotify)
+            return jsonify("success")
+
+        return jsonify("failed")
+
+
 
 
 

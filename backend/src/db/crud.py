@@ -155,6 +155,19 @@ def change_username(BaseClass, old_username, new_username):
     session.commit()
     session.close()
 
+# Update user's spotify link
+def change_spotify(BaseClass, username, spotify):
+    session = Session()
+
+    session.query(BaseClass).filter(BaseClass.username == username).update(
+        {
+            BaseClass.spotify: spotify,
+
+        }
+    )
+    session.commit()
+    session.close()
+
 def delete_rows(BaseClass, username):
     session = Session()
     session.query(BaseClass).filter(BaseClass.username == username).delete()
