@@ -39,13 +39,16 @@ export default function Profile(props) {
       return response.json()
     }).then(data => {
       if (data != null ) {
+        console.log(data);
+        console.log(data.spotify);
         setProfilePictureURL(data.image)
         setUserData({
           email: data.email,
           username: data.username,
           phoneNumber: data.phone_number,
           age: data.age,
-          about: data.about
+          about: data.about,
+          spotifyLink: data.spotify
         })
       }
     }).catch(err => {
@@ -96,8 +99,11 @@ function UserDetails({userData}) {
     username,
     phoneNumber,
     age,
-    about
+    about,
+    spotifyLink
   } = userData;
+
+  let link = (spotifyLink === null) ? <a href="/edit-account">Add a Link</a> : <a href={spotifyLink}>Go to Spotify</a>;
   return (
     <table className='profile-user-details'>
       <tr>
@@ -111,6 +117,11 @@ function UserDetails({userData}) {
       <tr>
         <td className='profile-user-details-left-col'>Email</td>
         <td className='profile-user-details-right-col'>{email}</td>
+      </tr>
+        <td className='profile-user-details-left-col'>Spotify Link</td>
+        <td className='profile-user-details-right-col'>{link}</td>
+      <tr>
+
       </tr>
     </table>
   )
