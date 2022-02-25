@@ -40,7 +40,10 @@ export default function Profile(props) {
     }).then(data => {
       if (data != null ) {
         if (data.image !== null && data.image !== "") {
-          setProfilePictureURL(data.image)
+          let host = "http://localhost:5000"
+          let path = "/image/"
+          let filename = data.image
+          setProfilePictureURL(host+path+filename)
         }
         setUserData({
           email: data.email,

@@ -31,7 +31,7 @@ export default function EditAccount() {
       fetch("http://localhost:5000/update_profile_photo/", {
       method: "POST",
       headers: {
-        profile_user: localStorage.getItem("username"),
+        username: localStorage.getItem("username"),
         auth_token: localStorage.getItem("auth_token")
       },
       body: formData

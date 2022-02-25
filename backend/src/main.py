@@ -24,7 +24,7 @@ from db.profile_page_utils import (
 from flask import Flask
 from flask_cors import CORS
 from flask import request, jsonify
-from flask import render_template
+from flask import render_template, send_file
 import json
 
 import os
@@ -161,21 +161,29 @@ def make_app():
         if 'image' in request.files and request.files['image'].filename != '':
             img_file = request.files['image']
 
-        status = True #token_validation(username, auth_token)
+        status = token_validation(username, auth_token)
         if status:
             # this util perform sever-side validation to ensure
             # the user does not pass a malicious file to the backend
             filename = secure_filename(img_file.filename)
-            # prepend the path to save to the static directory
+           
+            update_profile_image(username, filename)
+
+             # prepend the path to save to the static directory
             filename = "../static/"+filename
             img_file.save(filename)
-            update_profile_image(username, filename)
+
             return jsonify("success")
 
         else:
             print("failed validation")
             return jsonify("failed")
 
+    @app.route("/image/<filename>", methods=["GET"])
+    def get_image(filename):
+        print(filename)
+        return send_file("../static/" + filename)
+    
     @app.route("/change_password", methods=["POST"])
     def alter_password():
         username = request.headers.get("username")
