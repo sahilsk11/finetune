@@ -103,7 +103,7 @@ function UserDetails({userData}) {
     spotifyLink
   } = userData;
 
-  let link = (spotifyLink === null) ? <a href="/edit-account">Add a Link</a> : <a href={spotifyLink}>Go to Spotify</a>;
+  let link = (spotifyLink === null || spotifyLink === "") ? <a href="/edit-account">Add a Link</a> : <a href={spotifyLink}>Go to Spotify</a>;
   return (
     <table className='profile-user-details'>
       <tr>
