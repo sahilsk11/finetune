@@ -83,13 +83,13 @@ def update_username(old_username, new_username):
     return True
 
 #update_phone
-def update_user_phone_number(phone_number):
-    update_phone_number(Profile_Page, phone_number)
-    update_phone_number(User_Credentials, phone_number)
+def update_user_phone_number(username, phone_number):
+    update_phone_number(Profile_Page, username, phone_number)
+    update_phone_number(User_Credentials, username, phone_number)
     return True
 
 
-def update_email(email):
-    update_user_email(User_Credentials,email)
-    update_user_email(Profile_Page,email)
+def update_email(username, email):
+    update_user_email(User_Credentials, username, email)
+    update_user_email(Profile_Page, username, email)
     return True
