@@ -165,6 +165,7 @@ def get_username(email):
     username=df.iloc[0]['username']
     return username
 
+# Get email from phone number, this is used for generating tokens when logging in with phone number
 def get_email(phone_number):
     df= fetch_rows(User_Credentials)
     df=df.loc[df['phone_number']== phone_number]
@@ -192,11 +193,12 @@ def delete_user_information(username):
     delete_rows(User_Credentials, username)
     delete_rows(Profile_Page, username)
 
+# Recover password by spending an email to the user with their hashed password
 def recover_user_password(email):
     password = get_password(email)
     if password:
         msg = EmailMessage()
-        msg.set_content('Your hashed password is ' + password)
+        msg.set_content('Your hashed password is ' + password + '. Please use this in place of your password as a temporary password.')
         msg['Subject'] = 'Finetune - Password recovery'
         msg['From'] = 'finetuneproject@gmail.com'
         msg['To'] = email

@@ -18,6 +18,7 @@ from db.profile_page_utils import (
     update_profile_details,
     insert_profile_details,
     update_profile_image,
+    update_user_spotify,
     update_username,
     update_email,
     update_user_phone_number
@@ -247,6 +248,21 @@ def make_app():
             return jsonify("success")
         else:
             return jsonify("failed")
+
+    @app.route("/change_spotify", methods=["POST"])
+    def alter_spotify():
+        username = request.headers.get("username")
+        spotify = request.headers.get("spotify")
+        auth_token = request.headers.get("auth_token")
+
+        status = token_validation(username, auth_token)
+        if status:
+            update_user_spotify(username, spotify)
+            return jsonify("success")
+
+        return jsonify("failed")
+
+
 
 
 
