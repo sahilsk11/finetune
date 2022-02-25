@@ -30,6 +30,8 @@ import json
 import os
 import sys
 
+from werkzeug.utils import secure_filename
+
 sys.path.append(os.getcwd())
 
 def make_app():
@@ -150,19 +152,28 @@ def make_app():
             return jsonify("failed")
 
     # Update user's profile image
-    @app.route("/update_profile_photo", methods=["POST"])
+    @app.route("/update_profile_photo/", methods=["POST"])
     def update_profile_photo():
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
-        image = request.headers.get("image")
+        img_file = None
 
-        status = token_validation(username, auth_token)
+        if 'image' in request.files and request.files['image'].filename != '':
+            img_file = request.files['image']
+
+        status = True #token_validation(username, auth_token)
         if status:
-            update_profile_image(username, image)
-
+            # this util perform sever-side validation to ensure
+            # the user does not pass a malicious file to the backend
+            filename = secure_filename(img_file.filename)
+            # prepend the path to save to the static directory
+            filename = "../static/"+filename
+            img_file.save(filename)
+            update_profile_image(username, filename)
             return jsonify("success")
 
         else:
+            print("failed validation")
             return jsonify("failed")
 
     @app.route("/change_password", methods=["POST"])
