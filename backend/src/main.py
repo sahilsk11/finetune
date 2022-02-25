@@ -75,7 +75,7 @@ def make_app():
         if emailIsValid(email):
             status = check_login_credentials_email(email, password)
         else:
-            status = check_login_credentials_phone_number(phone_number,password)
+            status = check_login_credentials_phone_number(email,password)
             email = get_email(email)
 
 
