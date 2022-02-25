@@ -11,7 +11,8 @@ export default function EditAccount() {
   const [image, saveImage] = useState(null);
   const navigate = useNavigate();
   const [email, setEmail] = useState(null);
-  const [username, setUsername] = useState(localStorage.getItem("username"));
+  const [username, setUsername] = useState(null);
+  const [newUsername, setNewUsername] = useState(null)
   const [phoneNumber, setPhoneNumber] = useState(null);
   const [newPassword, setNewPassword] = useState(null);
   const API_URL = "http://127.0.0.1:5000";
@@ -57,6 +58,8 @@ export default function EditAccount() {
       if (data != null ) {
         setEmail(data.email);
         setPhoneNumber(data.phone_number)
+        setUsername(data.username)
+        setNewUsername(data.username)
       }
     }).catch(err => {
       alert("could not fetch user data")
@@ -114,6 +117,32 @@ export default function EditAccount() {
     })
   }
 
+  function usernameChangeSubmit(e) {
+    e.preventDefault()
+    fetch(API_URL + "/",  {
+      method: "POST",
+      headers: {
+        username: username,
+        new_username: newUsername,
+        auth_token: localStorage.getItem("auth_token"),
+      },
+    })
+    .then(resp => {
+      if(resp.status !== 200) {
+        console.log(resp)
+        alert("couldn't update username")
+      }
+      return resp.json();
+    })
+    .then(data => {
+      if(data === "failed") {
+        alert("server couldn't update username")
+      }
+    })
+    localStorage.removeItem("username")
+    localStorage.setItem("username", newUsername)
+  }
+
   function handleEmailChange(e) {
     setEmail(e.target.value)
   }
@@ -124,6 +153,10 @@ export default function EditAccount() {
 
   function handlePasswordChange(e) {
     setNewPassword(e.target.value)
+  }
+
+  function handleUsernameChange(e) {
+    setNewUsername(e.target.value)
   }
 
     return (
@@ -150,6 +183,13 @@ export default function EditAccount() {
             <label>
               Change password:
               <input className='edit-text-box' type="text" id="password" onChange={handlePasswordChange} value={newPassword} /><br />
+              <input className='edit-submit-button' type="submit" value="Submit" />
+            </label>
+          </form>
+          <form className='edit-profile-form' onSubmit={usernameChangeSubmit}>
+            <label>
+              Change username:
+              <input className='edit-text-box' type="text" id="username" onChange={handleUsernameChange} value={newUsername} /><br />
               <input className='edit-submit-button' type="submit" value="Submit" />
             </label>
           </form>

@@ -176,7 +176,7 @@ def make_app():
         else:
             return jsonify("failed")
 
-    """
+
     @app.route("/change_username", methods=["POST"])
     def alter_username():
         old_username = request.headers.get("username")
@@ -190,7 +190,7 @@ def make_app():
             return jsonify("success")
         else:
             return jsonify("failed")
-    """
+
 
     @app.route("/delete_user", methods=["POST"])
     def delete_user():
