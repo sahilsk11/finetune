@@ -140,7 +140,7 @@ export default function EditAccount() {
 
   function usernameChangeSubmit(e) {
     e.preventDefault()
-    fetch(API_URL + "/",  {
+    fetch(API_URL + "/change_username",  {
       method: "POST",
       headers: {
         old_username: username,

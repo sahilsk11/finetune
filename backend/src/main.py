@@ -181,12 +181,13 @@ def make_app():
 
     @app.route("/change_username", methods=["POST"])
     def alter_username():
-        old_username = request.headers.get("username")
+        old_username = request.headers.get("old_username")
         new_username = request.headers.get("new_username")
         auth_token = request.headers.get("auth_token")
 
         # check if the authentication token is valid
         status = token_validation(old_username, auth_token)
+        
         if status:
             update_username(old_username, new_username)
             return jsonify("success")
