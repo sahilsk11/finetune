@@ -83,6 +83,7 @@ export default function Login() {
       <input type="password" placeholder="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
       <button onClick={handleClick}>login</button>
       <p className="message">Not registered? <a href="/create-account">Create an account</a></p>
+      <p className="message">Forgot password? <a href="/recover-password">Recover password</a></p>
     </form>
         </div>
   )

@@ -8,6 +8,7 @@ import {
 
 import Profile from "./Profile/Profile";
 import Homepage from "./Homepage/home"
+import RecoverPassword from "./Homepage/RecoverPassword";
 import CreateAccount from "./CreateAccount/CreateAccount";
 import EditAccount from './EditAccount/EditAccount';
 import Login from "./Login/Login";
@@ -25,6 +26,7 @@ function App() {
         <Route path="/login"  element={<Login />}/>
         <Route path="/profile/:id"  element={<Profile />}/>
         <Route path="/edit-account"  element={<EditAccount />}/>
+        <Route path="/recover-password" element={<RecoverPassword />} />
 
       </Routes>
     </Router>

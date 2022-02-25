@@ -66,28 +66,49 @@ export default function EditAccount() {
     })
   }, [])
 
-  function onFormSubmit(e) {
+  function onEmailChangeSubmit(e) {
     e.preventDefault();
-    fetch(API_URL + "/update_profile_page", {
+    console.log("changing email")
+    fetch(API_URL + "/change_email", {
       method: "POST",
       headers: {
         email: email,
         username: username,
         auth_token: localStorage.getItem("auth_token"),
-        tel: phoneNumber,
-        age: 0,
-        about: null
       },
     })
     .then(resp => {
       if(resp.status !== 200) {
-        alert("couldn't update user data")
+        alert("couldn't update email")
       }
       return resp.json();
     })
     .then(data => {
       if(data === "failed") {
-        alert("server could not update user info")
+        alert("server could not email")
+      }
+    })
+  }
+
+  function onPhoneNumberChangeSubmit(e) {
+    e.preventDefault();
+    fetch(API_URL + "/change_phone", {
+      method: "POST",
+      headers: {
+        username: username,
+        phone_number: phoneNumber,
+        auth_token: localStorage.getItem("auth_token"),
+      },
+    })
+    .then(resp => {
+      if(resp.status !== 200) {
+        alert("couldn't update phone number")
+      }
+      return resp.json();
+    })
+    .then(data => {
+      if(data === "failed") {
+        alert("server could not phone number")
       }
     })
   }
@@ -122,7 +143,7 @@ export default function EditAccount() {
     fetch(API_URL + "/",  {
       method: "POST",
       headers: {
-        username: username,
+        old_username: username,
         new_username: newUsername,
         auth_token: localStorage.getItem("auth_token"),
       },
@@ -168,11 +189,14 @@ export default function EditAccount() {
         <div className='profile-container'>
         <p style={{textAlign:"center" }}><img src={logo} alt="Logo"/></p>
         <div className='edit-profile-form-div'>
-        <form className='edit-profile-form' onSubmit={onFormSubmit}>
+        <form className='edit-profile-form' onSubmit={onEmailChangeSubmit}>
             <label>
               Edit email:
               <input className='edit-text-box' type="text" id="email" onChange={handleEmailChange} value={email} /><br />
             </label>
+            <input className='edit-submit-button' type="submit" value="Submit" />
+          </form>
+          <form className='edit-profile-form' onSubmit={onPhoneNumberChangeSubmit}>
             <label>
               Edit phone number:
               <input className='edit-text-box' type="text" id="phoneNumber" onChange={handlePhoneNumberChange} value={phoneNumber} /><br />

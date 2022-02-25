@@ -23,7 +23,6 @@ export default function Profile(props) {
   }, [])
 
   useEffect(function() {
-
     fetch("http://localhost:5000/get_profile_page", {
       method: "POST",
       headers: {
