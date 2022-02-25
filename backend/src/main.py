@@ -217,6 +217,7 @@ def make_app():
         status = token_validation(username, auth_token)
         if status:
             update_user_phone_number(phone_number)
+            return jsonify("success")
 
         return jsonify("failed")
 
