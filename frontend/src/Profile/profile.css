@@ -14,15 +14,17 @@
 
 .profile-picture-container {
   width: 200px;
-  height: 200px;
+  max-height: 200px;
   display: block;
   margin: 0px auto;
   margin-top: 5%;
+  overflow: hidden;
 }
 
 .profile-picture {
-  width: 100%;
+  max-width: 100%;
   border-radius: 50%;
+  max-height: 100%;
 }
 
 .profile-user-details-container {

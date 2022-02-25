@@ -7,7 +7,7 @@ import { NavBar } from '../NavBar/NavBar'
 Modal.setAppElement(document.getElementById('root'));
 
 export default function Profile(props) {
-  const [profilePictureURL, setProfilePictureURL] = useState()
+  const [profilePictureURL, setProfilePictureURL] = useState("https://180dc.org/wp-content/uploads/2017/11/profile-placeholder.png")
   const [userData, setUserData] = useState({
     email: ""
   });
@@ -39,9 +39,12 @@ export default function Profile(props) {
       return response.json()
     }).then(data => {
       if (data != null ) {
-        console.log(data);
-        console.log(data.spotify);
-        setProfilePictureURL(data.image)
+        if (data.image !== null && data.image !== "") {
+          let host = "http://localhost:5000"
+          let path = "/image/"
+          let filename = data.image
+          setProfilePictureURL(host+path+filename)
+        }
         setUserData({
           email: data.email,
           username: data.username,
