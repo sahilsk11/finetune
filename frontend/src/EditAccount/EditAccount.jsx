@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './edit-account.css';
 import logo from './logo.png';
 import Modal from 'react-modal';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { NavBar } from '../NavBar/NavBar'
 import ImageUploader from 'react-images-upload';
 
@@ -250,7 +250,7 @@ export default function EditAccount() {
           </form>
           <form className='edit-profile-form' onSubmit={SpotifyChangeSubmit}>
             <label>
-              Spotify Link: 
+              Spotify Link:
               <input className='edit-text-box' type="text" id="spotify" onChange={handleSpotifyChange} value={spotify} /><br />
               <input className='edit-submit-button' type="submit" value="Submit" />
             </label>
