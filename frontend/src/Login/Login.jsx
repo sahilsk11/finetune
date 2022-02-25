@@ -52,7 +52,7 @@ export default function Login() {
       localStorage.setItem("username", data.username);
       localStorage.setItem("auth_token", data.auth_token);
       console.log(localStorage.getItem("username"))
-      navigate("/profile");
+      navigate("/profile/" + data.username);
       }
     })
     .catch(error => {
