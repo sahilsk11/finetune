@@ -5,10 +5,12 @@ from db.authentication_utils import (
     reset_auth_token,
     token_validation,
     get_username,
+    get_email,
     check_login_credentials_phone_number,
     delete_user_information,
     update_password,
-    emailIsValid
+    emailIsValid,
+    recover_user_password
 )
 
 from db.profile_page_utils import (
@@ -66,11 +68,15 @@ def make_app():
         phone_number = request.headers.get("phone_number")
         email = request.headers.get("email")
         password = request.headers.get("password")
+        print(phone_number)
 
-        if not phone_number:
+        if emailIsValid(email):
+            print("email?")
             status = check_login_credentials_email(email, password)
         else:
+            print('phone?')
             status = check_login_credentials_phone_number(phone_number,password)
+            email = get_email(email)
 
 
         if status is False:
@@ -232,6 +238,15 @@ def make_app():
         status = token_validation(username, auth_token)
         if status:
             delete_user_information(username)
+            return jsonify("success")
+        else:
+            return jsonify("failed")
+
+    @app.route("/recoverpassword", methods=["POST"])
+    def recover_password():
+        email = request.headers.get("email")
+        password = recover_user_password(email)
+        if password:
             return jsonify("success")
         else:
             return jsonify("failed")

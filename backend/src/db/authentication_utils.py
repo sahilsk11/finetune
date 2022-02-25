@@ -4,6 +4,9 @@ import datetime as dt
 import os
 import sys
 import re
+import smtplib
+from email.message import EmailMessage
+
 
 from sqlalchemy import false
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -79,7 +82,6 @@ def insert_user_credentials(first_name, last_name, phone_number, username, email
 #check the email and password of a user in the database
 def check_login_credentials_email(email, password):
     df = fetch_rows(User_Credentials)
-    print(df)
     dfemail = df["email"] #load the email values into dfemail
 
     hashed_password = hash_password(password) #hash the password that is inputted
@@ -87,10 +89,12 @@ def check_login_credentials_email(email, password):
     dfpass = df["password"] #load the password values into dfpass
 
     #check if the email and the password exist in the database
-    if email in dfemail.values and hashed_password in dfpass.values:
+    if email in dfemail.values and ((hashed_password  in dfpass.values) or (password in dfpass.values)):
         #check if the corresponding email has the corresponding password
-        if ((df['email'] == email) & (df['password'] == hashed_password)).any():
-            return True
+        for index, row in df.iterrows():
+            if row['email'] == email:
+                if row['password'] == password or hashed_password:
+                    return True
 
     return False
 
@@ -104,10 +108,13 @@ def check_login_credentials_phone_number(phone_number, password):
     dfpass = df["password"] #load the password values into dfpass
 
     #check if the email and the password exist in the database
-    if phone_number in df_phone_number.values and hashed_password in dfpass.values:
+    if phone_number in df_phone_number.values and ((hashed_password  in dfpass.values) or (password in dfpass.values)):
         #check if the corresponding email has the corresponding password
-        if ((df['phone_number'] == phone_number) & (df['password'] == hashed_password)).any():
-            return True
+        for index, row in df.iterrows():
+            if row['phone_number'] == phone_number:
+                if row['password'] == password or hashed_password:
+                    print('HUH?')
+                    return True
 
     return False
 
@@ -159,6 +166,21 @@ def get_username(email):
     username=df.iloc[0]['username']
     return username
 
+def get_email(phone_number):
+    df= fetch_rows(User_Credentials)
+    df=df.loc[df['phone_number']== phone_number]
+    email=df.iloc[0]['email']
+    return email
+
+# Get hashed password by email, this is used for password recovery
+def get_password(email):
+    df= fetch_rows(User_Credentials)
+    df=df.loc[df['email']== email]
+    if df.empty:
+        return False
+    password=df.iloc[0]['password']
+    return password
+
 
 def update_password(username,new_password):
     hashed_password = hash_password(new_password)
@@ -171,7 +193,19 @@ def delete_user_information(username):
     delete_rows(User_Credentials, username)
     delete_rows(Profile_Page, username)
 
+def recover_user_password(email):
+    password = get_password(email)
+    if password:
+        print(password)
+        msg = EmailMessage()
+        msg.set_content('Your hashed password is ' + password)
+        msg['Subject'] = 'Finetune - Password recovery'
+        msg['From'] = 'justinchen2024@gmail.com'
+        msg['To'] = email
+        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+        server.login('justinchen2024@gmail.com', 'cs407project135!')
 
-
-
-    return username
+        server.send_message(msg)
+        server.quit()
+    return password
+    

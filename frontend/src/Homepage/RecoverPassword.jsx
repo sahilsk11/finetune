@@ -5,8 +5,12 @@ import { useNavigate } from 'react-router-dom';
 
 
 export default function RecoverPassword() {
+
   const [email, setEmail] = useState(null);
   const navigate = useNavigate();
+  const API_URL = "http://127.0.0.1:5000";
+  const [loading, setLoading] = useState(false);
+
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
@@ -14,7 +18,24 @@ export default function RecoverPassword() {
 
   function handleClick(e) {
     e.preventDefault();
-    //TODO
+    const options = {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        email: email,
+      }
+    }
+    fetch(API_URL + "/recoverpassword", options)
+    .then(resp => {
+      setLoading(false);
+      if(resp.status === 200) {
+        return resp.json();
+      }
+      else {
+        alert("there has been an error!!");
+      }
+    })
+
     navigate("/login");
   }
 
