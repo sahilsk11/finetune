@@ -15,6 +15,7 @@ export default function EditAccount() {
   const [newUsername, setNewUsername] = useState(null)
   const [phoneNumber, setPhoneNumber] = useState(null);
   const [newPassword, setNewPassword] = useState(null);
+  const [spotify, setNewSpotify] = useState(null);
   const API_URL = "http://127.0.0.1:5000";
 
   useEffect(() => {
@@ -47,7 +48,7 @@ export default function EditAccount() {
       headers: {
         username: localStorage.getItem("username"),
         profile_user: localStorage.getItem("username"),
-        auth_token: localStorage.getItem("auth_token")
+        auth_token: localStorage.getItem("auth_token"),
       },
     }).then(response => {
       if (response.status !== 200) {
@@ -60,6 +61,7 @@ export default function EditAccount() {
         setPhoneNumber(data.phone_number)
         setUsername(data.username)
         setNewUsername(data.username)
+        setNewSpotify(data.spotify)
       }
     }).catch(err => {
       alert("could not fetch user data")
@@ -164,6 +166,31 @@ export default function EditAccount() {
     localStorage.setItem("username", newUsername)
   }
 
+  function SpotifyChangeSubmit(e) {
+    e.preventDefault()
+    fetch(API_URL + "/change_spotify",  {
+      method: "POST",
+      headers: {
+        username: username,
+        spotify: spotify,
+        auth_token: localStorage.getItem("auth_token"),
+      },
+    })
+    .then(resp => {
+      if(resp.status !== 200) {
+        console.log(resp)
+        alert("couldn't update username")
+      }
+      return resp.json();
+    })
+    .then(data => {
+      if(data === "failed") {
+        alert("server couldn't update username")
+      }
+    })
+    localStorage.setItem("spotify", spotify)
+  }
+
   function handleEmailChange(e) {
     setEmail(e.target.value)
   }
@@ -178,6 +205,10 @@ export default function EditAccount() {
 
   function handleUsernameChange(e) {
     setNewUsername(e.target.value)
+  }
+
+  function handleSpotifyChange(e) {
+    setNewSpotify(e.target.value)
   }
 
     return (
@@ -214,6 +245,13 @@ export default function EditAccount() {
             <label>
               Change username:
               <input className='edit-text-box' type="text" id="username" onChange={handleUsernameChange} value={newUsername} /><br />
+              <input className='edit-submit-button' type="submit" value="Submit" />
+            </label>
+          </form>
+          <form className='edit-profile-form' onSubmit={SpotifyChangeSubmit}>
+            <label>
+              Spotify Link: 
+              <input className='edit-text-box' type="text" id="spotify" onChange={handleSpotifyChange} value={spotify} /><br />
               <input className='edit-submit-button' type="submit" value="Submit" />
             </label>
           </form>
