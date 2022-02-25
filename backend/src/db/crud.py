@@ -119,10 +119,10 @@ def update_user_password(BaseClass, username, password):
     session.close()
 
 
-def update_user_email(BaseClass, email):
+def update_user_email(BaseClass, username, email):
     session = Session()
 
-    session.query(BaseClass).filter(BaseClass.email == email).update(
+    session.query(BaseClass).filter(BaseClass.username == username).update(
         {
             BaseClass.email: email,
 
@@ -131,10 +131,10 @@ def update_user_email(BaseClass, email):
     session.commit()
     session.close()
 
-def update_phone_number(BaseClass, phone_number):
+def update_phone_number(BaseClass, username, phone_number):
     session = Session()
 
-    session.query(BaseClass).filter(BaseClass.phone_number == phone_number).update(
+    session.query(BaseClass).filter(BaseClass.username == username).update(
         {
             BaseClass.phone_number: phone_number,
 

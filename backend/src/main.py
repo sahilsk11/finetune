@@ -202,7 +202,7 @@ def make_app():
 
         status = token_validation(username, auth_token)
         if status and emailIsValid(email):
-                update_email(email)
+                update_email(username, email)
                 return jsonify("success")
 
         return jsonify("failed")
