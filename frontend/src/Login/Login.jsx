@@ -17,7 +17,7 @@ export default function Login() {
 
 
   if (localStorage.getItem("username")) {
-    navigate("/profile");
+    navigate("/profile/" + localStorage.getItem("username"));
   }
 
   const handleClick= (e) => {
@@ -61,7 +61,7 @@ export default function Login() {
   }
 
   if (localStorage.getItem("username")) {
-    navigate("/profile");
+    navigate("/profile/"+localStorage.getItem("username"));
   }
 
 
