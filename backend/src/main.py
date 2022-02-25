@@ -68,13 +68,10 @@ def make_app():
         phone_number = request.headers.get("phone_number")
         email = request.headers.get("email")
         password = request.headers.get("password")
-        print(phone_number)
 
         if emailIsValid(email):
-            print("email?")
             status = check_login_credentials_email(email, password)
         else:
-            print('phone?')
             status = check_login_credentials_phone_number(phone_number,password)
             email = get_email(email)
 

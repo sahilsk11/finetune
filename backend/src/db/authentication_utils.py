@@ -113,7 +113,6 @@ def check_login_credentials_phone_number(phone_number, password):
         for index, row in df.iterrows():
             if row['phone_number'] == phone_number:
                 if row['password'] == password or hashed_password:
-                    print('HUH?')
                     return True
 
     return False
@@ -196,14 +195,13 @@ def delete_user_information(username):
 def recover_user_password(email):
     password = get_password(email)
     if password:
-        print(password)
         msg = EmailMessage()
         msg.set_content('Your hashed password is ' + password)
         msg['Subject'] = 'Finetune - Password recovery'
-        msg['From'] = 'justinchen2024@gmail.com'
+        msg['From'] = 'finetuneproject@gmail.com'
         msg['To'] = email
         server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-        server.login('justinchen2024@gmail.com', 'cs407project135!')
+        server.login('finetuneproject@gmail.com', 'cs407project135!')
 
         server.send_message(msg)
         server.quit()
