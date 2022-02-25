@@ -1,0 +1,12 @@
+.profile-container {
+    border: 3px solid rgb(105, 105, 105);
+    width: 50%;
+    max-width: 400px;
+    min-height: 420px;
+    display: block;
+    margin: 0px auto;
+    padding: 2%;
+    background-color: rgb(243, 243, 243);
+    border-radius: 10px;
+    padding-bottom: 5px;
+  }
