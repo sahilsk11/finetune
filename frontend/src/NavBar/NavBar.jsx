@@ -17,9 +17,6 @@ export function NavBar() {
       <div className="nav-mobile"><a id="nav-toggle" href="#!"><span></span></a></div>
       <ul className="nav-list">
         <li>
-          <a href="#!">Logout</a>
-        </li>
-        <li>
           <a href={'/profile/' + localStorage.getItem("username")}>Profile</a>
         </li>
 

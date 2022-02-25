@@ -218,7 +218,7 @@ export default function EditAccount() {
         Edit Account
         </h1>
         <div className='profile-container'>
-        <p style={{textAlign:"center" }}><img src={logo} alt="Logo"/></p>
+        <p style={{textAlign:"center", margin: "0px" }}><img src={logo} alt="Logo"/></p>
         <div className='edit-profile-form-div'>
         <form className='edit-profile-form' onSubmit={onEmailChangeSubmit}>
             <label>
