@@ -8,6 +8,7 @@
     padding: 2%;
     background-color: rgb(243, 243, 243);
     border-radius: 10px;
+    border: 2px solid black;
     padding-bottom: 5px;
   }
 
@@ -196,6 +197,18 @@
     margin-left: auto;
     margin-right: auto;
     text-align: left;
+    border: 2px solid black;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+  }
+
+  .profile-pic-upload {
+    border: 2px solid black;
+    padding: 0px;
+    border-radius: 5px;
+    background-color: white;
+    margin-top: 10px;
   }
 
   body {
