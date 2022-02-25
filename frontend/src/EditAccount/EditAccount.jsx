@@ -89,6 +89,7 @@ export default function EditAccount() {
       if(data === "failed") {
         alert("server could not email")
       }
+      alert("Successfully Updated");
     })
   }
 
@@ -112,6 +113,7 @@ export default function EditAccount() {
       if(data === "failed") {
         alert("server could not phone number")
       }
+      alert("Successfully Updated");
     })
   }
 
@@ -137,6 +139,7 @@ export default function EditAccount() {
       if(data === "failed") {
         alert("server couldn't update password")
       }
+      alert("Successfully Updated");
     })
   }
 
@@ -161,6 +164,7 @@ export default function EditAccount() {
       if(data === "failed") {
         alert("server couldn't update username")
       }
+      alert("Successfully Updated");
     })
     localStorage.removeItem("username")
     localStorage.setItem("username", newUsername)
@@ -187,6 +191,7 @@ export default function EditAccount() {
       if(data === "failed") {
         alert("server couldn't update username")
       }
+      alert("Successfully Updated");
     })
     localStorage.setItem("spotify", spotify)
   }
