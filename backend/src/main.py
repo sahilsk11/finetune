@@ -78,7 +78,6 @@ def make_app():
             status = check_login_credentials_phone_number(phone_number,password)
             email = get_email(email)
 
-
         if status is False:
             return jsonify("Incorrect Password or Email!")
 
