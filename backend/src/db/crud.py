@@ -174,6 +174,73 @@ def delete_rows(BaseClass, username):
     session.commit()
     session.close()
 
+
+def fetch_post(BaseClass, post_id):
+    session = Session()
+
+    try:
+        result = session.query(BaseClass).filter(BaseClass.post_id == post_id)
+
+    finally:
+        session.close()
+
+    if result is not None:
+        df = pd.read_sql(result.statement, result.session.bind)
+        return df
+
+    else:
+        return None
+
+
+def update_post_saved(post_id, saved_users):
+    session = Session()
+    session.query(Posts).filter(Posts.post_id == post_id).update(
+            {
+            Posts.saved: saved_users
+            }
+    )
+    session.commit()
+    session.close()
+
+
+def delete_row_likes(BaseClass, post_id, username):
+    session = Session()
+    session.query(BaseClass).filter(BaseClass.post_id == post_id).filter(BaseClass.username == username).delete()
+    session.commit()
+    session.close()
+
+
+# Update post likes and dislikes
+def update_post_likes(post_id, like, dislike):
+    session = Session()
+
+    session.query(Posts).filter(Posts.post_id == post_id).update(
+        {
+            Posts.likes: like,
+            Posts.dislikes: dislike
+
+        }
+    )
+    session.commit()
+    session.close()
+
+# fetches liked posts by user
+def fetch_liked_posts_by_user(username):
+    session = Session()
+
+    try:
+        result = session.query(Likes).filter(Likes.username == username)
+
+    finally:
+        session.close()
+
+    if result is not None:
+        df = pd.read_sql(result.statement, result.session.bind)
+        return df
+
+    else:
+        return None
+
 #create_tables()
 
 

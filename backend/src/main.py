@@ -24,6 +24,14 @@ from db.profile_page_utils import (
     update_user_phone_number
 )
 
+from db.post_utils import (
+    save_or_unsave_post,
+    get_saved_posts_by_user,
+    vote_post_db,
+    get_upvoted_posts_by_user,
+    get_top_trending_songs
+)
+
 from flask import Flask
 from flask_cors import CORS
 from flask import request, jsonify
@@ -279,6 +287,90 @@ def make_app():
             return jsonify("success")
 
         return jsonify("failed")
+
+    
+    ##### SPRINT 2 
+    # bookmark a post and specify which post is saved by the post_id, and the user who saved the post by username
+    @app.route("/bookmark_post_user", methods=["POST"])
+    def bookmark_post():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        post_id = request.headers.get("post_id")
+        
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+
+        save_or_unsave_post(post_id, username)
+        return jsonify("success")
+
+    
+    # gets all the posts that are saved by a user
+    @app.route("/all_saved_posts", methods=["GET"])
+    def get_bookmarked_posts():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        profile_user = request.headers.get("profile_user")
+
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+
+        result = get_saved_posts_by_user(profile_user)
+        # returns an empty list or list of dictionaries including posts bookmarked by user
+        return jsonify(result)
+
+
+    #like or dislike a post
+    @app.route("/vote", methods=["POST"])
+    def vote_post():
+        auth_token = request.headers.get("auth_token")
+        # check if the authentication token is valid
+        post_id = request.headers.get("post_id")
+        username = request.headers.get("username")
+        liked = request.headers.get("liked") == "true"
+        disliked = request.headers.get("disliked") == "true"
+
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+
+        if (liked and disliked) or (not liked and not disliked):
+            return jsonify("failed")
+
+        vote_post_db(post_id, username, liked, disliked)
+        return jsonify("success")
+
+
+    #get liked posts
+    @app.route("/get_liked_posts_by_user", methods=["POST"])
+    def get_liked_posts_by_user():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+
+        # returns an empty list or list of dictionaries including posts liked by user
+        return jsonify(get_upvoted_posts_by_user(username))
+
+
+    #trending songs, limited to top 3 for now
+    @app.route("/get_trending_songs", methods=["POST"])
+    def get_trending_songs():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+        
+        return jsonify(get_top_trending_songs())
+
+        
+
+
 
 
 
