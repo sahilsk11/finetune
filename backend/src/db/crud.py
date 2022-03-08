@@ -241,6 +241,39 @@ def fetch_liked_posts_by_user(username):
     else:
         return None
 
+def fetch_post_by_songname(BaseClass, song_name):
+    session = Session()
+
+    try:
+        result = session.query(BaseClass).filter(BaseClass.song_title == song_name)
+
+    finally:
+        session.close()
+
+    if result is not None:
+        df = pd.read_sql(result.statement, result.session.bind)
+        return df
+
+    else:
+        return None
+
+
+def fetch_posts_by_genre(genre):
+    session = Session()
+
+    try:
+        result = session.query(Posts).filter(Posts.genre == genre)
+
+    finally:
+        session.close()
+
+    if result is not None:
+        df = pd.read_sql(result.statement, result.session.bind)
+        return df
+
+    else:
+        return None
+
 #create_tables()
 
 

@@ -12,7 +12,9 @@ from src.db.crud import (
     update_post_saved,
     delete_row_likes,
     update_post_likes,
-    fetch_liked_posts_by_user
+    fetch_liked_posts_by_user,
+    fetch_post_by_songname,
+    fetch_posts_by_genre
 )
 
 #details about uploading audio file to db looked later
@@ -165,7 +167,25 @@ def get_top_trending_songs():
     result= sorted_df.to_dict("records")
     return result
 
-print(get_top_trending_songs())
+
+def lookup_song(song_name):
+    df = fetch_post_by_songname(song_name)
+    if df is None or df.empty:
+        return []
+
+    return df.to_dict("records")
+
+
+def get_all_posts_with_genre(genre):
+    df = fetch_posts_by_genre(genre)
+    if df is None or df.empty:
+        return []
+
+    return df.to_dict("records")
+
+    
+
+
 
    
 

@@ -29,7 +29,9 @@ from db.post_utils import (
     get_saved_posts_by_user,
     vote_post_db,
     get_upvoted_posts_by_user,
-    get_top_trending_songs
+    get_top_trending_songs,
+    lookup_song,
+    get_all_posts_with_genre
 )
 
 from flask import Flask
@@ -367,6 +369,57 @@ def make_app():
             return jsonify("failed")
         
         return jsonify(get_top_trending_songs())
+
+    
+    @app.route("/search_song", methods=["POST"])
+    def get_trending_songs():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        song_name = request.headers.get("song_name")
+        
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+        
+        return jsonify(lookup_song(song_name))
+
+    @app.route("/genres", methods=["POST"])
+    def send_genres():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        genres = ["house", "techno", "pop", "rock", "alternative rock", "rnb", "trap", "hiphop", 
+        "deep house", "melodic techno", "progressive house"]
+        
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+        
+        return jsonify(genres)
+
+    @app.route("/songs_by_genre", methods=["POST"])
+    def send_songs_by_genre():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        genre = request.headers.get("genre")
+        
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+
+        return jsonify(get_all_posts_with_genre(genre))
+
+        
+
+        
+
+
+
+    
+
+    
+
+
+    
 
         
 
