@@ -241,11 +241,11 @@ def fetch_liked_posts_by_user(username):
     else:
         return None
 
-def fetch_post_by_songname(BaseClass, song_name):
+def fetch_post_by_songname(song_name):
     session = Session()
 
     try:
-        result = session.query(BaseClass).filter(BaseClass.song_title == song_name)
+        result = session.query(Posts).filter(Posts.song_title == song_name)
 
     finally:
         session.close()
@@ -273,6 +273,17 @@ def fetch_posts_by_genre(genre):
 
     else:
         return None
+
+
+def update_user_genres(username, genres):
+    session = Session()
+    session.query(User_Credentials).filter(User_Credentials.username == username).update(
+            {
+            User_Credentials.genres_following: genres
+            }
+    )
+    session.commit()
+    session.close()
 
 #create_tables()
 

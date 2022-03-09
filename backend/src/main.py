@@ -34,6 +34,11 @@ from db.post_utils import (
     get_all_posts_with_genre
 )
 
+from db.following_utils import (
+    follow_genre,
+    unfollow_genre
+)
+
 from flask import Flask
 from flask_cors import CORS
 from flask import request, jsonify
@@ -381,8 +386,10 @@ def make_app():
         if not status:
             return jsonify("failed")
         
+        #returns an empty list or list of post details inclcudingn songs 
         return jsonify(lookup_song(song_name))
 
+    # for the quiz at the beginning
     @app.route("/genres", methods=["POST"])
     def send_genres():
         username = request.headers.get("username")
@@ -406,7 +413,44 @@ def make_app():
         if not status:
             return jsonify("failed")
 
+        #returns an empty list or list of post details inclcudingn songs 
         return jsonify(get_all_posts_with_genre(genre))
+    
+    @app.route("/follow_genre", methods=["POST"])
+    def genre_follow():
+        auth_token = request.headers.get("auth_token")
+        username = request.headers.get("username")
+        genre = request.headers.get("genre")
+
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed") 
+        else:
+            status = follow_genre(username,genre)
+
+        if status:
+            return jsonify("success")
+    
+        return jsonify("failed")
+        
+       
+    @app.route("/unfollow_genre", methods=["POST"])
+    def genre_unfollow():
+        auth_token = request.headers.get("auth_token")
+        username = request.headers.get("username")
+        genre = request.headers.get("genre")
+        status = token_validation(username, auth_token)
+
+        if not status:
+            return jsonify("failed")
+        else:
+            status = unfollow_genre(username, genre)
+
+        if status:
+            return jsonify("success")
+        return jsonify("failed")
+    
+
 
         
 

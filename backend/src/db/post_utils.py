@@ -183,9 +183,5 @@ def get_all_posts_with_genre(genre):
 
     return df.to_dict("records")
 
-    
-
-
-
    
 
