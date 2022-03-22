@@ -285,6 +285,57 @@ def update_user_genres(username, genres):
     session.commit()
     session.close()
 
+
+def fetch_user_info(username):
+    session = Session()
+
+    try:
+        result = session.query(User_Credentials).filter(User_Credentials.username == username)
+
+    finally:
+        session.close()
+
+    if result is not None:
+        df = pd.read_sql(result.statement, result.session.bind)
+        return df
+
+    else:
+        return None
+
+
+def fetch_user_post(username):
+    session = Session()
+
+    try:
+        result = session.query(Posts).filter(Posts.username == username)
+
+    finally:
+        session.close()
+
+    if result is not None:
+        df = pd.read_sql(result.statement, result.session.bind)
+        return df
+
+    else:
+        return None
+
+def fetch_genres_following(username):
+    session = Session()
+
+    try:
+        result = session.query(User_Credentials.genres_following).filter(User_Credentials.username == username)
+
+    finally:
+        session.close()
+
+    if result is not None:
+        df = pd.read_sql(result.statement, result.session.bind)
+        return df
+
+    else:
+        return None
+
+
 #create_tables()
 
 

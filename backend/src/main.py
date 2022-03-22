@@ -31,7 +31,8 @@ from db.post_utils import (
     get_upvoted_posts_by_user,
     get_top_trending_songs,
     lookup_song,
-    get_all_posts_with_genre
+    get_all_posts_with_genre,
+    get_posts_for_feed
 )
 
 from db.following_utils import (
@@ -449,6 +450,21 @@ def make_app():
         if status:
             return jsonify("success")
         return jsonify("failed")
+    
+
+    @app.route("/view_feed", methods=["POST"])
+    def user_view_feed():
+        #view posts of artists and genres you follow
+        auth_token = request.headers.get("auth_token")
+        username = request.headers.get("username")
+        status = token_validation(username, auth_token)
+
+        if not status:
+            return jsonify("failed")
+        
+        # returns an empty list or list of dictionaries including all post details
+        return jsonify(get_posts_for_feed(username))
+    
     
 
 

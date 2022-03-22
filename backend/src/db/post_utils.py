@@ -14,7 +14,10 @@ from src.db.crud import (
     update_post_likes,
     fetch_liked_posts_by_user,
     fetch_post_by_songname,
-    fetch_posts_by_genre
+    fetch_posts_by_genre,
+    fetch_user_info,
+    fetch_user_post,
+    fetch_genres_following
 )
 
 #details about uploading audio file to db looked later
@@ -182,6 +185,37 @@ def get_all_posts_with_genre(genre):
         return []
 
     return df.to_dict("records")
+
+
+def get_posts_for_feed(username):
+    user_df = fetch_user_info(username)
+    if user_df is None or user_df.empty:
+        return []
+    
+    artists_following = user_df['following'].values[0]
+    print(artists_following)
+
+    result = []
+    #if the user is following anyone fetch records
+    if artists_following:
+        for user in artists_following:
+            result += fetch_user_post(user).to_dict("records")
+
+    
+    genres_following = fetch_genres_following(username)
+    genres_following = genres_following.iloc[0]['genres_following']
+
+    #if the user is following any genre fetch genres
+    if genres_following:
+        #fetch posts associated with the genres
+        for genre in genres_following:
+            result += fetch_posts_by_genre(genre).to_dict("records")
+
+    #convert to dataframe to easily drop duplicates from combined df
+    result = pd.DataFrame(result).drop_duplicates(subset='date_created', keep='first')
+    return result.to_dict('records')
+
+
 
    
 
