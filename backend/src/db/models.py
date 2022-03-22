@@ -10,7 +10,8 @@ from sqlalchemy import(
     DateTime,
     JSON,
     ARRAY,
-    ForeignKey
+    ForeignKey,
+    LargeBinary
 )
 
 Base = declarative_base()
@@ -48,7 +49,7 @@ class Posts(Base):
     description = Column(String, nullable=True)
     image = Column(String, nullable=True)
     genre = Column(String, nullable=True)
-    audio = Column(String, nullable=False)
+    audio = Column(LargeBinary, nullable=False)
     date_created = Column(String, nullable=True)
     saved = Column(ARRAY(String), nullable=True)
     

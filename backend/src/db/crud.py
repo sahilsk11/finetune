@@ -335,6 +335,19 @@ def fetch_genres_following(username):
     else:
         return None
 
+def update_post_details(username, song_title, description, image, genre):
+    session = Session()
+
+    session.query(Posts).filter(Posts.username == username).filter(Posts.song_title == song_title).update(
+        {
+            Posts.description: description,
+            Posts.image: image,
+            Posts.genre: genre
+        }
+    )
+    session.commit()
+    session.close()
+
 
 #create_tables()
 

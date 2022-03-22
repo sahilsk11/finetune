@@ -17,15 +17,17 @@ from src.db.crud import (
     fetch_posts_by_genre,
     fetch_user_info,
     fetch_user_post,
-    fetch_genres_following
+    fetch_genres_following,
+    update_post_details
 )
 
-#details about uploading audio file to db looked later
-def insert_post_details(username, song_title, likes, description, image, genre, audio):
+#Might bhave trouble i naudio files - check
+def create_post_details(username, song_title, description, image, genre, audio):
     data = {
         "username": [username],
         "song_title": [song_title],
         "likes": 0,
+        "dislikes":0,
         "description": [description],
         "image": [image],
         "genre": [genre],
@@ -36,6 +38,8 @@ def insert_post_details(username, song_title, likes, description, image, genre, 
     new_df = pd.DataFrame(data)
     update_table(new_df, Posts)
 
+def edit_post_details(username, song_title, description, image, genre):
+    update_post_details(username, song_title, description, image, genre)
 
 def get_post_by_id(post_id):
     return fetch_post(Posts, post_id).to_dict("records")

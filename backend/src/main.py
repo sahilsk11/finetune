@@ -32,7 +32,9 @@ from db.post_utils import (
     get_top_trending_songs,
     lookup_song,
     get_all_posts_with_genre,
-    get_posts_for_feed
+    get_posts_for_feed,
+    create_post_details,
+    edit_post_details
 )
 
 from db.following_utils import (
@@ -464,30 +466,53 @@ def make_app():
         
         # returns an empty list or list of dictionaries including all post details
         return jsonify(get_posts_for_feed(username))
-    
-    
 
+    #create post
+    @app.route("/create_post", methods=["POST"])
+    def insert_new_post():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        song_title = request.headers.get("song_title")
+        description = request.headers.get("description")
+        image = request.headers.get("image")
+        genre = request.headers.get("genre")
+        audio = request.headers.get("audio")
 
+        # check if the authentication token is valid
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+        else:
+            create_post_details(username, song_title, description, image, genre, audio)
+
+        return jsonify("success")
+
+    
+    #edit post: lets make Song title and audio file unchangeable, so that we can idenitfy the post
+    # artist can change decription, image, etc , or just create another post for diff title and audio
+    @app.route("/edit_post", methods=["POST"])
+    def insert_new_post():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        song_title = request.headers.get("song_title")
         
+        new_description = request.headers.get("description")
+        new_image = request.headers.get("image")
+        new_genre = request.headers.get("genre")
 
-        
+        # check if the authentication token is valid
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+        else:
+            edit_post_details(username, song_title, new_description, new_image, new_genre)
 
+        return jsonify("success")
 
 
     
 
     
-
-
-    
-
-        
-
-
-
-
-
-
 
 
     return app
