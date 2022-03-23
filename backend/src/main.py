@@ -380,7 +380,7 @@ def make_app():
 
     
     @app.route("/search_song", methods=["POST"])
-    def get_trending_songs():
+    def lookup_for_songs():
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
         song_name = request.headers.get("song_name")
@@ -491,7 +491,7 @@ def make_app():
     #edit post: lets make Song title and audio file unchangeable, so that we can idenitfy the post
     # artist can change decription, image, etc , or just create another post for diff title and audio
     @app.route("/edit_post", methods=["POST"])
-    def insert_new_post():
+    def edit_existing_post():
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
         song_title = request.headers.get("song_title")
