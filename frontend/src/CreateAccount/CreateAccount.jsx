@@ -53,7 +53,7 @@ export default function CreateAccount() {
           console.log(data);
           localStorage.setItem("username", username);
           localStorage.setItem("auth_token", data.auth_token);
-          navigate("/profile/" + username);
+          navigate("/quiz");
         }
       })
       .catch(error => {
