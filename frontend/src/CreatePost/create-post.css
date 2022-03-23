@@ -41,3 +41,10 @@
   align-content: center;
   justify-content: center;
 }
+
+.center {
+  margin-left: auto;
+  width: 80%;
+  border: 3px;
+  padding: 10px;
+}

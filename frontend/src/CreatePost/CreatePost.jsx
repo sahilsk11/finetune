@@ -72,6 +72,9 @@ export default function CreatePost() {
             Song Audio:
             <input className='file-upload' type="file" />
           </label>
+          <br/>
+          <br/>
+          <div className="center">
           <ImageUploader
                withIcon={true}
                imgExtension={['.jpg', 'jpeg', '.gif', '.png', '.gif']}
@@ -80,6 +83,7 @@ export default function CreatePost() {
                className="post-image-upload"
                onChange={setImage}
           />
+          </div>
           <div className='submit-container'>
             <input className='create-submit-button' type="submit" value="Submit" />
           </div>
