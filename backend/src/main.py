@@ -24,6 +24,24 @@ from db.profile_page_utils import (
     update_user_phone_number
 )
 
+from db.post_utils import (
+    save_or_unsave_post,
+    get_saved_posts_by_user,
+    vote_post_db,
+    get_upvoted_posts_by_user,
+    get_top_trending_songs,
+    lookup_song,
+    get_all_posts_with_genre,
+    get_posts_for_feed,
+    create_post_details,
+    edit_post_details
+)
+
+from db.following_utils import (
+    follow_genre,
+    unfollow_genre
+)
+
 from flask import Flask
 from flask_cors import CORS
 from flask import request, jsonify
@@ -77,7 +95,6 @@ def make_app():
         else:
             status = check_login_credentials_phone_number(email,password)
             email = get_email(email)
-
 
         if status is False:
             return jsonify("Incorrect Password or Email!")
@@ -281,9 +298,221 @@ def make_app():
 
         return jsonify("failed")
 
+    
+    ##### SPRINT 2 
+    # bookmark a post and specify which post is saved by the post_id, and the user who saved the post by username
+    @app.route("/bookmark_post_user", methods=["POST"])
+    def bookmark_post():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        post_id = request.headers.get("post_id")
+        
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+
+        save_or_unsave_post(post_id, username)
+        return jsonify("success")
+
+    
+    # gets all the posts that are saved by a user
+    @app.route("/all_saved_posts", methods=["GET"])
+    def get_bookmarked_posts():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        profile_user = request.headers.get("profile_user")
+
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+
+        result = get_saved_posts_by_user(profile_user)
+        # returns an empty list or list of dictionaries including posts bookmarked by user
+        return jsonify(result)
 
 
+    #like or dislike a post
+    @app.route("/vote", methods=["POST"])
+    def vote_post():
+        auth_token = request.headers.get("auth_token")
+        # check if the authentication token is valid
+        post_id = request.headers.get("post_id")
+        username = request.headers.get("username")
+        liked = request.headers.get("liked") == "true"
+        disliked = request.headers.get("disliked") == "true"
 
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+
+        if (liked and disliked) or (not liked and not disliked):
+            return jsonify("failed")
+
+        vote_post_db(post_id, username, liked, disliked)
+        return jsonify("success")
+
+
+    #get liked posts
+    @app.route("/get_liked_posts_by_user", methods=["POST"])
+    def get_liked_posts_by_user():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+
+        # returns an empty list or list of dictionaries including posts liked by user
+        return jsonify(get_upvoted_posts_by_user(username))
+
+
+    #trending songs, limited to top 3 for now
+    @app.route("/get_trending_songs", methods=["POST"])
+    def get_trending_songs():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+        
+        return jsonify(get_top_trending_songs())
+
+    
+    @app.route("/search_song", methods=["POST"])
+    def lookup_for_songs():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        song_name = request.headers.get("song_name")
+        
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+        
+        #returns an empty list or list of post details inclcudingn songs 
+        return jsonify(lookup_song(song_name))
+
+    # for the quiz at the beginning
+    @app.route("/genres", methods=["POST"])
+    def send_genres():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        genres = ["house", "techno", "pop", "rock", "alternative rock", "rnb", "trap", "hiphop", 
+        "deep house", "melodic techno", "progressive house"]
+        
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+        
+        return jsonify(genres)
+
+    @app.route("/songs_by_genre", methods=["POST"])
+    def send_songs_by_genre():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        genre = request.headers.get("genre")
+        
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+
+        #returns an empty list or list of post details inclcudingn songs 
+        return jsonify(get_all_posts_with_genre(genre))
+    
+    @app.route("/follow_genre", methods=["POST"])
+    def genre_follow():
+        auth_token = request.headers.get("auth_token")
+        username = request.headers.get("username")
+        genre = request.headers.get("genre")
+
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed") 
+        else:
+            status = follow_genre(username,genre)
+
+        if status:
+            return jsonify("success")
+    
+        return jsonify("failed")
+        
+       
+    @app.route("/unfollow_genre", methods=["POST"])
+    def genre_unfollow():
+        auth_token = request.headers.get("auth_token")
+        username = request.headers.get("username")
+        genre = request.headers.get("genre")
+        status = token_validation(username, auth_token)
+
+        if not status:
+            return jsonify("failed")
+        else:
+            status = unfollow_genre(username, genre)
+
+        if status:
+            return jsonify("success")
+        return jsonify("failed")
+    
+
+    @app.route("/view_feed", methods=["POST"])
+    def user_view_feed():
+        #view posts of artists and genres you follow
+        auth_token = request.headers.get("auth_token")
+        username = request.headers.get("username")
+        status = token_validation(username, auth_token)
+
+        if not status:
+            return jsonify("failed")
+        
+        # returns an empty list or list of dictionaries including all post details
+        return jsonify(get_posts_for_feed(username))
+
+    #create post
+    @app.route("/create_post", methods=["POST"])
+    def insert_new_post():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        song_title = request.headers.get("song_title")
+        description = request.headers.get("description")
+        image = request.headers.get("image")
+        genre = request.headers.get("genre")
+        audio = request.headers.get("audio")
+
+        # check if the authentication token is valid
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+        else:
+            create_post_details(username, song_title, description, image, genre, audio)
+
+        return jsonify("success")
+
+    
+    #edit post: lets make Song title and audio file unchangeable, so that we can idenitfy the post
+    # artist can change decription, image, etc , or just create another post for diff title and audio
+    @app.route("/edit_post", methods=["POST"])
+    def edit_existing_post():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        song_title = request.headers.get("song_title")
+        
+        new_description = request.headers.get("description")
+        new_image = request.headers.get("image")
+        new_genre = request.headers.get("genre")
+
+        # check if the authentication token is valid
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+        else:
+            edit_post_details(username, song_title, new_description, new_image, new_genre)
+
+        return jsonify("success")
+
+
+    
+
+    
 
 
     return app

@@ -10,7 +10,8 @@ from sqlalchemy import(
     DateTime,
     JSON,
     ARRAY,
-    ForeignKey
+    ForeignKey,
+    LargeBinary
 )
 
 Base = declarative_base()
@@ -44,11 +45,13 @@ class Posts(Base):
     username = Column(String, nullable=False)
     song_title = Column(String, nullable=False)
     likes = Column(Integer, nullable=True)
+    dislikes = Column(Integer, nullable=True)
     description = Column(String, nullable=True)
     image = Column(String, nullable=True)
     genre = Column(String, nullable=True)
-    audio = Column(String, nullable=False)
+    audio = Column(LargeBinary, nullable=False)
     date_created = Column(String, nullable=True)
+    saved = Column(ARRAY(String), nullable=True)
     
 class Likes(Base):
     __tablename__ = "likes"
@@ -56,6 +59,7 @@ class Likes(Base):
     post_id = Column(Integer, nullable=False)
     username = Column(String, nullable=False)
     liked = Column(Boolean, nullable=True)
+    disliked = Column(Boolean, nullable=True)
 
 class Comments(Base):
     __tablename__ = "comments"

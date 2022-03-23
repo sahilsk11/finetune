@@ -16,6 +16,7 @@ import Settings from "./Settings/Settings";
 import CreatePost from "./CreatePost/CreatePost";
 import TrendingMusic from './TrendingMusic/TrendingMusic';
 
+import Quiz from './Quiz/quiz';
 import "./index.css";
 
 
@@ -34,6 +35,9 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/trending-music" element={<TrendingMusic />} />
         <Route path="/create-post" element={<CreatePost />} />
+        <Route path="/quiz" element={<Quiz />} />
+
+
       </Routes>
     </Router>
   )
