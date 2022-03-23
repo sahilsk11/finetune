@@ -24,7 +24,7 @@ export function NavBar() {
           <a href="/settings">Settings</a>
         </li>
         <li>
-          <a href="#!">Feed</a>
+          <a href="/trending-music">Feed</a>
         </li>
 				<li>
 					<a href="/create-post">Create Post</a>
