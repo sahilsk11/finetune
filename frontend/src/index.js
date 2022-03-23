@@ -13,6 +13,7 @@ import CreateAccount from "./CreateAccount/CreateAccount";
 import EditAccount from './EditAccount/EditAccount';
 import Login from "./Login/Login";
 import Settings from "./Settings/Settings";
+import Quiz from './Quiz/quiz';
 import "./index.css";
 
 
@@ -29,6 +30,8 @@ function App() {
         <Route path="/edit-account"  element={<EditAccount />}/>
         <Route path="/recover-password" element={<RecoverPassword />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/quiz" element={<Quiz />} />
+
 
       </Routes>
     </Router>
