@@ -14,6 +14,9 @@ export default function CreatePost() {
   const [genre, setGenre] = useState("rock")
   const [audio, setAudio] = useState(null)
 
+  const API_URL = "http://127.0.0.1:5000"
+
+
   function handleTitleChange(e) {
     setSongTitle(e.target.value)
   }
@@ -27,12 +30,37 @@ export default function CreatePost() {
   }
 
   function handleAudioChange(e) {
+    console.log(e.target.files[0])
     setAudio(e.target.files[0])
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    //TODO
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token"),
+        song_title: songTitle,
+        description: description,
+        image: image,
+        genre: genre,
+        audio: audio
+      }
+    };
+    fetch(API_URL + "/create_post", requestOptions)
+      .then(resp => {
+        if(resp.status !== 200) {
+          alert(resp.status)
+        }
+        return resp.json();
+      })
+      .then(data => {
+        if(data === "failed") {
+          alert("server could not email")
+        }
+        alert("Post Created!")
+      })
   }
 
 
@@ -53,7 +81,7 @@ export default function CreatePost() {
             <input className='edit-text-box' type="text" id="description" onChange={handleDescriptionChange} value={description} /><br />
           </label>
           <label>
-            Genres:
+            Genre:
             <select className='genre-select' value={genre} onChange={handleGenreChange}>
               <option value="rock">Rock</option>
               <option value="house">House</option>
@@ -70,7 +98,7 @@ export default function CreatePost() {
           </label>
           <label>
             Song Audio:
-            <input className='file-upload' type="file" />
+            <input className='file-upload' type="file" onChange={handleAudioChange} />
           </label>
           <br/>
           <br/>
