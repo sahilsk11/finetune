@@ -26,6 +26,9 @@ export function NavBar() {
         <li>
           <a href="#!">Feed</a>
         </li>
+				<li>
+					<a href="/create-post">Create Post</a>
+				</li>
       </ul>
     </nav>
   </div>

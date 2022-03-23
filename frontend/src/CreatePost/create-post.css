@@ -1,0 +1,43 @@
+.genre-select {
+  margin-left: 5px;
+  display: inline-block;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.file-upload {
+  margin-left: 5px;
+}
+
+.post-image-upload {
+  padding: 0px;
+  background-color: rgb(243, 243, 243);
+  margin-top: 10px;
+  width:80%;
+}
+
+.create-submit-button {
+  display: block;
+  background: #FFFFFF;
+  max-width: 100px;
+  height: 30px;
+  margin: 0 auto;
+  margin-top: 10px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  font-family: "Roboto", sans-serif;
+  background:  rgb(117,	20,	12);
+  width: 90px;
+  color: #FFFFFF;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.submit-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}

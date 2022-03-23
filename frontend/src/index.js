@@ -13,6 +13,7 @@ import CreateAccount from "./CreateAccount/CreateAccount";
 import EditAccount from './EditAccount/EditAccount';
 import Login from "./Login/Login";
 import Settings from "./Settings/Settings";
+import CreatePost from "./CreatePost/CreatePost";
 import TrendingMusic from './TrendingMusic/TrendingMusic';
 
 import "./index.css";
@@ -32,7 +33,7 @@ function App() {
         <Route path="/recover-password" element={<RecoverPassword />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/trending-music" element={<TrendingMusic />} />
-
+        <Route path="/create-post" element={<CreatePost />} />
       </Routes>
     </Router>
   )
