@@ -19,7 +19,9 @@ export function NavBar() {
         <li>
           <a href={'/profile/' + localStorage.getItem("username")}>Profile</a>
         </li>
-
+				<li>
+					<a href="/search">Search</a>
+				</li>
         <li>
           <a href="/settings">Settings</a>
         </li>

@@ -15,6 +15,7 @@ import Login from "./Login/Login";
 import Settings from "./Settings/Settings";
 import CreatePost from "./CreatePost/CreatePost";
 import TrendingMusic from './TrendingMusic/TrendingMusic';
+import Search from './Search/Search';
 
 import Quiz from './Quiz/quiz';
 import "./index.css";
@@ -36,6 +37,7 @@ function App() {
         <Route path="/trending-music" element={<TrendingMusic />} />
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="/quiz" element={<Quiz />} />
+        <Route path="/search" element={<Search />} />
 
 
       </Routes>

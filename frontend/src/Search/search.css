@@ -1,0 +1,38 @@
+.search-text-container {
+  width: 60%;
+  align-content: center;
+  display: block;
+  margin: auto;
+}
+
+.search-textbox {
+  width: 100%;
+  margin: 20px auto;
+  display: block;
+  height: 30px;
+  border-radius: 10px;
+}
+
+.search-submit {
+  display: block;
+  background: #FFFFFF;
+  max-width: 100px;
+  height: 30px;
+  margin: 0 auto;
+  margin-top: 10px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  font-family: "Roboto", sans-serif;
+  background:  rgb(117,	20,	12);
+  width: 90px;
+  color: #FFFFFF;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.search-form {
+  width: 100%;
+  display: block;
+  align-content: center;
+}
