@@ -12,6 +12,12 @@ export default function TrendingMusic() {
     email: ""
   });
   const [pageErr, updatePageErr] = useState(null);
+ 
+
+
+  const API_URL = "http://127.0.0.1:5000"
+
+
 
   const navigate = useNavigate();
   const params = useParams();
@@ -21,6 +27,8 @@ export default function TrendingMusic() {
     //   navigate("/login");
     // }
   }, [])
+
+  
 
   useEffect(function() {
     // fetch("http://localhost:5000/trending_music", {

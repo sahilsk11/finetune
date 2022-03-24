@@ -26,7 +26,7 @@ export function NavBar() {
           <a href="/settings">Settings</a>
         </li>
         <li>
-          <a href="/trending-music">Feed</a>
+          <a href="/feed">Feed</a>
         </li>
 				<li >
 					<a style={{background: "rgb(95, 17, 10)", color: "beige"}} href="/create-post">Create Post</a>

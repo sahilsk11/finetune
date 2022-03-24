@@ -454,7 +454,7 @@ def make_app():
         return jsonify("failed")
     
 
-    @app.route("/view_feed", methods=["POST"])
+    @app.route("/view_feed", methods=["GET"])
     def user_view_feed():
         #view posts of artists and genres you follow
         auth_token = request.headers.get("auth_token")
