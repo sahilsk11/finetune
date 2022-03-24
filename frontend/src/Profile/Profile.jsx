@@ -26,8 +26,8 @@ export default function Profile(props) {
     fetch("http://localhost:5000/get_profile_page", {
       method: "POST",
       headers: {
-        username: params.id,
-        profile_user: localStorage.getItem("username"),
+        username: localStorage.getItem("username"),
+        profile_user: params.id,
         auth_token: localStorage.getItem("auth_token")
       },
     }).then(response => {
@@ -79,7 +79,7 @@ export default function Profile(props) {
       </div>
 
       <div className='user-actions-container'>
-        <UserActions />
+        <UserActions loggedInUser={localStorage.getItem("username")} profilePageUser={params.id} />
       </div>
     </div>
     </div>
@@ -111,7 +111,7 @@ function UserDetails({userData}) {
     <table className='profile-user-details'>
       <tr>
         <td className='profile-user-details-left-col'>Username</td>
-        <td className='profile-user-details-right-col'>{localStorage.getItem("username")}</td>
+        <td className='profile-user-details-right-col'>{username}</td>
       </tr>
       <tr>
         <td className='profile-user-details-left-col'>Phone Number</td>
@@ -130,10 +130,21 @@ function UserDetails({userData}) {
   )
 }
 
-function UserActions() {
-  return (
-    <div className='profile-user-actions'>
-      <a href="/edit-account"><button className='user-actions-edit-account'> Edit Profile </button></a>
-    </div>
-  )
+function UserActions({loggedInUser, profilePageUser}) {
+  const followUser = () => {
+    alert();
+  }
+  if (loggedInUser == profilePageUser) {
+    return (
+      <div className='profile-user-actions'>
+        <a href="/edit-account"><button className='user-actions-edit-account'> Edit Profile </button></a>
+      </div>
+    )
+    } else {
+      return (
+        <div className='profile-user-actions'>
+        <button className='user-actions-edit-account' onClick={() => followUser()}> Follow User </button>
+      </div>
+    )
+  }
 }

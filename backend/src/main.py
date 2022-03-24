@@ -142,7 +142,7 @@ def make_app():
                 profile_details = get_profile_details(profile_user)
                 return jsonify(profile_details)
             else:
-                return jsonify("failed")
+                return jsonify("failed token validation")
         # If the user is not logged in and it requests other user's profile
         else:
             profile_details = get_profile_details(profile_user)
