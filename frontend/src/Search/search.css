@@ -11,28 +11,63 @@
   display: block;
   height: 30px;
   border-radius: 10px;
+  color: whitesmoke
 }
 
 .search-submit {
-  display: block;
-  background: #FFFFFF;
-  max-width: 100px;
-  height: 30px;
-  margin: 0 auto;
-  margin-top: 10px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
   font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
   background:  rgb(117,	20,	12);
-  width: 90px;
+  width: 15%;
+  margin-left: 41%;
+  margin-top: 2%;
+  border: 0;
+  padding: 15px;
   color: #FFFFFF;
   font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
   cursor: pointer;
+}
+.search-submit:hover,.search-submit:active,.search-submit:focus {
+  background: rgb(95, 17, 10);
 }
 
 .search-form {
   width: 100%;
   display: block;
   align-content: center;
+}
+
+.center {
+  margin-left: auto;
+  width: 54%;
+  border: 3px;
+  padding: 10px;
+}
+
+.center2 {
+  margin-left: auto;
+  width: 60%;
+  border: 3px;
+  padding: 10px;
+}
+
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background:  rgb(117,	20,	12);
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+  background: rgb(95, 17, 10);
 }

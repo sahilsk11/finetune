@@ -102,7 +102,7 @@ export default function CreatePost() {
           </label>
           <br/>
           <br/>
-          <div className="center">
+          <div className="center-sub">
           <ImageUploader
                withIcon={true}
                imgExtension={['.jpg', 'jpeg', '.gif', '.png', '.gif']}

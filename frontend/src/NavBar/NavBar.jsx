@@ -28,8 +28,8 @@ export function NavBar() {
         <li>
           <a href="/trending-music">Feed</a>
         </li>
-				<li>
-					<a href="/create-post">Create Post</a>
+				<li >
+					<a style={{background: "rgb(95, 17, 10)", color: "beige"}} href="/create-post">Create Post</a>
 				</li>
       </ul>
     </nav>

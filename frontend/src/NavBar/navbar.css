@@ -50,6 +50,7 @@ nav ul li a:hover, nav ul li a:visited:hover {
   background: whitesmoke;
   color: black;
 }
+
 nav ul li a:not(:only-child):after, nav ul li a:visited:not(:only-child):after {
   padding-left: 4px;
   content: ' ▾';
@@ -66,6 +67,14 @@ nav ul li ul li a {
   display: none;
   z-index: 1;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+}
+.create-nav {
+  background: rgb(117,	20,	12);
+  color: beige;
+}
+.create-nav:hover {
+  background: rgb(95, 17, 10);
+  color: beige;
 }
 /* Mobile navigation */
 .nav-mobile {
