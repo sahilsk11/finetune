@@ -539,7 +539,7 @@ def make_app():
 
 
     #show user's own posts
-    @app.route("/user_posts", methods=["POST"])
+    @app.route("/user_posts", methods=["GET"])
     def show_user_posts():
         auth_token = request.headers.get("auth_token")
         username = request.headers.get("username")
