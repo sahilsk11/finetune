@@ -34,7 +34,8 @@ from db.post_utils import (
     get_all_posts_with_genre,
     get_posts_for_feed,
     create_post_details,
-    edit_post_details
+    edit_post_details,
+    fetch_own_posts
 )
 
 from db.following_utils import (
@@ -474,16 +475,35 @@ def make_app():
         auth_token = request.headers.get("auth_token")
         song_title = request.headers.get("song_title")
         description = request.headers.get("description")
-        image = request.headers.get("image")
         genre = request.headers.get("genre")
-        audio = request.headers.get("audio")
+       
+        if 'image' in request.files and request.files['image'].filename != '':
+            img_file = request.files['image']
+            image_filename = secure_filename(img_file.filename)
+        
+             # prepend the path to save to the static directory
+            updated_filename = "../static/"+image_filename
+            img_file.save(updated_filename)
+        
+        else:
+            image_filename = ""
+        
+        if 'audio' in request.files and request.files['audio'].filename != '':
+            audio_file = request.files['audio']
+            audio_filename = secure_filename(audio_file.filename)
+
+            # prepend the path to save to the static directory
+            final_path = "../static/"+audio_filename
+            audio_file.save(final_path)
+        else:
+            audio_filename = ""
 
         # check if the authentication token is valid
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
         else:
-            create_post_details(username, song_title, description, image, genre, audio)
+            create_post_details(username, song_title, description, image_filename, genre, audio_filename)
 
         return jsonify("success")
 
@@ -495,24 +515,40 @@ def make_app():
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
         song_title = request.headers.get("song_title")
-        
         new_description = request.headers.get("description")
-        new_image = request.headers.get("image")
+        
         new_genre = request.headers.get("genre")
+
+        if 'image' in request.files and request.files['image'].filename != '':
+            img_file = request.files['image']
+            image_filename = secure_filename(img_file.filename)
+             # prepend the path to save to the static directory
+            updated_filename = "../static/"+image_filename
+            img_file.save(updated_filename)
+        else:
+            image_filename = ""
 
         # check if the authentication token is valid
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
         else:
-            edit_post_details(username, song_title, new_description, new_image, new_genre)
+            edit_post_details(username, song_title, new_description, image_filename, new_genre)
 
         return jsonify("success")
 
 
-    
+    #show user's own posts
+    @app.route("/user_posts", methods=["POST"])
+    def show_user_posts():
+        auth_token = request.headers.get("auth_token")
+        username = request.headers.get("username")
+        status = token_validation(username, auth_token)
 
-    
+        if not status:
+            return jsonify("failed")
+        
+        return jsonify(fetch_own_posts(username))
 
 
     return app

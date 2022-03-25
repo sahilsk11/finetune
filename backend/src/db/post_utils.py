@@ -24,8 +24,6 @@ from src.db.crud import (
 
 #Might bhave trouble i naudio files - check
 def create_post_details(username, song_title, description, image, genre, audio):
-    print("AUDIO ISs")
-    print(audio)
     data = {
         "username": [username],
         "song_title": [song_title],
@@ -38,9 +36,9 @@ def create_post_details(username, song_title, description, image, genre, audio):
         "date_created": dt.datetime.utcnow(),
     }
 
-    #new_df = pd.DataFrame(data)
-    insert_row_posts(username, song_title, 0,0, description, image, genre, audio, dt.datetime.utcnow())
-    #update_table(new_df, Posts)
+    new_df = pd.DataFrame(data)
+    #insert_row_posts(username, song_title, 0,0, description, image, genre, audio, dt.datetime.utcnow())
+    update_table(new_df, Posts)
 
 def edit_post_details(username, song_title, description, image, genre):
     update_post_details(username, song_title, description, image, genre)
@@ -203,6 +201,10 @@ def get_posts_for_feed(username):
     artists_following = user_df['following'].values[0]
 
     result = []
+    own_posts = fetch_user_post(username)
+    if own_posts is not None:
+        result += own_posts.to_dict("records")
+
     #if the user is following anyone fetch records
     if artists_following:
         for user in artists_following:
@@ -223,7 +225,12 @@ def get_posts_for_feed(username):
     return result.to_dict('records')
 
 
+def fetch_own_posts(username):
+    df = fetch_user_post(username)
+    if df is None or df.empty:
+        return []
 
-   
+    return df.to_dict("records")
 
-print(get_posts_for_feed("aswin"))
+
+print(get_posts_for_feed("ananin"))
