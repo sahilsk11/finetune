@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState, useEffect } from 'react';
+import React, { useRef,useState, useEffect } from 'react';
 import './feed.css';
 import Modal from 'react-modal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NavBar } from '../NavBar/NavBar'
+
 
 Modal.setAppElement(document.getElementById('root'));
 
@@ -16,6 +17,15 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // state
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [duration, setDuration] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+
+  // references
+  const audioPlayer = useRef();   // reference our audio component
+  const progressBar = useRef();   // reference our progress bar
+  const animationRef = useRef();  // reference the animation
 
 
   const API_URL = "http://127.0.0.1:5000"
@@ -25,7 +35,12 @@ export default function Feed() {
   const navigate = useNavigate();
   const params = useParams();
 
- useEffect(() => {
+  /* audio player*/
+ 
+
+ 
+ /* getting posts */
+  useEffect(() => {
   const requestOptions = {
     method: "GET",
     headers: {
@@ -67,6 +82,7 @@ export default function Feed() {
         Feed
       </h5>
             {posts.length === 0 ? <h4>No posts yet...</h4> : null}
+            
             {posts.map(post => (
               <Feedposts
                 username={post.username}
@@ -99,6 +115,10 @@ function Feedposts({username,
   post_id,
   }) {
   
+    const handleClick= (e) => {
+      e.preventDefault();
+      e.currentTarget.classList.toggle('liked');
+    }
   return (
     <div className='trending-song'>
       <div className='trending-song-album-cover'>
@@ -111,13 +131,15 @@ function Feedposts({username,
         <h1 className='trending-song-title'>{song_title}</h1>
         <h3 className='trending-song-subtitle'>{username}</h3>
         <h3 className='trending-song-subtitle'>{description}</h3>
-        <h3 className='trending-song-subtitle'>95% liked, 5% disliked</h3>
+        <h3 className='trending-song-subtitle'>Genre: {genre}</h3>
+        <h3 className='trending-song-subtitle'>{likes} people liked this song</h3>
       </div>
       <div className='trending-song-play-options-container'>
-        <button className='play-btn'>Listen Now on Spotify</button>
-        <br /><br />
-        <button className='play-btn'>Listen Now on SoundCloud</button>
+      <a href={"/profile/" + username}><button className='play-btn'>View Artist</button></a>
+      <button className='play-btn'>Save Post</button>
+      <button onClick={handleClick} class="like-button"></button>
       </div>
     </div>
   );
 }
+

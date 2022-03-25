@@ -9,7 +9,7 @@
 
 .trending-music-container {
   margin-top: 30px;
-  width: 80%;
+    width: 80%;
   margin: 0px auto;
 }
 
@@ -68,8 +68,57 @@
   border-radius: 5px;
   height: 30px;
   font-weight: 500;
+  margin-top: 3%;
+  margin-left: 7%;
   border: none;
   cursor: pointer;
   padding: 15px;
   padding-top: 8px;
+}
+
+.play-btn:hover {
+  background-color: brown;
+  color: white;
+  border-radius: 5px;
+  height: 30px;
+  font-weight: 500;
+  margin-top: 3%;
+  margin-left: 7%;
+  border: none;
+  cursor: pointer;
+  padding: 15px;
+  padding-top: 8px;
+}
+
+/* like button*/
+
+.like-button {
+  display: inline-block;
+  position: relative;
+  margin-left: 30%;
+  margin-bottom: 10%;
+  font-size: 32px;
+  cursor: pointer;
+}
+.like-button::before {
+  font-size: 3em;
+  color: #000;
+  content: '♥';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.like-button::after {
+  font-size: 3em;
+  color: #ff3252;
+  content: '♥';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.2s;
+}
+.like-button.liked::after {
+  transform: translate(-50%, -50%) scale(1.1);
 }
