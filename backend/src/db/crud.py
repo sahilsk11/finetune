@@ -52,6 +52,16 @@ def update_table(new_df, BaseClass):
     session.commit()
     session.close()
 
+
+def insert_row_posts(username, song_title, likes, dislikes, description, image, genre, audio, date_created):
+    session = Session()
+    new_post = Posts(username= username, song_title = song_title, likes = likes, 
+                    dislikes = dislikes, description = description, image = image, genre = genre, audio = audio, date_created = date_created)
+    session.add(new_post)
+    session.commit()
+    session.close()
+
+
 def update_authentication_token(BaseClass, username, token):
     """
     :param BaseClass: Base child-class (sqlalchemy model)
@@ -349,7 +359,7 @@ def update_post_details(username, song_title, description, image, genre):
     session.close()
 
 
-#create_tables()
+create_tables()
 
 
 if __name__ == '__main__':

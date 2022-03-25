@@ -49,7 +49,7 @@ class Posts(Base):
     description = Column(String, nullable=True)
     image = Column(String, nullable=True)
     genre = Column(String, nullable=True)
-    audio = Column(LargeBinary, nullable=False)
+    audio = Column(String, nullable=True)
     date_created = Column(String, nullable=True)
     saved = Column(ARRAY(String), nullable=True)
     

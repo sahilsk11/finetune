@@ -18,11 +18,14 @@ from src.db.crud import (
     fetch_user_info,
     fetch_user_post,
     fetch_genres_following,
-    update_post_details
+    update_post_details,
+    insert_row_posts
 )
 
 #Might bhave trouble i naudio files - check
 def create_post_details(username, song_title, description, image, genre, audio):
+    print("AUDIO ISs")
+    print(audio)
     data = {
         "username": [username],
         "song_title": [song_title],
@@ -35,8 +38,9 @@ def create_post_details(username, song_title, description, image, genre, audio):
         "date_created": dt.datetime.utcnow(),
     }
 
-    new_df = pd.DataFrame(data)
-    update_table(new_df, Posts)
+    #new_df = pd.DataFrame(data)
+    insert_row_posts(username, song_title, 0,0, description, image, genre, audio, dt.datetime.utcnow())
+    #update_table(new_df, Posts)
 
 def edit_post_details(username, song_title, description, image, genre):
     update_post_details(username, song_title, description, image, genre)
@@ -197,7 +201,6 @@ def get_posts_for_feed(username):
         return []
     
     artists_following = user_df['following'].values[0]
-    print(artists_following)
 
     result = []
     #if the user is following anyone fetch records
@@ -223,3 +226,4 @@ def get_posts_for_feed(username):
 
    
 
+print(get_posts_for_feed("aswin"))
