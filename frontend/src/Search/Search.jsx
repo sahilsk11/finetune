@@ -28,8 +28,8 @@ export default function Search() {
       </h1>
       <div className='search-text-container'>
         <form style={{color: "beige" }} className="search-form" onSubmit={handleSubmit}>
-          <input className="search-textbox" type="text" id="term" placeholder="Search song, user, or genre" onChange={handleTextChange} value={searchTerm} />
-          <div className="center">Search by: </div> 
+          <input className="search-textbox" type="text" onChange={handleTextChange} value={searchTerm} />
+          <div className="center">Search by: </div>
           <div className="center2">
           <input type="radio" onClick={handleRadioChange} value="Song" checked name="search-type" />Song
           <input type="radio" onClick={handleRadioChange} value="User" name="search-type" />User

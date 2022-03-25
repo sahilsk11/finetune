@@ -36,6 +36,10 @@ export default function CreatePost() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append('audio', audio, audio.name);
+    const lastImg = image[image.length - 1];
+    formData.append('image', lastImg, lastImg.name);
     const requestOptions = {
       method: "POST",
       headers: {
@@ -43,10 +47,9 @@ export default function CreatePost() {
         auth_token: localStorage.getItem("auth_token"),
         song_title: songTitle,
         description: description,
-        image: image,
         genre: genre,
-        audio: audio
-      }
+      },
+      body: formData
     };
     fetch(API_URL + "/create_post", requestOptions)
       .then(resp => {
