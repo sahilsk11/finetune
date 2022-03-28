@@ -160,6 +160,8 @@ function ProfilePosts({username,
   genre,
   post_id,
   }) {
+    const [isLiked, updateLiked] = useState(false);
+
 
     const handleClick= (e) => {
       e.preventDefault();
@@ -170,6 +172,54 @@ function ProfilePosts({username,
   let path = "/image/"
   let filename = audio
   const audioSrc = host + path + filename
+
+  useEffect(() => {
+    fetch("http://localhost:5000/get_liked_posts_by_user", {
+      method: "POST",
+      headers: {
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token")
+      },
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      data.forEach(e => {
+        if (e.post_id == post_id) {
+          updateLiked(true);
+        }
+      })
+    }).catch(err => {
+      alert(err);
+    })
+  }, [isLiked]);
+
+  function likePost(e) {
+    e.preventDefault();
+    e.currentTarget.classList.toggle('liked');
+
+    fetch("http://localhost:5000/vote", {
+      method: "POST",
+      headers: {
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token"),
+        post_id: post_id,
+        liked: !isLiked
+      },
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      console.log(data)
+    }).catch(err => {
+      alert(err);
+    })
+  }
+
+  let classes = "like-button";
+  if (isLiked) {
+    classes += " liked"
+  }
+
+
   return (
     <div className='trending-song'>
       <div className='trending-song-album-cover'>
@@ -196,7 +246,7 @@ function ProfilePosts({username,
       </div>
       <a href={"/profile/" + username}><button className='play-btn'>View Artist</button></a>
       <button className='play-btn'>Save Post</button>
-      <button onClick={handleClick} class="like-button"></button>
+      <button onClick={likePost} class={classes}></button>
       </div>
     </div>
   );
