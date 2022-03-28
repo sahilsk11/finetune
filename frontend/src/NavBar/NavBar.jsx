@@ -23,6 +23,9 @@ export function NavBar() {
 					<a href="/search">Search</a>
 				</li>
         <li>
+					<a href="/trending-music">Trending Music</a>
+				</li>
+        <li>
           <a href="/settings">Settings</a>
         </li>
         <li>

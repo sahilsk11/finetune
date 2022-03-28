@@ -375,7 +375,7 @@ def make_app():
         
         status = token_validation(username, auth_token)
         if not status:
-            return jsonify("failed")
+            return jsonify({"message": "failed token verification"})
         
         return jsonify(get_top_trending_songs())
 
