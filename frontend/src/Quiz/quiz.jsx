@@ -16,21 +16,55 @@ export default function Quiz() {
     const[checked7, setChecked7] = useState(false);   
     const[checked8, setChecked8] = useState(false);   
     const[checked9, setChecked9] = useState(false);   
-    const[checked10, setChecked10] = useState(false);   
+    const[checked10, setChecked10] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const API_URL = "http://127.0.0.1:5000";  
 
+    const handleSubmit= (e) => {
+      e.preventDefault();
+      const options = {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          username: localStorage.getItem("username"),
+          auth_token: localStorage.getItem("auth_token"),
+          checked1: checked1,
+          checked2: checked2,
+          checked3: checked3,
+          checked4: checked4,
+          checked5: checked5,
+          checked6: checked6,
+          checked7: checked7,
+          checked8: checked8,
+          checked9: checked9,
+          checked10: checked10,
 
-    // const handleClick = (e) => {
-    //     if (localStorage.getItem("username")) {
-    //         navigate("/profile/" + localStorage.getItem("username"));
-    //     } else {
-    //         navigate("/login");
-    //     }
-    // }
+        }
+      }
+      fetch(API_URL + "/store_quiz", options)
+      .then(resp => {
+        setLoading(false);
+        if(resp.status === 200) {
+          return resp.json();
+        }
+        else {
+          alert("there has been an error!!");
+        }
+      })
+      .then(data => {
 
-    // if (localStorage.getItem("username")) {
-    //     navigate("/profile");
-    // }
+        if (localStorage.getItem("username")) {
+          navigate("/profile/" + localStorage.getItem("username"));
+        } else {
+          navigate("/login");
+        }
 
+      })
+      .catch(error => {
+        console.error("ther was an error", error);
+      })
+    }
+    
     const handleChange1 = () => {
         setChecked1(!checked1);
       };
@@ -70,18 +104,16 @@ export default function Quiz() {
             <h1 className="quiz-option">
                 Select all the genres that you like!
             </h1>
-            <form className="quiz" action="#">
+            <form className="quiz" onSubmit={handleSubmit}>
                 
                 <p>
                     <input type="checkbox" id="test1" checked={checked1} onChange={handleChange1} />
                     <label for="test1">house</label>
                 </p>
-                <p>Is "My 1" checked? {checked1.toString()}</p>
                 <p>
                     <input type="checkbox" id="test2" checked={checked2} onChange={handleChange2} />
                     <label for="test2">techno</label>
                 </p>
-                <p>Is "My 2" checked? {checked2.toString()}</p>
 
                 <p>
                     <input type="checkbox" id="test3" checked={checked3} onChange={handleChange3} />
@@ -115,7 +147,7 @@ export default function Quiz() {
                     <input type="checkbox" id="test10" checked={checked10} onChange={handleChange10} />
                     <label for="test10">progressive house</label>
                 </p>
-                <button >Submit</button>
+                <button type="submit" >Submit</button>
             </form>
 
           

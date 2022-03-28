@@ -358,6 +358,18 @@ def update_post_details(username, song_title, description, image, genre):
     session.commit()
     session.close()
 
+def update_quiz_information(BaseClass, username, genres_str):
+    session = Session()
+
+    session.query(BaseClass).filter(BaseClass.username == username).update(
+        {
+            BaseClass.genres_following: genres_str,
+
+        }
+    )
+    session.commit()
+    session.close()
+
 
 create_tables()
 
