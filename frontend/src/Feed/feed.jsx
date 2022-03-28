@@ -145,13 +145,16 @@ function Feedposts({username,
         <h3 className='trending-song-subtitle'>{description}</h3>
         <h3 className='trending-song-subtitle'>Genre: {genre}</h3>
         <h3 className='trending-song-subtitle'>{likes} people liked this song</h3>
-          <ReactAudioPlayer
-            src={audioSrc}
-            autoPlay
-            controls
-          />
       </div>
       <div className='trending-song-play-options-container'>
+      
+      <br/>
+      <div className="center-audio">
+          <ReactAudioPlayer
+            src={audioSrc}
+            controls
+          />
+          </div>
       <a href={"/profile/" + username}><button className='play-btn'>View Artist</button></a>
       <button className='play-btn'>Save Post</button>
       <button onClick={handleClick} class="like-button"></button>

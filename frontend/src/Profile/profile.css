@@ -161,7 +161,7 @@ body {
 .trending-song {
   margin: 0px auto;
   width: 600px;
-  height: 280px;
+  height: 380px;
   background-color: white;
   padding: 20px;
   position: relative;
@@ -266,4 +266,11 @@ body {
 }
 .like-button.liked::after {
   transform: translate(-50%, -50%) scale(1.1);
+}
+
+.center-audio {
+  margin-left: auto;
+  width: 80%;
+  border: 3px;
+  padding: 10px;
 }
