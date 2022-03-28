@@ -4,6 +4,8 @@ import './feed.css';
 import Modal from 'react-modal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NavBar } from '../NavBar/NavBar'
+import ReactAudioPlayer from 'react-audio-player';
+
 
 
 Modal.setAppElement(document.getElementById('root'));
@@ -36,9 +38,9 @@ export default function Feed() {
   const params = useParams();
 
   /* audio player*/
- 
 
- 
+
+
  /* getting posts */
   useEffect(() => {
   const requestOptions = {
@@ -82,7 +84,7 @@ export default function Feed() {
         Feed
       </h5>
             {posts.length === 0 ? <h4>No posts yet...</h4> : null}
-            
+
             {posts.map(post => (
               <Feedposts
                 username={post.username}
@@ -97,8 +99,8 @@ export default function Feed() {
                 audio={post.audio}
               />
             ))}
-       
-       
+
+
       </div>
     </div>
   )
@@ -115,16 +117,25 @@ function Feedposts({username,
   genre,
   post_id,
   }) {
-  
+
     const handleClick= (e) => {
       e.preventDefault();
       e.currentTarget.classList.toggle('liked');
     }
+    let host = "http://localhost:5000"
+    let path = "/image/"
+    let filename = image
+    const imgSrc = host + path + filename
+
+    let audioHost = "http://localhost:5000"
+    let audioPath = "/image/"
+    let audioFileName = audio
+    const audioSrc = audioHost + audioPath + audioFileName
   return (
     <div className='trending-song'>
       <div className='trending-song-album-cover'>
         <img
-          src={image}
+          src={imgSrc}
           className='trending-song-album-cover-img'
         />
       </div>
@@ -134,6 +145,11 @@ function Feedposts({username,
         <h3 className='trending-song-subtitle'>{description}</h3>
         <h3 className='trending-song-subtitle'>Genre: {genre}</h3>
         <h3 className='trending-song-subtitle'>{likes} people liked this song</h3>
+          <ReactAudioPlayer
+            src={audioSrc}
+            autoPlay
+            controls
+          />
       </div>
       <div className='trending-song-play-options-container'>
       <a href={"/profile/" + username}><button className='play-btn'>View Artist</button></a>
@@ -143,4 +159,3 @@ function Feedposts({username,
     </div>
   );
 }
-

@@ -16,7 +16,6 @@ export default function CreatePost() {
 
   const API_URL = "http://127.0.0.1:5000"
 
-
   function handleTitleChange(e) {
     setSongTitle(e.target.value)
   }
@@ -30,7 +29,6 @@ export default function CreatePost() {
   }
 
   function handleAudioChange(e) {
-    console.log(e.target.files[0])
     setAudio(e.target.files[0])
   }
 

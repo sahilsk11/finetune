@@ -3,6 +3,7 @@ import './profile.css';
 import Modal from 'react-modal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NavBar } from '../NavBar/NavBar'
+import ReactAudioPlayer from 'react-audio-player';
 
 Modal.setAppElement(document.getElementById('root'));
 
@@ -49,9 +50,9 @@ export default function Profile(props) {
         console.log("can not get  posts: " + err);
         setError("Can not connect to server!");
       });
-  
+
     }, [])
-  
+
 
  useEffect(() => {
     if (!localStorage.getItem("auth_token")) {
@@ -80,6 +81,7 @@ export default function Profile(props) {
           let host = "http://localhost:5000"
           let path = "/image/"
           let filename = data.image
+          console.log(data.image)
           setProfilePictureURL(host+path+filename)
         }
         setUserData({
@@ -123,12 +125,17 @@ export default function Profile(props) {
     <h5 className="feed-subtitle">
         My Posts
       </h5>
-    {posts.map(post => (
+    {posts.map(post => {
+          let host = "http://localhost:5000"
+          let path = "/image/"
+          let filename = post.image
+          const imgSrc = host + path + filename
+          return (
               <ProfilePosts
                 username={post.username}
                 song_title={post.song_title}
                 description={post.description}
-                image={post.image}
+                image={imgSrc}
                 date_created={post.date_created}
                 likes={post.likes}
                 dislikes={post.dislikes}
@@ -136,7 +143,8 @@ export default function Profile(props) {
                 post_id={post.post_id}
                 audio={post.audio}
               />
-            ))}
+          )}
+        )}
     </div>
   )
 }
@@ -152,11 +160,16 @@ function ProfilePosts({username,
   genre,
   post_id,
   }) {
-  
+
     const handleClick= (e) => {
       e.preventDefault();
       e.currentTarget.classList.toggle('liked');
     }
+
+  let host = "http://localhost:5000"
+  let path = "/image/"
+  let filename = audio
+  const audioSrc = host + path + filename
   return (
     <div className='trending-song'>
       <div className='trending-song-album-cover'>
@@ -176,6 +189,11 @@ function ProfilePosts({username,
       <a href={"/profile/" + username}><button className='play-btn'>View Artist</button></a>
       <button className='play-btn'>Save Post</button>
       <button onClick={handleClick} class="like-button"></button>
+      <ReactAudioPlayer
+        src={audioSrc}
+        autoPlay
+        controls
+      />
       </div>
     </div>
   );
@@ -191,6 +209,7 @@ function ProfilePicture({imageSrc}) {
     />
   )
 }
+
 
 function UserDetails({userData}) {
   const {
@@ -223,7 +242,7 @@ function UserDetails({userData}) {
 
       </tr>
     </table>
-    
+
   )
 }
 
