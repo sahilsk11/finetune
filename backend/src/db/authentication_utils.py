@@ -10,7 +10,7 @@ from email.message import EmailMessage
 
 from sqlalchemy import false
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from src.db.crud import update_table, fetch_rows, update_authentication_token, delete_rows, update_user_password
+from src.db.crud import update_table, fetch_rows, update_authentication_token, delete_rows, update_user_password, fetch_user_info
 from src.db.models import User_Credentials, Profile_Page, Posts, Likes
 
 def hash_password(password):

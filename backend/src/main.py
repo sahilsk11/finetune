@@ -10,7 +10,8 @@ from db.authentication_utils import (
     delete_user_information,
     update_password,
     emailIsValid,
-    recover_user_password
+    recover_user_password,
+    search_for_user
 )
 
 from db.profile_page_utils import (
@@ -566,5 +567,19 @@ def make_app():
             arr.append(request.headers.get("checked" + str(i)))
         return jsonify(update_quiz_info(username, arr))
 
+    @app.route("/search_for_user", methods=["GET"])
+    def search_for_user():
+        #view posts of artists and genres you follow
+        auth_token = request.headers.get("auth_token")
+        username = request.headers.get("username")
+        status = token_validation(username, auth_token)
+
+        if not status:
+            return jsonify({"message":"failed token verification"})
+        
+        # returns an empty list or list of dictionaries including all post details
+        return jsonify(search_for_user(username))
+
 
     return app
+
