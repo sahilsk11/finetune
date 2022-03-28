@@ -559,7 +559,7 @@ def make_app():
         status = token_validation(username, auth_token)
 
         if not status:
-            return jsonify("failed")
+            return jsonify({"message":"failed token verification"})
         
         arr = []
         for i in range(1, 11):

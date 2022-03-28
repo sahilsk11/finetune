@@ -100,7 +100,7 @@ def update_user_spotify(username, spotify):
     return True
 
 def update_quiz_info(username, arr):
-    genres_arr_given = ['house', 'techno', 'pop', 'alternative rock', 'rnb', 'trap', 'hiphop', 'deep house', 'melodic technomelodic techno', 'progressive house'] 
+    genres_arr_given = ['house', 'techno', 'pop', 'alternative rock', 'rnb', 'trap', 'hiphop', 'deep house', 'melodic techno', 'progressive house'] 
     genres_arr_solved = []
     for index, element in enumerate(arr):
         if element == 'true':
