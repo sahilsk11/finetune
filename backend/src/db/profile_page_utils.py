@@ -3,7 +3,7 @@ import datetime as dt
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from src.db.crud import update_table, fetch_rows, update_authentication_token, update_user_profile, update_user_credentials, update_profile_photo, change_username, update_user_email, update_phone_number, change_spotify
+from src.db.crud import update_table, fetch_rows, update_authentication_token, update_user_profile, update_user_credentials, update_profile_photo, change_username, update_user_email, update_phone_number, change_spotify, update_quiz_information
 
 from src.db.models import User_Credentials, Profile_Page
 
@@ -98,3 +98,14 @@ def update_email(username, email):
 def update_user_spotify(username, spotify):
     change_spotify(Profile_Page, username, spotify)
     return True
+
+def update_quiz_info(username, arr):
+    genres_arr_given = ['house', 'techno', 'pop', 'alternative rock', 'rnb', 'trap', 'hiphop', 'deep house', 'melodic techno', 'progressive house'] 
+    genres_arr_solved = []
+    for index, element in enumerate(arr):
+        if element == 'true':
+            genres_arr_solved.append([genres_arr_given[index]])
+
+    update_quiz_information(User_Credentials, username, genres_arr_solved)
+    return True
+

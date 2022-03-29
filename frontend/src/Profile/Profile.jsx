@@ -4,10 +4,13 @@ import Modal from 'react-modal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NavBar } from '../NavBar/NavBar'
 import ReactAudioPlayer from 'react-audio-player';
+import ImageUploader from 'react-images-upload';
+import logo from './logo.png';
 
 import MusicPost from '../MusicPost/MusicPost';
 
 Modal.setAppElement(document.getElementById('root'));
+
 
 export default function Profile(props) {
   const [profilePictureURL, setProfilePictureURL] = useState("https://180dc.org/wp-content/uploads/2017/11/profile-placeholder.png")
@@ -22,6 +25,18 @@ export default function Profile(props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const API_URL = "http://127.0.0.1:5000"
+  const [description, setDescription] = useState("");
+  const [genre, setGenre] = useState("rock")
+  const [image, saveImage] = useState(null);
+  const [deleteModalOpen, setDeleteModal] = useState(false);
+
+  function openDeleteModal() {
+    setDeleteModal(true);
+  }
+
+  function closeDeleteModal() {
+    setDeleteModal(false);
+  }
 
 
   useEffect(() => {
@@ -100,11 +115,14 @@ export default function Profile(props) {
     })
   }, []);
 
+
   useEffect(function() {
     if (pageErr != null) {
       alert(pageErr);
     }
   }, [pageErr]);
+
+  
 
   return (
     <div>
@@ -150,7 +168,6 @@ export default function Profile(props) {
     </div>
   )
 }
-
 
 function ProfilePicture({imageSrc}) {
   return (
