@@ -4,8 +4,11 @@ import Modal from 'react-modal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NavBar } from '../NavBar/NavBar'
 import ReactAudioPlayer from 'react-audio-player';
+import ImageUploader from 'react-images-upload';
+import logo from './logo.png';
 
 Modal.setAppElement(document.getElementById('root'));
+
 
 export default function Profile(props) {
   const [profilePictureURL, setProfilePictureURL] = useState("https://180dc.org/wp-content/uploads/2017/11/profile-placeholder.png")
@@ -197,10 +200,13 @@ function ProfilePosts({username,
       <a href={"/profile/" + username}><button className='play-btn'>View Artist</button></a>
       <button className='play-btn'>Save Post</button>
       <button onClick={handleClick} class="like-button"></button>
+      <a href="/edit-post"><button  className='play-btn'>Edit Post</button></a>
       </div>
     </div>
   );
 }
+
+
 
 
 function ProfilePicture({imageSrc}) {

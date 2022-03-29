@@ -17,6 +17,7 @@ import CreatePost from "./CreatePost/CreatePost";
 import TrendingMusic from './TrendingMusic/TrendingMusic';
 import Search from './Search/Search';
 import Feed from './Feed/feed';
+import EditPost from './EditPost/EditPost';
 
 import Quiz from './Quiz/quiz';
 import "./index.css";
@@ -40,6 +41,8 @@ function App() {
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/search" element={<Search />} />
         <Route path="/feed" element={<Feed />} />
+        <Route path="/edit-post"  element={<EditPost />}/>
+
 
 
 
