@@ -45,7 +45,7 @@ export default function Profile(props) {
       headers: {
         "Content-Type": "application/json",
         auth_token: localStorage.getItem("auth_token"),
-        username: localStorage.getItem("username"),
+        username: params.id,
       }
     };
     fetch(API_URL + "/user_posts", requestOptions)

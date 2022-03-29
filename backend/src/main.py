@@ -546,10 +546,7 @@ def make_app():
     def show_user_posts():
         auth_token = request.headers.get("auth_token")
         username = request.headers.get("username")
-        status = token_validation(username, auth_token)
-
-        if not status:
-            return jsonify("failed")
+       
         
         return jsonify(fetch_own_posts(username))
 
