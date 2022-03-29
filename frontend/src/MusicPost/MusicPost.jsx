@@ -128,6 +128,11 @@ export default function MusicPost({username,
     classes += " liked"
   }
 
+  let modalClasses = "modal-hidden";
+  if (username == localStorage.getItem("username")) {
+    modalClasses = "";
+  }
+
 
   return (
     <div className='trending-song'>
@@ -157,8 +162,7 @@ export default function MusicPost({username,
       <button className='play-btn'>Save Post</button>
       <button onClick={likePost} class={classes}></button>
 
-      <button onClick={openDeleteModal} className='play-btn'>Edit Post</button>
-     
+      <button onClick={openDeleteModal} className={'play-btn '+modalClasses}>Edit Post</button>
      
      <Modal
               isOpen={deleteModalOpen}
