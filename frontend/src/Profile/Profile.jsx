@@ -207,10 +207,10 @@ function ProfilePosts({username,
     setNewGenre(e.target.value)
   }
 
-  function edit(song) {
+  function edit() {
     console.log("editing post");
     const formData = new FormData();
-    const lastImg = new_image[image.length - 1];
+    const lastImg = new_image[new_image.length - 1];
     formData.append('image', lastImg, lastImg.name);
     const requestOptions = {
       method: "POST",
@@ -218,7 +218,7 @@ function ProfilePosts({username,
         username: localStorage.getItem("username"),
         auth_token: localStorage.getItem("auth_token"),
         description: new_description,
-        song_title: song,
+        song_title: song_title,
         genre: new_genre,
       },
       body: formData
@@ -279,7 +279,7 @@ function ProfilePosts({username,
               className='delete-modal'
             >
               <div style={{alignItems: "center"}}>
-        <h1 style={{color: "beige"}} className="create-account-title">
+        <h1 style={{color: "black"}} className="create-account-title">
         Edit Post
         </h1>
         <div className='profile-container'>
@@ -288,13 +288,13 @@ function ProfilePosts({username,
         
             <label>
               Edit description:
-              <input className='edit-text-box'  onChange={handleDescriptionChange} value={description} /><br />
+              <input className='edit-text-box'  onChange={handleDescriptionChange} value={new_description} /><br />
             </label>
            
           <label>
              
             Change Genre:
-            <select className='genre-select' value={genre} onChange={handleGenreChange}>
+            <select className='genre-select' value={new_genre} onChange={handleGenreChange}>
               <option value="rock">Rock</option>
               <option value="house">House</option>
               <option value="techno">Techno</option>
