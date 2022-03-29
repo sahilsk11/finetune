@@ -191,7 +191,7 @@ def make_app():
             # this util perform sever-side validation to ensure
             # the user does not pass a malicious file to the backend
             filename = secure_filename(img_file.filename)
-           
+
             update_profile_image(username, filename)
 
              # prepend the path to save to the static directory
@@ -208,7 +208,7 @@ def make_app():
     def get_image(filename):
         print(filename)
         return send_file("../static/" + filename)
-    
+
     @app.route("/change_password", methods=["POST"])
     def alter_password():
         username = request.headers.get("username")
@@ -231,7 +231,7 @@ def make_app():
 
         # check if the authentication token is valid
         status = token_validation(old_username, auth_token)
-        
+
         if status:
             update_username(old_username, new_username)
             return jsonify("success")
@@ -302,15 +302,15 @@ def make_app():
 
         return jsonify("failed")
 
-    
-    ##### SPRINT 2 
+
+    ##### SPRINT 2
     # bookmark a post and specify which post is saved by the post_id, and the user who saved the post by username
     @app.route("/bookmark_post_user", methods=["POST"])
     def bookmark_post():
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
         post_id = request.headers.get("post_id")
-        
+
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
@@ -318,7 +318,7 @@ def make_app():
         save_or_unsave_post(post_id, username)
         return jsonify("success")
 
-    
+
     # gets all the posts that are saved by a user
     @app.route("/all_saved_posts", methods=["GET"])
     def get_bookmarked_posts():
@@ -337,7 +337,7 @@ def make_app():
 
     #like or dislike a post
     @app.route("/vote", methods=["POST"])
-    def vote_post(): 
+    def vote_post():
         auth_token = request.headers.get("auth_token")
         # check if the authentication token is valid
         post_id = request.headers.get("post_id")
@@ -361,7 +361,7 @@ def make_app():
     def get_liked_posts_by_user():
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
-        
+
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
@@ -375,25 +375,25 @@ def make_app():
     def get_trending_songs():
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
-        
+
         status = token_validation(username, auth_token)
         if not status:
             return jsonify({"message": "failed token verification"})
-        
+
         return jsonify(get_top_trending_songs())
 
-    
+
     @app.route("/search_song", methods=["POST"])
     def lookup_for_songs():
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
         song_name = request.headers.get("song_name")
-        
+
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
-        
-        #returns an empty list or list of post details inclcudingn songs 
+
+        #returns an empty list or list of post details inclcudingn songs
         return jsonify(lookup_song(song_name))
 
     # for the quiz at the beginning
@@ -401,13 +401,13 @@ def make_app():
     def send_genres():
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
-        genres = ["house", "techno", "pop", "rock", "alternative rock", "rnb", "trap", "hiphop", 
+        genres = ["house", "techno", "pop", "rock", "alternative rock", "rnb", "trap", "hiphop",
         "deep house", "melodic techno", "progressive house"]
-        
+
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
-        
+
         return jsonify(genres)
 
     @app.route("/songs_by_genre", methods=["POST"])
@@ -415,14 +415,14 @@ def make_app():
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
         genre = request.headers.get("genre")
-        
+
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
 
-        #returns an empty list or list of post details inclcudingn songs 
+        #returns an empty list or list of post details inclcudingn songs
         return jsonify(get_all_posts_with_genre(genre))
-    
+
     @app.route("/follow_genre", methods=["POST"])
     def genre_follow():
         auth_token = request.headers.get("auth_token")
@@ -431,16 +431,16 @@ def make_app():
 
         status = token_validation(username, auth_token)
         if not status:
-            return jsonify("failed") 
+            return jsonify("failed")
         else:
             status = follow_genre(username,genre)
 
         if status:
             return jsonify("success")
-    
+
         return jsonify("failed")
-        
-       
+
+
     @app.route("/unfollow_genre", methods=["POST"])
     def genre_unfollow():
         auth_token = request.headers.get("auth_token")
@@ -456,7 +456,7 @@ def make_app():
         if status:
             return jsonify("success")
         return jsonify("failed")
-    
+
 
     @app.route("/view_feed", methods=["GET"])
     def user_view_feed():
@@ -467,7 +467,7 @@ def make_app():
 
         if not status:
             return jsonify("failed")
-        
+
         # returns an empty list or list of dictionaries including all post details
         return jsonify(get_posts_for_feed(username))
 
@@ -479,18 +479,18 @@ def make_app():
         song_title = request.headers.get("song_title")
         description = request.headers.get("description")
         genre = request.headers.get("genre")
-       
+
         if 'image' in request.files and request.files['image'].filename != '':
             img_file = request.files['image']
             image_filename = secure_filename(img_file.filename)
-        
+
              # prepend the path to save to the static directory
             updated_filename = "../static/"+image_filename
             img_file.save(updated_filename)
-        
+
         else:
             image_filename = ""
-        
+
         if 'audio' in request.files and request.files['audio'].filename != '':
             audio_file = request.files['audio']
             audio_filename = secure_filename(audio_file.filename)
@@ -510,7 +510,7 @@ def make_app():
 
         return jsonify("success")
 
-    
+
     #edit post: lets make Song title and audio file unchangeable, so that we can idenitfy the post
     # artist can change decription, image, etc , or just create another post for diff title and audio
     @app.route("/edit_post", methods=["POST"])
@@ -519,7 +519,7 @@ def make_app():
         auth_token = request.headers.get("auth_token")
         song_title = request.headers.get("song_title")
         new_description = request.headers.get("description")
-        
+
         new_genre = request.headers.get("genre")
 
         if 'image' in request.files and request.files['image'].filename != '':
@@ -546,8 +546,8 @@ def make_app():
     def show_user_posts():
         auth_token = request.headers.get("auth_token")
         username = request.headers.get("username")
-       
-        
+
+
         return jsonify(fetch_own_posts(username))
 
     #store quiz results in the database
@@ -559,7 +559,7 @@ def make_app():
 
         if not status:
             return jsonify({"message":"failed token verification"})
-        
+
         arr = []
         for i in range(1, 11):
             arr.append(request.headers.get("checked" + str(i)))
@@ -574,9 +574,9 @@ def make_app():
 
         if not status:
             return jsonify({"message":"failed token verification"})
-        
+
         return jsonify(search_for_user(username))
-    
+
     @app.route("/follow_user", methods=["POST"])
     def follow_user():
         auth_token = request.headers.get("auth_token")
@@ -586,7 +586,7 @@ def make_app():
 
         if not status:
             return jsonify({"message":"failed token verification"})
-        
+
         return jsonify(follow_user_util(username, user_to_follow))
 
     @app.route("/unfollow_user", methods=["POST"])
@@ -598,11 +598,10 @@ def make_app():
 
         if not status:
             return jsonify({"message":"failed token verification"})
-        
+
         return jsonify(unfollow_user_util(username, user_to_unfollow))
 
 
 
 
     return app
-
