@@ -104,7 +104,7 @@ def update_quiz_info(username, arr):
     genres_arr_solved = []
     for index, element in enumerate(arr):
         if element == 'true':
-            genres_arr_solved.append([genres_arr_given[index]])
+            genres_arr_solved.append(genres_arr_given[index])
 
     update_quiz_information(User_Credentials, username, genres_arr_solved)
     return True
