@@ -131,3 +131,45 @@
   border: 3px;
   padding: 10px;
 }
+
+
+.modal-delete-button {
+  margin: 10px;
+  display: inline-block;
+  background-color: rgb(117,20,12);
+  color:white;
+  border: none;
+  width: 150px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.modal-delete-button:hover {
+  background-color: rgb(95, 17, 10);
+}
+
+.delete-modal {
+  width: 40vw;
+  height: 40%;
+  margin: 0px auto;
+  display: block;
+}
+
+body {
+  background: #6c574e !important;
+}
+
+.edit-container {
+  border: 3px solid rgb(105, 105, 105);
+  width: 100%;
+  max-width: 400px;
+  min-height: 420px;
+  display: block;
+  margin: 0px auto;
+  margin-top: 5%;
+  padding: 2%;
+  background-color: rgb(243, 243, 243);
+  border-radius: 10px;
+  padding-bottom: 5px;
+}

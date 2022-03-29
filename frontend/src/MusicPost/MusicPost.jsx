@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './music-post.css';
 import ReactAudioPlayer from 'react-audio-player';
 import ImageUploader from 'react-images-upload';
-import logo from './logo.png';
+import Modal from 'react-modal';
 
 export default function MusicPost({username,
   song_title,
@@ -170,7 +170,7 @@ export default function MusicPost({username,
         <h1 style={{color: "black"}} className="create-account-title">
         Edit Post
         </h1>
-        <div className='profile-container'>
+        <div className='edit-container'>
         <form onSubmit={edit}>
         <div className='edit-profile-form-div'>
         
