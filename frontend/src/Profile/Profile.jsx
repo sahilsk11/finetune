@@ -23,6 +23,18 @@ export default function Profile(props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const API_URL = "http://127.0.0.1:5000"
+  const [description, setDescription] = useState("");
+  const [genre, setGenre] = useState("rock")
+  const [image, saveImage] = useState(null);
+  const [deleteModalOpen, setDeleteModal] = useState(false);
+
+  function openDeleteModal() {
+    setDeleteModal(true);
+  }
+
+  function closeDeleteModal() {
+    setDeleteModal(false);
+  }
 
 
   useEffect(() => {
@@ -101,11 +113,14 @@ export default function Profile(props) {
     })
   }, []);
 
+
   useEffect(function() {
     if (pageErr != null) {
       alert(pageErr);
     }
   }, [pageErr]);
+
+  
 
   return (
     <div>
@@ -169,6 +184,60 @@ function ProfilePosts({username,
       e.currentTarget.classList.toggle('liked');
     }
 
+    const [deleteModalOpen, setDeleteModal] = useState(false);
+    const API_URL = "http://127.0.0.1:5000"
+    const [new_description, setNewDescription] = useState("");
+  const [new_genre, setNewGenre] = useState("rock")
+  const [new_image, saveNewImage] = useState(null);
+
+
+  function openDeleteModal() {
+    setDeleteModal(true);
+  }
+
+  function closeDeleteModal() {
+    setDeleteModal(false);
+  }
+
+  function handleDescriptionChange(e) {
+    setNewDescription(e.target.value)
+  }
+
+  function handleGenreChange(e) {
+    setNewGenre(e.target.value)
+  }
+
+  function edit(song) {
+    console.log("editing post");
+    const formData = new FormData();
+    const lastImg = new_image[image.length - 1];
+    formData.append('image', lastImg, lastImg.name);
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token"),
+        description: new_description,
+        song_title: song,
+        genre: new_genre,
+      },
+      body: formData
+    };
+    fetch(API_URL + "/edit_post", requestOptions)
+      .then(resp => {
+        if(resp.status !== 200) {
+          alert(resp.status)
+        }
+        return resp.json();
+      })
+      .then(data => {
+        if(data === "failed") {
+          alert("server could not email")
+        }
+        alert("Post Edited!")
+      })
+  }
+
   let host = "http://localhost:5000"
   let path = "/image/"
   let filename = audio
@@ -200,7 +269,66 @@ function ProfilePosts({username,
       <a href={"/profile/" + username}><button className='play-btn'>View Artist</button></a>
       <button className='play-btn'>Save Post</button>
       <button onClick={handleClick} class="like-button"></button>
-      <a href="/edit-post"><button  className='play-btn'>Edit Post</button></a>
+     <button onClick={openDeleteModal} className='play-btn'>Edit Post</button>
+     
+     
+     <Modal
+              isOpen={deleteModalOpen}
+              onRequestClose={closeDeleteModal}
+              contentLabel="Delete Account"
+              className='delete-modal'
+            >
+              <div style={{alignItems: "center"}}>
+        <h1 style={{color: "beige"}} className="create-account-title">
+        Edit Post
+        </h1>
+        <div className='profile-container'>
+        <form onSubmit={edit}>
+        <div className='edit-profile-form-div'>
+        
+            <label>
+              Edit description:
+              <input className='edit-text-box'  onChange={handleDescriptionChange} value={description} /><br />
+            </label>
+           
+          <label>
+             
+            Change Genre:
+            <select className='genre-select' value={genre} onChange={handleGenreChange}>
+              <option value="rock">Rock</option>
+              <option value="house">House</option>
+              <option value="techno">Techno</option>
+              <option value="pop">Pop</option>
+              <option value="alternative rock">Alternative Rock</option>
+              <option value="rnb">RnB</option>
+              <option value="trap">Trap</option>
+              <option value="hiphop">Hiphop</option>
+              <option value="deep house">Deep House</option>
+              <option value="melodic techno">Melodic Techno</option>
+              <option value="progressive house">Progressive House</option>
+            </select><br />
+          </label>
+
+        </div>
+       <ImageUploader
+            withIcon={true}
+            imgExtension={['.jpg', 'jpeg', '.gif', '.png', '.gif']}
+            maxFileSize={10000000}
+            buttonText='Update your post photo'
+            className="profile-pic-upload"
+            onChange={saveNewImage}
+          />
+          <div className='submit-container'>
+            <input className='create-submit-button' type="submit" value="Submit" />
+          </div>
+          </form>
+
+      </div>
+        </div>
+              <button className='modal-delete-button' onClick={closeDeleteModal}>Cancel</button>
+            </Modal>
+
+
       </div>
     </div>
   );
