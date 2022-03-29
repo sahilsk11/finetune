@@ -370,6 +370,28 @@ def update_quiz_information(BaseClass, username, genres_str):
     session.commit()
     session.close()
 
+def add_follower(BaseClass, follower_str, user_to_follow):
+    session = Session()
+
+    session.query(BaseClass).filter(BaseClass.username == user_to_follow).update(
+        {
+            BaseClass.followers: follower_str
+        }
+    )
+    session.commit()
+    session.close()
+
+def add_following(BaseClass, following_str, username):
+    session = Session()
+
+    session.query(BaseClass).filter(BaseClass.username == username).update(
+        {
+            BaseClass.following: following_str
+        }
+    )
+    session.commit()
+    session.close()
+
 
 create_tables()
 
