@@ -101,10 +101,63 @@ function Settings() {
               <button className='modal-delete-button' onClick={handleDelete}>Delete Account</button>
               <button className='modal-delete-button' onClick={closeDeleteModal}>Cancel</button>
             </Modal>
+
+          <FollowedGenres />
         </div>
       </div>
   )
 
+}
+
+function FollowedGenres() {
+  const [genres, updateGenres] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/genres", {
+      method: "POST",
+      headers: {
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token")
+      },
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      let tmpGenres = [];
+      data.forEach(e => {
+        tmpGenres.push(
+          <div>
+            <input type="checkbox" id={e} name={e} value={e} onClick={() => followGenre(e)} />
+            <label for={e}>{e}</label><br />
+          </div>
+        );
+      })
+      updateGenres(tmpGenres);
+    })
+  }, [])
+
+  function followGenre(name) {
+    fetch("http://localhost:5000/follow_genre", {
+      method: "POST",
+      headers: {
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token"),
+        genre: name
+      },
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      console.log(data)
+    })
+  }
+
+  return (
+    <div>
+      <h3>followed genres:</h3>
+      <ul>
+        {genres}
+      </ul>
+    </div>
+  )
 }
 
 export default Settings;
