@@ -3,6 +3,7 @@ import './trending-music.css';
 import Modal from 'react-modal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NavBar } from '../NavBar/NavBar'
+import MusicPost from '../MusicPost/MusicPost';
 
 Modal.setAppElement(document.getElementById('root'));
 
@@ -12,6 +13,7 @@ export default function TrendingMusic() {
     email: ""
   });
   const [pageErr, updatePageErr] = useState(null);
+  const [posts, updatePosts] = useState([]);
  
 
 
@@ -23,33 +25,54 @@ export default function TrendingMusic() {
   const params = useParams();
 
  useEffect(() => {
-    // if (!localStorage.getItem("auth_token")) {
-    //   navigate("/login");
-    // }
+    if (!localStorage.getItem("auth_token")) {
+      navigate("/login");
+    }
   }, [])
-
   
 
   useEffect(function() {
-    // fetch("http://localhost:5000/trending_music", {
-    //   method: "POST",
-    //   headers: {
-    //     username: params.id,
-    //     profile_user: localStorage.getItem("username"),
-    //     auth_token: localStorage.getItem("auth_token")
-    //   },
-    // }).then(response => {
-    //   console.log("hit")
-    //   if (response.status !== 200) {
-    //     updatePageErr("could not reach backend");
-    //     return null;
-    //   }
-    //   return response.json()
-    // }).then(data => {
-    //   console.log(data)
-    // }).catch(err => {
-    //   updatePageErr(err);
-    // })
+    fetch("http://localhost:5000/get_trending_songs", {
+      method: "POST",
+      headers: {
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token")
+      },
+    }).then(response => {
+      console.log("hit")
+      if (response.status !== 200) {
+        updatePageErr("could not reach backend");
+        return null;
+      }
+      return response.json()
+    }).then(data => {
+      console.log(data)
+      let tmpPosts = [];
+      data.forEach(post => {
+        let host = "http://localhost:5000"
+        let path = "/image/"
+        let filename = post.image
+        const imgSrc = host + path + filename
+        console.log(imgSrc)
+        tmpPosts.push(
+          <MusicPost
+            username={post.username}
+            song_title={post.song_title}
+            description={post.description}
+            image={imgSrc}
+            date_created={post.date_created}
+            likes={post.likes}
+            dislikes={post.dislikes}
+            genre={post.genre}
+            post_id={post.post_id}
+            audio={post.audio}
+          />
+        );
+      })
+      updatePosts(tmpPosts);
+    }).catch(err => {
+      updatePageErr(err);
+    })
   }, []);
 
   useEffect(function() {
@@ -63,10 +86,7 @@ export default function TrendingMusic() {
       {NavBar()}
       <br/>
       <div className='trending-music-container'>
-        <TrendingSong />
-        <TrendingSong />
-        <TrendingSong />
-        <TrendingSong />
+       {posts}
       </div>
     </div>
   )

@@ -336,7 +336,7 @@ def make_app():
 
     #like or dislike a post
     @app.route("/vote", methods=["POST"])
-    def vote_post():
+    def vote_post(): 
         auth_token = request.headers.get("auth_token")
         # check if the authentication token is valid
         post_id = request.headers.get("post_id")
@@ -346,10 +346,10 @@ def make_app():
 
         status = token_validation(username, auth_token)
         if not status:
-            return jsonify("failed")
+            return jsonify({"message": "failed token verification"})
 
-        if (liked and disliked) or (not liked and not disliked):
-            return jsonify("failed")
+        if (liked and disliked): # or (not liked and not disliked):
+            return jsonify({"message": "failed bool verification"})
 
         vote_post_db(post_id, username, liked, disliked)
         return jsonify("success")
@@ -377,7 +377,7 @@ def make_app():
         
         status = token_validation(username, auth_token)
         if not status:
-            return jsonify("failed")
+            return jsonify({"message": "failed token verification"})
         
         return jsonify(get_top_trending_songs())
 
