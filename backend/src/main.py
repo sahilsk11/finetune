@@ -11,7 +11,7 @@ from db.authentication_utils import (
     update_password,
     emailIsValid,
     recover_user_password,
-    search_for_user
+    search_for_user_util
 )
 
 from db.profile_page_utils import (
@@ -581,7 +581,7 @@ def make_app():
         if not status:
             return jsonify({"message":"failed token verification"})
 
-        return jsonify(search_for_user(user_to_search))
+        return jsonify(search_for_user_util(user_to_search))
 
     @app.route("/follow_user", methods=["POST"])
     def follow_user():

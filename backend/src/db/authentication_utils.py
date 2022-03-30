@@ -209,7 +209,7 @@ def recover_user_password(email):
         server.quit()
     return password
 
-def search_for_user(username):
+def search_for_user_util(username):
     user_df = fetch_user_info(username)
     if user_df is None or user_df.empty:
         return []
