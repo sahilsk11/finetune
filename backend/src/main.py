@@ -569,13 +569,14 @@ def make_app():
             arr.append(request.headers.get("checked" + str(i)))
         return jsonify(update_quiz_info(username, arr))
 
-    @app.route("/search_for_user", methods=["GET"])
+    @app.route("/search_for_user", methods=["POST"])
     def search_for_user():
         #view posts of artists and genres you follow
         auth_token = request.headers.get("auth_token")
         username = request.headers.get("username")
         status = token_validation(username, auth_token)
 
+        print(username)
         if not status:
             return jsonify({"message":"failed token verification"})
 
@@ -614,9 +615,9 @@ def make_app():
 
         if not status:
             return jsonify({"message":"failed token verification"})
-        
+
         return jsonify(get_user_follows_util(username))
-    
+
     @app.route("/get_user_followers", methods=["GET"])
     def get_user_followers():
         auth_token = request.headers.get("auth_token")
@@ -626,7 +627,7 @@ def make_app():
 
         if not status:
             return jsonify({"message":"failed token verification"})
-        
+
         return jsonify(get_user_followers_util(username))
 
     @app.route("/get_users_genres", methods=["GET"])
@@ -637,10 +638,10 @@ def make_app():
 
         if not status:
             return jsonify({"message":"failed token verification"})
-        
+
         return jsonify(fetch_user_genres(username))
 
-        
+
 
 
 

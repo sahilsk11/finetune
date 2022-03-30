@@ -20,7 +20,7 @@ export default function Search() {
     setSearchType(e.target.value)
   }
 
-  let posts = results ? (results.map(post => {
+  let songPosts = results ? (results.map(post => {
     let host = "http://localhost:5000"
     let path = "/image/"
     let filename = post.image
@@ -38,9 +38,10 @@ export default function Search() {
       post_id={post.post_id}
       audio={post.audio}
     />
-)
-}
+  )
+  }
 )) : null;
+
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -56,6 +57,28 @@ export default function Search() {
       }).then(response => {
         if (response.status !== 200) {
           alert("Error retrieving song")
+          return null;
+        }
+        return response.json()
+      }).then(data => {
+        if (data != null ) {
+          console.log(data)
+          setResults(data)
+        }
+      }).catch(err => {
+        alert("could not fetch user data")
+      })
+    } else {
+      fetch(API_URL + "/search_for_user", {
+        method: "POST",
+        headers: {
+          username: localStorage.getItem("username"),
+          auth_token: localStorage.getItem("auth_token"),
+        },
+      }).then(response => {
+        if (response.status !== 200) {
+          console.log(response)
+          alert("Error retrieving user")
           return null;
         }
         return response.json()
@@ -86,7 +109,7 @@ export default function Search() {
           <input className="search-submit" type="submit" value="Search"/>
         </form>
       </div>
-      {posts}
+      {songPosts}
     </div>
   )
 }

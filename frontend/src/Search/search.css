@@ -54,6 +54,10 @@
   padding: 10px;
 }
 
+.center2 input {
+  margin-left: 20px;
+}
+
 .form button {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
