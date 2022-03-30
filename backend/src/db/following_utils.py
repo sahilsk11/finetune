@@ -112,4 +112,18 @@ def unfollow_user_util(username, user_to_unfollow):
             add_following(User_Credentials, following_str, username)
             return True
 
+def get_user_follows_util(username):
+    user_credentials_df = fetch_rows(User_Credentials)
+    # get the row associated with the user parameter and the user_to_unfollow parameter
+    user_df = user_credentials_df.loc[user_credentials_df['username'] == username]
+    return user_df['following'].values[0]
+
+def get_user_followers_util(username):
+    user_credentials_df = fetch_rows(User_Credentials)
+    # get the row associated with the user parameter and the user_to_unfollow parameter
+    user_df = user_credentials_df.loc[user_credentials_df['username'] == username]
+    return user_df['followers'].values[0]
+
+get_user_follows_util('skapur')
+
 

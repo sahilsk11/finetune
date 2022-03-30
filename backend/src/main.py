@@ -43,7 +43,9 @@ from db.post_utils import (
 from db.following_utils import (
     follow_genre,
     unfollow_genre,
-    follow_user_util
+    follow_user_util,
+    get_user_follows_util,
+    get_user_followers_util
 )
 
 from flask import Flask
@@ -600,6 +602,30 @@ def make_app():
             return jsonify({"message":"failed token verification"})
 
         return jsonify(unfollow_user_util(username, user_to_unfollow))
+
+    @app.route("/get_user_follows", methods=["GET"])
+    def get_user_follows():
+        auth_token = request.headers.get("auth_token")
+        username = request.headers.get("username")
+        user_to_unfollow = request.headers.get("user_to_follow")
+        status = token_validation(username, auth_token)
+
+        if not status:
+            return jsonify({"message":"failed token verification"})
+        
+        return jsonify(get_user_follows_util(username))
+    
+    @app.route("/get_user_followers", methods=["GET"])
+    def get_user_followers():
+        auth_token = request.headers.get("auth_token")
+        username = request.headers.get("username")
+        user_to_unfollow = request.headers.get("user_to_follow")
+        status = token_validation(username, auth_token)
+
+        if not status:
+            return jsonify({"message":"failed token verification"})
+        
+        return jsonify(get_user_followers_util(username))
 
 
 
