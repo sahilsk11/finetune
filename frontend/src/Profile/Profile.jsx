@@ -216,9 +216,60 @@ function UserDetails({userData}) {
 }
 
 function UserActions({loggedInUser, profilePageUser}) {
+  const [followsUser, updateFollowsUsers] = useState(false);
   const followUser = () => {
-    alert();
+    let host = "http://localhost:5000";
+    if (followsUser) {
+      host += "/unfollow_user"
+    } else {
+      host += "/follow_user"
+    }
+    fetch(host, {
+      method: "POST",
+      headers: {
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token"),
+        user_to_follow: profilePageUser,
+        user_to_unfollow: profilePageUser,
+      },
+    }).then(response => {
+      if (response.status !== 200) {
+        return null;
+      }
+      return response.json()
+    }).then(data => {
+      if (data === true) {
+        updateFollowsUsers(!followsUser);
+      }
+    })
   }
+
+  useEffect(() => {
+    fetch("http://localhost:5000/get_user_follows", {
+      method: "GET",
+      headers: {
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token")
+      },
+    }).then(response => {
+      if (response.status !== 200) {
+        return null;
+      }
+      return response.json()
+    }).then(data => {
+      if (data === null || data === []) {
+        return
+      }
+      data.forEach(e => {
+        if (e === profilePageUser) {
+          updateFollowsUsers(true);
+        }
+      })
+    })
+  }, [followsUser]);
+
+  const text = followsUser ? "Unfollow User" : "Follow User";
+
   if (loggedInUser == profilePageUser) {
     return (
       <div className='profile-user-actions'>
@@ -228,7 +279,7 @@ function UserActions({loggedInUser, profilePageUser}) {
     } else {
       return (
         <div className='profile-user-actions'>
-        <button className='user-actions-edit-account' onClick={() => followUser()}> Follow User </button>
+        <button className='user-actions-edit-account' onClick={() => followUser()}> {text} </button>
       </div>
     )
   }
