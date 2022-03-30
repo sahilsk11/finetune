@@ -74,6 +74,7 @@ export default function Search() {
         headers: {
           username: localStorage.getItem("username"),
           auth_token: localStorage.getItem("auth_token"),
+          user_to_search: searchTerm,
         },
       }).then(response => {
         if (response.status !== 200) {
