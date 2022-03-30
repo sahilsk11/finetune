@@ -574,13 +574,14 @@ def make_app():
         #view posts of artists and genres you follow
         auth_token = request.headers.get("auth_token")
         username = request.headers.get("username")
+        user_to_search = request.headers.get("user_to_search")
         status = token_validation(username, auth_token)
 
         print(username)
         if not status:
             return jsonify({"message":"failed token verification"})
 
-        return jsonify(search_for_user(username))
+        return jsonify(search_for_user(user_to_search))
 
     @app.route("/follow_user", methods=["POST"])
     def follow_user():

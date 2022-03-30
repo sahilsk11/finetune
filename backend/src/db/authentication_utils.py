@@ -213,7 +213,6 @@ def search_for_user(username):
     user_df = fetch_user_info(username)
     if user_df is None or user_df.empty:
         return []
-
     return user_df.to_dict('records')
 
     
