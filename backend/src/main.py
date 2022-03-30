@@ -44,6 +44,7 @@ from db.following_utils import (
     follow_genre,
     unfollow_genre,
     follow_user_util,
+    unfollow_user_util,
     get_user_follows_util,
     get_user_followers_util
 )
