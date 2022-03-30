@@ -37,7 +37,8 @@ from db.post_utils import (
     get_posts_for_feed,
     create_post_details,
     edit_post_details,
-    fetch_own_posts
+    fetch_own_posts,
+    fetch_user_genres
 )
 
 from db.following_utils import (
@@ -628,6 +629,18 @@ def make_app():
         
         return jsonify(get_user_followers_util(username))
 
+    @app.route("/get_users_genres", methods=["GET"])
+    def list_user_genres():
+        auth_token = request.headers.get("auth_token")
+        username = request.headers.get("username")
+        status = token_validation(username, auth_token)
+
+        if not status:
+            return jsonify({"message":"failed token verification"})
+        
+        return jsonify(fetch_user_genres(username))
+
+        
 
 
 

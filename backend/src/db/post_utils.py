@@ -233,4 +233,13 @@ def fetch_own_posts(username):
     return df.to_dict("records")
 
 
-print(get_posts_for_feed("ananin"))
+def fetch_user_genres(username):
+    df = fetch_genres_following(username)
+    if df is None or df.empty:
+        return []
+
+    return df.to_dict("records")
+
+
+
+print(fetch_user_genres("ananin"))
