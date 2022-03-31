@@ -61,6 +61,31 @@ export default function Feedpost({username,
       })
     }
 
+    function savePost(e) {
+      e.preventDefault();
+      fetch("http://localhost:5000/bookmark_post_user", {
+        method: "POST",
+        headers: {
+          username: localStorage.getItem("username"),
+          auth_token: localStorage.getItem("auth_token"),
+          post_id: post_id,
+        },
+      }).then(response => {
+        if(response.status == 200) {
+
+        }
+        return response.json()
+      }).then(data => {
+        console.log(data)
+        if(data === "success") {
+          alert("Post saved!")
+        }
+      }).catch(err => {
+        alert(err);
+      })
+
+    }
+
     let classes = "like-button";
     if (isLiked) {
       classes += " liked"
@@ -100,7 +125,7 @@ export default function Feedpost({username,
           />
           </div>
       <a href={"/profile/" + username}><button className='play-btn'>View Artist</button></a>
-      <button className='play-btn'>Save Post</button>
+      <button onClick={savePost} className='play-btn'>Save Post</button>
       <button onClick={likePost} class="like-button"></button>
       </div>
     </div>

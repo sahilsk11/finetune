@@ -122,7 +122,28 @@ export default function Profile(props) {
     }
   }, [pageErr]);
 
-  
+  const userPosts = posts.map(post => {
+        let host = "http://localhost:5000"
+        let path = "/image/"
+        let filename = post.image
+        const imgSrc = host + path + filename
+        return (
+            <MusicPost
+              username={post.username}
+              song_title={post.song_title}
+              description={post.description}
+              image={imgSrc}
+              date_created={post.date_created}
+              likes={post.likes}
+              dislikes={post.dislikes}
+              genre={post.genre}
+              post_id={post.post_id}
+              audio={post.audio}
+            />
+        )}
+      )
+
+
 
   return (
     <div>
@@ -145,26 +166,7 @@ export default function Profile(props) {
     <h5 className="feed-subtitle">
         My Posts
       </h5>
-    {posts.map(post => {
-          let host = "http://localhost:5000"
-          let path = "/image/"
-          let filename = post.image
-          const imgSrc = host + path + filename
-          return (
-              <MusicPost
-                username={post.username}
-                song_title={post.song_title}
-                description={post.description}
-                image={imgSrc}
-                date_created={post.date_created}
-                likes={post.likes}
-                dislikes={post.dislikes}
-                genre={post.genre}
-                post_id={post.post_id}
-                audio={post.audio}
-              />
-          )}
-        )}
+    {userPosts}
     </div>
   )
 }

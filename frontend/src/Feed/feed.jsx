@@ -20,11 +20,9 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // state
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-
   // references
   const audioPlayer = useRef();   // reference our audio component
   const progressBar = useRef();   // reference our progress bar
