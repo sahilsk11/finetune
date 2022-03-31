@@ -7,6 +7,11 @@
   color: beige;
 }
 
+.feed-select {
+  margin-bottom: 25px;
+  height: 25px;
+}
+
 .trending-music-container {
   margin-top: 50px;
   width: 80%;
