@@ -210,9 +210,14 @@ def recover_user_password(email):
     return password
 
 def search_for_user_util(username):
-    user_df = fetch_user_info(username)
-    if user_df is None or user_df.empty:
+    df= fetch_rows(User_Credentials)
+    for index, row in df.iterrows():
+        if username not in row['username']:
+            df = df.drop(index)
+
+    if df is None or df.empty:
         return []
-    return user_df.to_dict('records')
+    return df.to_dict('records')
+
 
     
