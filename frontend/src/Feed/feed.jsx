@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NavBar } from '../NavBar/NavBar'
 import ReactAudioPlayer from 'react-audio-player';
+import FeedPost from '../FeedPost/FeedPost';
 
 
 
@@ -86,7 +87,7 @@ export default function Feed() {
             {posts.length === 0 ? <h4>No posts yet...</h4> : null}
 
             {posts.map(post => (
-              <Feedposts
+              <FeedPost
                 username={post.username}
                 song_title={post.song_title}
                 description={post.description}
@@ -104,61 +105,4 @@ export default function Feed() {
       </div>
     </div>
   )
-}
-
-function Feedposts({username,
-  song_title,
-  description,
-  image,
-  date_created,
-  likes,
-  audio,
-  dislikes,
-  genre,
-  post_id,
-  }) {
-
-    const handleClick= (e) => {
-      e.preventDefault();
-      e.currentTarget.classList.toggle('liked');
-    }
-    let host = "http://localhost:5000"
-    let path = "/image/"
-    let filename = image
-    const imgSrc = host + path + filename
-
-    let audioHost = "http://localhost:5000"
-    let audioPath = "/image/"
-    let audioFileName = audio
-    const audioSrc = audioHost + audioPath + audioFileName
-  return (
-    <div className='trending-song'>
-      <div className='trending-song-album-cover'>
-        <img
-          src={imgSrc}
-          className='trending-song-album-cover-img'
-        />
-      </div>
-      <div className='trending-song-details'>
-        <h1 className='trending-song-title'>{song_title}</h1>
-        <h3 className='trending-song-subtitle'>{username}</h3>
-        <h3 className='trending-song-subtitle'>{description}</h3>
-        <h3 className='trending-song-subtitle'>Genre: {genre}</h3>
-        <h3 className='trending-song-subtitle'>{likes} people liked this song</h3>
-      </div>
-      <div className='trending-song-play-options-container'>
-      
-      <br/>
-      <div className="center-audio">
-          <ReactAudioPlayer
-            src={audioSrc}
-            controls
-          />
-          </div>
-      <a href={"/profile/" + username}><button className='play-btn'>View Artist</button></a>
-      <button className='play-btn'>Save Post</button>
-      <button onClick={handleClick} class="like-button"></button>
-      </div>
-    </div>
-  );
 }

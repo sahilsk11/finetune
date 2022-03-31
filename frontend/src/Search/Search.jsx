@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "./search.css";
 import { useNavigate } from 'react-router-dom';
 import { NavBar } from '../NavBar/NavBar';
-import MusicPost from '../MusicPost/MusicPost';
+import FeedPost from '../FeedPost/FeedPost';
 
 
 export default function Search() {
@@ -21,16 +21,12 @@ export default function Search() {
   }
 
   let songPosts = results ? (results.map(post => {
-    let host = "http://localhost:5000"
-    let path = "/image/"
-    let filename = post.image
-    const imgSrc = host + path + filename
     return (
-    <MusicPost
+    <FeedPost
       username={post.username}
       song_title={post.song_title}
       description={post.description}
-      image={imgSrc}
+      image={post.image}
       date_created={post.date_created}
       likes={post.likes}
       dislikes={post.dislikes}
@@ -41,6 +37,17 @@ export default function Search() {
   )
   }
 )) : null;
+
+let userResults = results ? (results.map(user => {
+  return (
+    <div className='user-result'>
+      {user.username}
+      <a href={'/profile/' + user.username}>View Profile</a>
+    </div>
+  )
+})) : null;
+
+const display = searchType === "Song" ? songPosts : userResults;
 
 
   function handleSubmit(e) {
@@ -78,7 +85,6 @@ export default function Search() {
         },
       }).then(response => {
         if (response.status !== 200) {
-          console.log(response)
           alert("Error retrieving user")
           return null;
         }
@@ -109,8 +115,8 @@ export default function Search() {
           </div>
           <input className="search-submit" type="submit" value="Search"/>
         </form>
+        {display}
       </div>
-      {songPosts}
     </div>
   )
 }
