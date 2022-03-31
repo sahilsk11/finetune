@@ -178,11 +178,15 @@ def get_top_trending_songs():
 
 
 def lookup_song(song_name):
-    df = fetch_post_by_songname(song_name)
+    df= fetch_rows(Posts)
+    for index, row in df.iterrows():
+        if song_name not in row['song_title']:
+            df = df.drop(index)
+
     if df is None or df.empty:
         return []
+    return df.to_dict('records')
 
-    return df.to_dict("records")
 
 
 def get_all_posts_with_genre(genre):
@@ -241,5 +245,3 @@ def fetch_user_genres(username):
     return df.to_dict("records")
 
 
-
-print(fetch_user_genres("ananin"))
