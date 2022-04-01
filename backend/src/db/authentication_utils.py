@@ -6,6 +6,8 @@ import sys
 import re
 import smtplib
 from email.message import EmailMessage
+from uuid import uuid4
+
 
 
 from sqlalchemy import false
@@ -194,20 +196,21 @@ def delete_user_information(username):
     delete_rows(Profile_Page, username)
 
 # Recover password by spending an email to the user with their hashed password
-def recover_user_password(email):
-    password = get_password(email)
-    if password:
-        msg = EmailMessage()
-        msg.set_content('Your hashed password is ' + password + '. Please use this in place of your password as a temporary password.')
-        msg['Subject'] = 'Finetune - Password recovery'
-        msg['From'] = 'finetuneproject@gmail.com'
-        msg['To'] = email
-        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-        server.login('finetuneproject@gmail.com', 'cs407project135!')
+def recover_user_password(username, email):
+    token = uuid4()
+    msg = EmailMessage()
+    msg.set_content('Your recovery token is ' + str(token) + '. Please use this in place of your password as a temporary password, and then reset your password through the settings page.')
+    msg['Subject'] = 'Finetune - Password recovery'
+    msg['From'] = 'finetuneproject@gmail.com'
+    msg['To'] = email
+    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    server.login('finetuneproject@gmail.com', 'cs407project135!')
 
-        server.send_message(msg)
-        server.quit()
-    return password
+    server.send_message(msg)
+    server.quit()
+    update_user_password(User_Credentials, username, token)
+    print(token)
+    return token
 
 def search_for_user_util(username):
     df= fetch_rows(User_Credentials)
@@ -218,6 +221,7 @@ def search_for_user_util(username):
     if df is None or df.empty:
         return []
     return df.to_dict('records')
-
+    
+recover_user_password('1justin', 'justinchen2012@gmail.com')
 
     

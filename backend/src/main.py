@@ -287,7 +287,7 @@ def make_app():
     @app.route("/recoverpassword", methods=["POST"])
     def recover_password():
         email = request.headers.get("email")
-        password = recover_user_password(email)
+        password = recover_user_password(username, email)
         if password:
             return jsonify("success")
         else:
