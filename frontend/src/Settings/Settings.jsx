@@ -111,6 +111,22 @@ function Settings() {
 
 function FollowedGenres() {
   const [genres, updateGenres] = useState([]);
+  const [followedGenres, updateFollowedGenres] = useState([]);
+  const [updateFlag, changeUpdateFlag] = useState(false);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/get_users_genres", {
+      method: "GET",
+      headers: {
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token")
+      },
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      updateFollowedGenres(data[0].genres_following)
+    })
+  }, [updateFlag]);
 
   useEffect(() => {
     fetch("http://localhost:5000/genres", {
@@ -124,19 +140,21 @@ function FollowedGenres() {
     }).then(data => {
       let tmpGenres = [];
       data.forEach(e => {
+        let checked = followedGenres.includes(e);
         tmpGenres.push(
           <div>
-            <input type="checkbox" id={e} name={e} value={e} onClick={() => followGenre(e)} />
+            <input type="checkbox" id={e} name={e} value={e} onClick={() => followGenre(e, checked)} checked={checked} />
             <label for={e}>{e}</label><br />
           </div>
         );
       })
       updateGenres(tmpGenres);
     })
-  }, [])
+  }, [followedGenres])
 
-  function followGenre(name) {
-    fetch("http://localhost:5000/follow_genre", {
+  function followGenre(name, checked) {
+    let endpoint = checked ? "/unfollow_genre" : "/follow_genre";
+    fetch("http://localhost:5000"+endpoint, {
       method: "POST",
       headers: {
         username: localStorage.getItem("username"),
@@ -147,6 +165,7 @@ function FollowedGenres() {
       return response.json()
     }).then(data => {
       console.log(data)
+      changeUpdateFlag(!updateFlag);
     })
   }
 
