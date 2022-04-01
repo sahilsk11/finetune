@@ -196,7 +196,7 @@ def delete_user_information(username):
     delete_rows(Profile_Page, username)
 
 # Recover password by spending an email to the user with their hashed password
-def recover_user_password(username, email):
+def recover_user_password(email):
     token = uuid4()
     msg = EmailMessage()
     msg.set_content('Your recovery token is ' + str(token) + '. Please use this in place of your password as a temporary password, and then reset your password through the settings page.')
@@ -208,6 +208,7 @@ def recover_user_password(username, email):
 
     server.send_message(msg)
     server.quit()
+    username = get_username(email)
     update_user_password(User_Credentials, username, token)
     print(token)
     return token
@@ -222,6 +223,5 @@ def search_for_user_util(username):
         return []
     return df.to_dict('records')
     
-recover_user_password('1justin', 'justinchen2012@gmail.com')
 
     
