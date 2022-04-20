@@ -392,6 +392,22 @@ def add_following(BaseClass, following_str, username):
     session.commit()
     session.close()
 
+#get comments by the username and post_id from the database
+def fetch_comments_by_user(username, post_id):
+    session = Session()
+
+    try:
+        result = session.query(Comments).filter(Comments.username == username).filter(Comments.post_id == post_id)
+
+    finally:
+        session.close()
+
+    if result is not None:
+        df = pd.read_sql(result.statement, result.session.bind)
+        return df
+
+    else:
+        return None
 
 create_tables()
 
