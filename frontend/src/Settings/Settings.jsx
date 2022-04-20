@@ -12,6 +12,7 @@ function Settings() {
   const navigate = useNavigate();
 
   const [deleteModalOpen, setDeleteModal] = useState(false);
+  const [privacy, setPrivacy] = useState(true);
 
   function openDeleteModal() {
     setDeleteModal(true);
@@ -76,6 +77,17 @@ function Settings() {
       navigate("/login");
     }
 
+    //TODO useEffect call to get user's privacy setting
+
+    function handlePrivacySetting() {
+      const privacySetting = privacy;
+      setPrivacy(!privacySetting)
+
+      //TODO make api call for privacy setting
+    }
+
+  let privacyText = privacy ? "Set Likes to Private" : "Set Likes to Public"
+
   return(
       <div style={{alignItems: "center"}}>
         <NavBar />
@@ -90,6 +102,9 @@ function Settings() {
             Delete Account
           </button><br/>
           <br/>
+          <button onClick={handlePrivacySetting} className='user-actions-edit-account'>
+              {privacyText}
+          </button> <br /> <br />
           <a href="/edit-account"><button className='user-actions-edit-account'> Edit Profile </button></a>
             <Modal
               isOpen={deleteModalOpen}
