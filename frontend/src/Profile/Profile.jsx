@@ -219,6 +219,8 @@ function UserDetails({userData}) {
 
 function UserActions({loggedInUser, profilePageUser}) {
   const [followsUser, updateFollowsUsers] = useState(false);
+  const [blocksUser, updateBlocksUsers] = useState(false);
+
   const followUser = () => {
     let host = "http://localhost:5000";
     if (followsUser) {
@@ -246,6 +248,36 @@ function UserActions({loggedInUser, profilePageUser}) {
     })
   }
 
+  const blockUser = () => {
+    const isBlocked = !blocksUser;
+    updateBlocksUsers(isBlocked)
+    //TODO make request to block user
+    /* let host = "http://localhost:5000";
+    if (blocksUser) {
+      host += "/block_user"
+    } else {
+      host += "/unblock_user"
+    }
+    fetch(host, {
+      method: "POST",
+      headers: {
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token"),
+        user_to_block: profilePageUser,
+        user_to_unblock: profilePageUser,
+      },
+    }).then(response => {
+      if (response.status !== 200) {
+        return null;
+      }
+      return response.json()
+    }).then(data => {
+      if (data === true) {
+        updateBlocksUser(!blocksUser);
+      }
+    }) */
+  }
+
   useEffect(() => {
     fetch("http://localhost:5000/get_user_follows", {
       method: "GET",
@@ -270,7 +302,32 @@ function UserActions({loggedInUser, profilePageUser}) {
     })
   }, [followsUser]);
 
+  //TODO useEffect function to see if user is already blocked or not
+  /* useEffect(() => {
+    fetch( *Need backend endpoint* , {
+      method: "GET",
+      headers: {
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token")
+      },
+    }).then(response => {
+      if (response.status !== 200) {
+        return null;
+      }
+      return response.json()
+    }).then(data => {
+      if (data === null || data === []) {
+        return
+      }
+      data.forEach(e => {
+        //TODO Update Blocks user if blocked
+      })
+    })
+  }, [blocksUser]) */
+
   const text = followsUser ? "Unfollow User" : "Follow User";
+
+  const blockText = blocksUser ? "Unblock User" : "Block User";
 
   if (loggedInUser == profilePageUser) {
     return (
@@ -282,6 +339,7 @@ function UserActions({loggedInUser, profilePageUser}) {
       return (
         <div className='profile-user-actions'>
         <button className='user-actions-edit-account' onClick={() => followUser()}> {text} </button>
+        <button style={{marginTop: "15px"}} className='user-actions-edit-account' onClick={() => blockUser()}>{blockText}</button>
       </div>
     )
   }
