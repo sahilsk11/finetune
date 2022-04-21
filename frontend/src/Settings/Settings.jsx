@@ -169,6 +169,7 @@ function FollowedGenres() {
 
   function followGenre(name, checked) {
     let endpoint = checked ? "/unfollow_genre" : "/follow_genre";
+
     fetch("http://localhost:5000"+endpoint, {
       method: "POST",
       headers: {

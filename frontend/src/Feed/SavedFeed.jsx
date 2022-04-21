@@ -11,7 +11,7 @@ import FeedPost from '../FeedPost/FeedPost';
 
 Modal.setAppElement(document.getElementById('root'));
 
-export default function Feed() {
+export default function SavedFeed() {
   const [profilePictureURL, setProfilePictureURL] = useState("https://180dc.org/wp-content/uploads/2017/11/profile-placeholder.png")
   const [userData, setUserData] = useState({
     email: ""
@@ -42,46 +42,21 @@ export default function Feed() {
 
  /* getting posts */
   useEffect(() => {
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      auth_token: localStorage.getItem("auth_token"),
-      username: localStorage.getItem("username"),
-    }
-  };
-  fetch(API_URL + "/view_feed", requestOptions)
-    .then(res => res.json())
-    .then(data => {
-      setLoading(false);
-      console.log("get  post request back is: ", data);
-      console.log(data);
-      if (data !== "failed") {
-        setPosts(data.sort((a,b)=>b.post_id-a.post_id));
-        setError(null);
-      } else {
-        //alert(data);
-        setError(data);
-      }
-    })
-    .catch(err => {
-      setLoading(false)
-      console.log("can not get  posts: " + err);
-      setError("Can not connect to server!");
-    });
-
+    displaySavedPosts();
   }, [])
 
-  function displayMyFeed() {
+
+  function displaySavedPosts() {
     const requestOptions = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         auth_token: localStorage.getItem("auth_token"),
         username: localStorage.getItem("username"),
+        profile_user: localStorage.getItem("username")
       }
     };
-    fetch(API_URL + "/view_feed", requestOptions)
+    fetch(API_URL + "/all_saved_posts", requestOptions)
       .then(res => res.json())
       .then(data => {
         setLoading(false);
@@ -108,10 +83,9 @@ export default function Feed() {
       <br/>
       <div className='trending-music-container'>
       <h5 className="feed-subtitle">
-        Feed
+        Saved Posts
       </h5>
             {posts.length === 0 ? <h4>No posts yet...</h4> : null}
-
             {posts.map(post => (
               <FeedPost
                 username={post.username}
@@ -125,9 +99,7 @@ export default function Feed() {
                 post_id={post.post_id}
                 audio={post.audio}
               />
-            ))}
-
-
+          ))}
       </div>
     </div>
   )

@@ -14,7 +14,7 @@ export default function TrendingMusic() {
   });
   const [pageErr, updatePageErr] = useState(null);
   const [posts, updatePosts] = useState([]);
- 
+
 
 
   const API_URL = "http://127.0.0.1:5000"
@@ -29,7 +29,7 @@ export default function TrendingMusic() {
       navigate("/login");
     }
   }, [])
-  
+
 
   useEffect(function() {
     fetch("http://localhost:5000/get_trending_songs", {
@@ -81,10 +81,24 @@ export default function TrendingMusic() {
     }
   }, [pageErr]);
 
+  function handleSelectChange(e) {
+    const numPosts = e.target.value;
+    //TODO call backend to retrieve new number of posts
+  }
+
   return (
     <div>
       {NavBar()}
       <br/>
+        <h5 className="feed-subtitle">
+          Trending Music
+        </h5>
+        <label style={{marginLeft: "90px"}}>Choose number of trending songs...</label><br />
+        <select style={{marginLeft: "90px"}} className="feed-select" onChange={handleSelectChange}>
+          <option value="house">5</option>
+          <option value="techno">10</option>
+          <option value="15">15</option>
+        </select>
       <div className='trending-music-container'>
        {posts}
       </div>
