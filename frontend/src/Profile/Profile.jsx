@@ -210,6 +210,11 @@ function UserDetails({userData}) {
         <td className='profile-user-details-left-col'>Spotify Link</td>
         <td className='profile-user-details-right-col'>{link}</td>
       <tr>
+      <br/> <br/> 
+      </tr>
+        <td className='profile-user-details-left-col'><a href="#">75 followers</a></td>
+        <td className='profile-user-details-right-col'><a href="#">80 following</a></td>
+      <tr>
 
       </tr>
     </table>
@@ -278,6 +283,12 @@ function UserActions({loggedInUser, profilePageUser}) {
     }) */
   }
 
+  const reportUser = () => {
+    if (window.confirm("Are you sure you want to flag this user for inappropriate account use?")) {
+      alert("user reported")
+    }
+  }
+
   useEffect(() => {
     fetch("http://localhost:5000/get_user_follows", {
       method: "GET",
@@ -340,6 +351,7 @@ function UserActions({loggedInUser, profilePageUser}) {
         <div className='profile-user-actions'>
         <button className='user-actions-edit-account' onClick={() => followUser()}> {text} </button>
         <button style={{marginTop: "15px"}} className='user-actions-edit-account' onClick={() => blockUser()}>{blockText}</button>
+        <button style={{marginTop: "15px", marginBottom: "30px"}} className='user-actions-edit-account' onClick={() => reportUser()}>Report User</button>
       </div>
     )
   }
