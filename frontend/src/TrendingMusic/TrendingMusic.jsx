@@ -14,7 +14,7 @@ export default function TrendingMusic() {
   });
   const [pageErr, updatePageErr] = useState(null);
   const [posts, updatePosts] = useState([]);
- 
+
 
 
   const API_URL = "http://127.0.0.1:5000"
@@ -29,7 +29,7 @@ export default function TrendingMusic() {
       navigate("/login");
     }
   }, [])
-  
+
 
   useEffect(function() {
     fetch("http://localhost:5000/get_trending_songs", {
@@ -85,6 +85,9 @@ export default function TrendingMusic() {
     <div>
       {NavBar()}
       <br/>
+        <h5 className="feed-subtitle">
+          Trending Music
+        </h5>
       <div className='trending-music-container'>
        {posts}
       </div>

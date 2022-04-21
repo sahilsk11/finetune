@@ -11,7 +11,7 @@ import FeedPost from '../FeedPost/FeedPost';
 
 Modal.setAppElement(document.getElementById('root'));
 
-export default function Feed() {
+export default function GenreFeed() {
   const [profilePictureURL, setProfilePictureURL] = useState("https://180dc.org/wp-content/uploads/2017/11/profile-placeholder.png")
   const [userData, setUserData] = useState({
     email: ""
@@ -42,46 +42,21 @@ export default function Feed() {
 
  /* getting posts */
   useEffect(() => {
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      auth_token: localStorage.getItem("auth_token"),
-      username: localStorage.getItem("username"),
-    }
-  };
-  fetch(API_URL + "/view_feed", requestOptions)
-    .then(res => res.json())
-    .then(data => {
-      setLoading(false);
-      console.log("get  post request back is: ", data);
-      console.log(data);
-      if (data !== "failed") {
-        setPosts(data.sort((a,b)=>b.post_id-a.post_id));
-        setError(null);
-      } else {
-        //alert(data);
-        setError(data);
-      }
-    })
-    .catch(err => {
-      setLoading(false)
-      console.log("can not get  posts: " + err);
-      setError("Can not connect to server!");
-    });
-
+    displayGenrePosts("house")
   }, [])
 
-  function displayMyFeed() {
+
+  function displayGenrePosts(genre) {
     const requestOptions = {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         auth_token: localStorage.getItem("auth_token"),
         username: localStorage.getItem("username"),
+        genre: genre
       }
     };
-    fetch(API_URL + "/view_feed", requestOptions)
+    fetch(API_URL + "/songs_by_genre", requestOptions)
       .then(res => res.json())
       .then(data => {
         setLoading(false);
@@ -102,14 +77,34 @@ export default function Feed() {
       });
   }
 
+  function handleSelectChange(e) {
+    const selection = e.target.value;
+    displayGenrePosts(selection)
+  }
+
+
+
   return (
     <div>
       {NavBar()}
       <br/>
       <div className='trending-music-container'>
       <h5 className="feed-subtitle">
-        Feed
+        Songs By Genre
       </h5>
+      <select className="feed-select" onChange={handleSelectChange}>
+        <option value="house">House</option>
+        <option value="techno">Techno</option>
+        <option value="pop">Pop</option>
+        <option value="rock">Rock</option>
+        <option value="alternative rock">Alternative Rock</option>
+        <option value="rnb">RnB</option>
+        <option value="trap">Trap</option>
+        <option value="hiphop">Hip Hop</option>
+        <option value="deep house">Deep House</option>
+        <option value="melodic techno">Melodic Techno</option>
+        <option value="progressive house">Progressive House</option>
+      </select>
             {posts.length === 0 ? <h4>No posts yet...</h4> : null}
 
             {posts.map(post => (

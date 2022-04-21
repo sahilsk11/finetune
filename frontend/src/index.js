@@ -17,6 +17,9 @@ import CreatePost from "./CreatePost/CreatePost";
 import TrendingMusic from './TrendingMusic/TrendingMusic';
 import Search from './Search/Search';
 import Feed from './Feed/feed';
+import GenreFeed from './Feed/GenreFeed';
+import SavedFeed from './Feed/SavedFeed';
+import LikedFeed from './Feed/LikedFeed';
 import EditPost from './EditPost/EditPost';
 
 import Quiz from './Quiz/quiz';
@@ -42,10 +45,9 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/feed" element={<Feed />} />
         <Route path="/edit-post"  element={<EditPost />}/>
-
-
-
-
+        <Route path="/songs-by-genre" element={<GenreFeed />} />
+        <Route path="/saved-feed" element={<SavedFeed />} />
+        <Route path="/liked-feed" element={<LikedFeed />} />
       </Routes>
     </Router>
   )
