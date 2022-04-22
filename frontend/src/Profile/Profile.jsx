@@ -207,18 +207,74 @@ function UserDetails({userData}) {
         <td className='profile-user-details-left-col'>Email</td>
         <td className='profile-user-details-right-col'>{email}</td>
       </tr>
+      <tr>
         <td className='profile-user-details-left-col'>Spotify Link</td>
         <td className='profile-user-details-right-col'>{link}</td>
-      <tr>
+      </tr>
       <br/> <br/> 
-      </tr>
-        <td className='profile-user-details-left-col'><a href="#">75 followers</a></td>
-        <td className='profile-user-details-right-col'><a href="#">80 following</a></td>
-      <tr>
+      
+      <FollowerBlock />
 
-      </tr>
     </table>
 
+  )
+}
+
+function FollowerBlock() {
+  const [followers, updateFollowers] = useState([]);
+  const [following, updateFollowing] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/get_user_follows", {
+      method: "GET",
+      headers: {
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token")
+      },
+    }).then(response => {
+      if (response.status !== 200) {
+        return null;
+      }
+      return response.json()
+    }).then(data => {
+      updateFollowing(data);
+    })
+  }, []);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/get_user_followers", {
+      method: "GET",
+      headers: {
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token")
+      },
+    }).then(response => {
+      if (response.status !== 200) {
+        return null;
+      }
+      return response.json()
+    }).then(data => {
+      updateFollowers(data);
+    })
+  }, []);
+
+  let numFollowers = 0;
+  if (followers !== null) {
+    numFollowers = followers.length;
+  }
+  const text = numFollowers.toString() + " followers";
+
+  let numFollowing = 0;
+  if (numFollowing !== null) {
+    numFollowers = following.length;
+  }
+  const text1 = numFollowers.toString() + " following";
+
+  return (
+    <tr>
+    <td className='profile-user-details-left-col'><a href="#">{text}</a></td>
+    <td className='profile-user-details-right-col'><a href="#">{text1}</a></td>
+  </tr>
   )
 }
 
