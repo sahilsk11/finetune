@@ -12,6 +12,21 @@
   height: 25px;
 }
 
+
+.swipe-button {
+  outline: 0;
+  background:  rgb(117,	20,	12);
+  width: 15%;
+  border: 0;
+  padding: 5px;
+  border-radius: 10px;
+  color: #FFFFFF;
+  font-size: 44px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+
 .trending-music-container {
   margin-top: 50px;
   width: 80%;
