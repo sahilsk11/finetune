@@ -211,16 +211,15 @@ function UserDetails({userData}) {
         <td className='profile-user-details-left-col'>Spotify Link</td>
         <td className='profile-user-details-right-col'>{link}</td>
       </tr>
-      <br/> <br/> 
-      
-      <FollowerBlock />
+      <br/> <br/>
+
 
     </table>
 
   )
 }
 
-function FollowerBlock() {
+/* function FollowerBlock() {
   const [followers, updateFollowers] = useState([]);
   const [following, updateFollowing] = useState([]);
 
@@ -276,7 +275,7 @@ function FollowerBlock() {
     <td className='profile-user-details-right-col'><a href="#">{text1}</a></td>
   </tr>
   )
-}
+} */
 
 function UserActions({loggedInUser, profilePageUser}) {
   const [followsUser, updateFollowsUsers] = useState(false);
