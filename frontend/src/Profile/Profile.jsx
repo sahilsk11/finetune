@@ -219,7 +219,7 @@ function UserDetails({userData}) {
   )
 }
 
-/* function FollowerBlock() {
+ function FollowerBlock() {
   const [followers, updateFollowers] = useState([]);
   const [following, updateFollowing] = useState([]);
 
@@ -264,10 +264,10 @@ function UserDetails({userData}) {
   const text = numFollowers.toString() + " followers";
 
   let numFollowing = 0;
-  if (numFollowing !== null) {
+  if (following !== null) {
     numFollowers = following.length;
   }
-  const text1 = numFollowers.toString() + " following";
+  const text1 = numFollowing.toString() + " following";
 
   return (
     <tr>
@@ -275,7 +275,7 @@ function UserDetails({userData}) {
     <td className='profile-user-details-right-col'><a href="#">{text1}</a></td>
   </tr>
   )
-} */
+} 
 
 function UserActions({loggedInUser, profilePageUser}) {
   const [followsUser, updateFollowsUsers] = useState(false);
