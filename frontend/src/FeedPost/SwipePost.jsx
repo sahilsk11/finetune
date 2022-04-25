@@ -214,6 +214,19 @@ export default function Feedpost({username,
       <a href={"/profile/" + username}><button className='play-btn'>View Artist</button></a>
       <button onClick={savePost} className='play-btn'>Save Post</button>
       <button onClick={likePost} class="like-button"></button>
+      <div className="dropdown">
+				
+      <button className='dropbtn2'>
+          		Report
+        	</button>
+				
+					<div className="dropdown-content">
+						<button>Offensive Content</button>
+						<button>Unauthorized Copyright</button>
+						<button >False identity</button>
+					
+					</div>
+				</div>
       <button onClick={openDeleteModal} className='play-btn'>Add Comment</button>
 
       <Modal
