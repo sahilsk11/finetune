@@ -23,6 +23,7 @@ export default function Feedpost({username,
     const [comment, setComment] = useState("");
     const [comments, setComments] = useState([])
     const [deleteModalOpen, setDeleteModal] = useState(false);
+    const [commentsModalOpen, setCommentsModal] = useState(false);
 
     const API_URL = "http://127.0.0.1:5000";
     const [errorMessage, setErrorMessage] = useState("");
@@ -31,6 +32,14 @@ export default function Feedpost({username,
 
     function openDeleteModal() {
       setDeleteModal(true);
+    }
+
+    function openCommentsModal() {
+      setCommentsModal(true);
+    }
+
+    function closeCommentsModal() {
+      setCommentsModal(false);
     }
   
     function closeDeleteModal() {
@@ -187,6 +196,15 @@ export default function Feedpost({username,
     let audioPath = "/image/"
     let audioFileName = audio
     const audioSrc = audioHost + audioPath + audioFileName
+
+
+    const reportPost = () => {
+      if (window.confirm("Are you sure you want to flag this post for inappropriate use?")) {
+        alert("post reported")
+      }
+    }
+
+
   return (
     <div style={{display: "inline-block", marginLeft: "50px", marginRight: "50px"}}className='trending-song'>
       <div className='trending-song-album-cover'>
@@ -214,7 +232,8 @@ export default function Feedpost({username,
       <a href={"/profile/" + username}><button className='play-btn'>View Artist</button></a>
       <button onClick={savePost} className='play-btn'>Save Post</button>
       <button onClick={likePost} class="like-button"></button>
-      <div className="dropdown">
+      <button onClick={reportPost} className='play-btn'>Report Post</button>
+      {/* <div className="dropdown">
 				
       <button className='dropbtn2'>
           		Report
@@ -226,13 +245,32 @@ export default function Feedpost({username,
 						<button >False identity</button>
 					
 					</div>
-				</div>
+				</div> */}
       <button onClick={openDeleteModal} className='play-btn'>Add Comment</button>
+      <button onClick={openCommentsModal} className='play-btn'>View Comments</button>
+
+      <Modal
+              isOpen={commentsModalOpen}
+              onRequestClose={closeCommentsModal}
+              contentLabel="Add Comment"
+              className='delete-modal'
+            >
+              <div style={{alignItems: "center"}}>
+        <h1 style={{color: "black"}} className="create-account-title">
+       Comments
+        </h1>
+        <div className='edit-container'>
+       
+
+      </div>
+        </div>
+              <button className='modal-delete-button' onClick={closeCommentsModal}>Go back</button>
+            </Modal>
 
       <Modal
               isOpen={deleteModalOpen}
               onRequestClose={closeDeleteModal}
-              contentLabel="Delete Account"
+              contentLabel="Add Comment"
               className='delete-modal'
             >
               <div style={{alignItems: "center"}}>

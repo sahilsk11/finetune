@@ -129,7 +129,6 @@
   border-radius: 5px;
   height: 30px;
   font-weight: 500;
-  margin-top: 3%;
   margin-left: 7%;
   border: none;
   cursor: pointer;
@@ -156,7 +155,8 @@
 .like-button {
   display: inline-block;
   position: relative;
-  margin-left: 30%;
+  margin-left: 20%;
+  margin-right: 20%;
   margin-bottom: 10%;
   font-size: 32px;
   cursor: pointer;
