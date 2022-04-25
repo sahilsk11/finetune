@@ -127,6 +127,7 @@ export default function Feedpost({username,
       <a href={"/profile/" + username}><button className='play-btn'>View Artist</button></a>
       <button onClick={savePost} className='play-btn'>Save Post</button>
       <button onClick={likePost} class="like-button"></button>
+    
       </div>
     </div>
   );

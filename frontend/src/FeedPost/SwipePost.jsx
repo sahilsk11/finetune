@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { NavBar } from '../NavBar/NavBar'
 import ReactAudioPlayer from 'react-audio-player';
 
+
 export default function Feedpost({username,
   song_title,
   description,
@@ -19,6 +20,26 @@ export default function Feedpost({username,
   }) {
 
     const [isLiked, updateLiked] = useState(false);
+    const [comment, setComment] = useState("");
+    const [comments, setComments] = useState([])
+    const [deleteModalOpen, setDeleteModal] = useState(false);
+
+    const API_URL = "http://127.0.0.1:5000";
+    const [errorMessage, setErrorMessage] = useState("");
+    const [sendingComment, setSendingComment] = useState(false);
+    const [showCommentBox, setShowCommentBox] = useState(false);
+
+    function openDeleteModal() {
+      setDeleteModal(true);
+    }
+  
+    function closeDeleteModal() {
+      setDeleteModal(false);
+    }
+
+    function handleCommentChange(e) {
+      setComment(e.target.value)
+    }
 
     useEffect(() => {
       fetch("http://localhost:5000/get_liked_posts_by_user", {
@@ -39,6 +60,31 @@ export default function Feedpost({username,
         alert(err);
       })
     }, [isLiked]);
+
+
+    useEffect(() => {
+      if (post_id) {
+        const requestOptionsComments = {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            username: localStorage.getItem("username"),
+            auth_token: localStorage.getItem("auth_token"),
+            post_id: post_id
+          }
+        };
+        fetch(API_URL + "/get_commented_post_by_id", requestOptionsComments)
+          .then(res => res.json())
+          .then(data => {
+            setComments(data)
+          })
+          .catch(err => {
+            console.error(err)
+          })
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [sendingComment])
+  
 
     function likePost(e) {
       e.preventDefault();
@@ -61,6 +107,47 @@ export default function Feedpost({username,
       })
     }
 
+    //comment
+    function postComment() {
+      setComment(comment.trim());
+      if (comment === '') return;
+      setSendingComment(true);
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          username: localStorage.getItem("username"),
+          auth_token: localStorage.getItem("auth_token"),
+          post_id: post_id,
+          comment: comment,
+          profile_user: localStorage.getItem('username')
+        }
+      };
+  
+      fetch(API_URL + "/comment", requestOptions)
+      .then(res => res.json())
+      .then(data => {
+        if (data === 'failed') {
+          setErrorMessage('Could not perform the action.');
+        } else {
+          setComment('');
+          setShowCommentBox(false);
+          setComments([...comments])
+        }
+        setSendingComment(false);
+        console.log(data)
+      })
+      .catch(err => {
+        console.log(err);
+        setSendingComment(false);
+        setErrorMessage('Could not connect to the server');
+      })
+    }
+    
+    
+    
+    
+    
     function savePost(e) {
       e.preventDefault();
       fetch("http://localhost:5000/bookmark_post_user", {
@@ -127,6 +214,40 @@ export default function Feedpost({username,
       <a href={"/profile/" + username}><button className='play-btn'>View Artist</button></a>
       <button onClick={savePost} className='play-btn'>Save Post</button>
       <button onClick={likePost} class="like-button"></button>
+      <button onClick={openDeleteModal} className='play-btn'>Add Comment</button>
+
+      <Modal
+              isOpen={deleteModalOpen}
+              onRequestClose={closeDeleteModal}
+              contentLabel="Delete Account"
+              className='delete-modal'
+            >
+              <div style={{alignItems: "center"}}>
+        <h1 style={{color: "black"}} className="create-account-title">
+        Add Comment
+        </h1>
+        <div className='edit-container'>
+        <form onSubmit={postComment}>
+        <div className='edit-profile-form-div'>
+        
+            <label>
+              Add  comment:
+              <input className='edit-text-box'  onChange={handleCommentChange} value={comment} /><br />
+            </label>
+           
+        
+
+        </div>
+          <div className='submit-container'>
+            <input className='create-submit-button' type="submit" value="Submit" />
+          </div>
+          </form>
+
+      </div>
+        </div>
+              <button className='modal-delete-button' onClick={closeDeleteModal}>Go back</button>
+            </Modal>
+
       </div>
     </div>
   );

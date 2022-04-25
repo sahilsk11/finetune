@@ -36,11 +36,11 @@
 .trending-song {
   margin: 0px auto;
   width: 600px;
-  height: 380px;
+  height: 500px;
   background-color: white;
   padding: 20px;
   position: relative;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
 }
 
 .trending-song-album-cover {

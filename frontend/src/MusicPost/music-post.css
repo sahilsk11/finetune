@@ -10,8 +10,8 @@
 }
 
 .trending-music-container {
-  margin-top: 30px;
-    width: 80%;
+  margin-top: 40px;
+  width: 80%;
   margin: 0px auto;
 }
 
@@ -22,7 +22,7 @@
   background-color: white;
   padding: 20px;
   position: relative;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
 }
 
 .trending-song-album-cover {
@@ -71,7 +71,6 @@
   height: 30px;
   font-weight: 500;
   margin-top: 3%;
-  margin-left: 7%;
   border: none;
   cursor: pointer;
   padding: 15px;

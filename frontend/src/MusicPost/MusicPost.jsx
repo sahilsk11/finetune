@@ -161,6 +161,7 @@ export default function MusicPost({username,
       <a href={"/profile/" + username}><button className='play-btn'>View Artist</button></a>
       <button className='play-btn'>Save Post</button>
       <button onClick={likePost} class={classes}></button>
+      <button className='play-btn'>Add Comment</button>
 
       <button onClick={openDeleteModal} className={'play-btn '+modalClasses}>Edit Post</button>
      
