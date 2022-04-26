@@ -388,12 +388,13 @@ def make_app():
     def get_trending_songs():
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
+        number_of_songs = request.headers.get("number_of_songs")
 
         status = token_validation(username, auth_token)
         if not status:
             return jsonify({"message": "failed token verification"})
 
-        return jsonify(get_top_trending_songs())
+        return jsonify(get_top_trending_songs(number_of_songs))
 
 
     @app.route("/search_song", methods=["POST"])
@@ -738,6 +739,9 @@ def make_app():
 
         # block or unbblock user
         return jsonify(get_liked_posts_of_followed_users(username))
+
+
+
 
 
     return app

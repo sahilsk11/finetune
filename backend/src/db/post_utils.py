@@ -167,13 +167,20 @@ def get_upvoted_posts_by_user(username):
 
     return result
 
-#story 8 - trendign song, top 3
-def get_top_trending_songs():
+
+def get_top_trending_songs(number_of_songs):    
     df = fetch_rows(Posts)
+
     if df is None or df.empty:
         return []
 
-    sorted_df = df.sort_values(by=['likes'], ascending=False).head(3)
+    sorted_df = df.sort_values(by=['likes'], ascending=False)
+
+    if number_of_songs >= len(df):
+        sorted_df = sorted_df.head(len(df))
+    else:
+        sorted_df = sorted_df.head(number_of_songs)
+    
     result= sorted_df.to_dict("records")
     return result
 
@@ -275,6 +282,7 @@ def private_like(username, post_id):
         return False
 
     return True
+
 
 
 #print(private_like("mal", 4))
