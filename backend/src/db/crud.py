@@ -431,6 +431,7 @@ def fetch_comments_by_user(username, post_id):
 
     else:
         return None
+        
 
 create_tables()
 

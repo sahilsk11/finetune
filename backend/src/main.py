@@ -49,7 +49,8 @@ from db.following_utils import (
     follow_user_util,
     unfollow_user_util,
     get_user_follows_util,
-    get_user_followers_util
+    get_user_followers_util,
+    get_liked_posts_of_followed_users
 )
 
 from db.commenting_utils import (
@@ -723,6 +724,20 @@ def make_app():
 
         # block or unbblock user
         return jsonify(private_like(username, post_id))
+
+    
+    #get liked posts of followed users
+    @app.route("/liked_posts_of_following_users", methods=["GET"])
+    def private_like_route():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("post_id")
+  
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+
+        # block or unbblock user
+        return jsonify(get_liked_posts_of_followed_users(username))
 
 
     return app

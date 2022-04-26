@@ -13,7 +13,8 @@ from src.db.crud import (
     fetch_post,
     update_user_genres,
     add_follower,
-    add_following
+    add_following,
+    fetch_liked_posts_by_user
 )
 
 def follow_genre(username, genre):
@@ -121,6 +122,45 @@ def get_user_followers_util(username):
     user_credentials_df = fetch_rows(User_Credentials)
     user_df = user_credentials_df.loc[user_credentials_df['username'] == username]
     return user_df['followers'].values[0]
+
+
+def get_liked_posts_of_followed_users(username):
+    user_credentials_df = fetch_rows(User_Credentials)
+
+    # get the row associated with the user parameter
+    user_df = user_credentials_df.loc[user_credentials_df['username'] == username]
+    follower_list = user_df['following'].values[0]
+
+    if not follower_list:
+        return "The user is not following anyone"
+  
+    post_ids = []
+    for follower in follower_list:
+        post_id_df = fetch_liked_posts_by_user(follower)
+        liked_post_df = post_id_df[post_id_df["liked"]==True]
+
+        if not liked_post_df.empty:
+            post_ids_of_user = liked_post_df['post_id'].values.tolist()
+            post_ids += post_ids_of_user
+
+    # remove duplicate ids
+    clean_duplicate_ids = []
+    for post_id in post_ids:
+        if post_id not in clean_duplicate_ids:
+            clean_duplicate_ids.append(post_id)
+    
+    # fetch posts by id
+    final_post_df = []
+    for post_id in clean_duplicate_ids:
+        post_df = fetch_post(Posts, post_id).to_dict("records")
+        final_post_df += post_df
+    
+    return final_post_df
+
+
+
+
+
 
 
 
