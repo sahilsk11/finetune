@@ -23,7 +23,8 @@ from db.profile_page_utils import (
     update_username,
     update_email,
     update_user_phone_number,
-    update_quiz_info
+    update_quiz_info,
+    block_or_unblock_user
 )
 
 from db.post_utils import (
@@ -38,7 +39,8 @@ from db.post_utils import (
     create_post_details,
     edit_post_details,
     fetch_own_posts,
-    fetch_user_genres
+    fetch_user_genres,
+    private_like
 )
 
 from db.following_utils import (
@@ -693,6 +695,34 @@ def make_app():
         # returns an empty list or list of dictionaries including commented posts by id
         return jsonify(get_commented_posts_by_id(post_id))
 
+    #block or unblock
+    @app.route("/block", methods=["GET"])
+    def blocking_route():
+        username = request.headers.get("username")
+        blocked_user = request.headers.get("blocked_user")
+        auth_token = request.headers.get("auth_token")
+  
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+
+        # block or unbblock user
+        return jsonify(block_or_unblock_user(username, blocked_user))
+
+
+    #private option for liked posts
+    @app.route("/private_like", methods=["GET"])
+    def private_like_route():
+        username = request.headers.get("username")
+        post_id = request.headers.get("username")
+        auth_token = request.headers.get("post_id")
+  
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+
+        # block or unbblock user
+        return jsonify(private_like(username, post_id))
 
 
     return app

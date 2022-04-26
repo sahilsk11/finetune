@@ -3,7 +3,7 @@ import datetime as dt
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from src.db.crud import update_table, fetch_rows, update_authentication_token, update_user_profile, update_user_credentials, update_profile_photo, change_username, update_user_email, update_phone_number, change_spotify, update_quiz_information
+from src.db.crud import update_table, fetch_rows, update_authentication_token, update_user_profile, update_user_credentials, update_profile_photo, change_username, update_user_email, update_phone_number, change_spotify, update_quiz_information, update_user_blocklist
 
 from src.db.models import User_Credentials, Profile_Page
 
@@ -109,3 +109,32 @@ def update_quiz_info(username, arr):
     update_quiz_information(User_Credentials, username, genres_arr_solved)
     return True
 
+
+def block_or_unblock_user(username, blocked_user):
+    try:
+        # fetch data in user credentials
+        user_credentials_df = fetch_rows(User_Credentials)
+
+        # get the row associated with the user parameter
+        user_df = user_credentials_df.loc[user_credentials_df['username'] == username]
+
+        # get the user's blocked list
+        user_blocked_list = user_df['blocked'].values[0]
+
+        # add accordingly
+        if user_blocked_list is None:
+            user_blocked_list = [blocked_user]
+        else:
+            if blocked_user not in user_blocked_list:
+                user_blocked_list.append(blocked_user)
+            else:
+                #unblock
+                user_blocked_list.remove(blocked_user)
+
+        # call database to make changes
+        update_user_blocklist(username, user_blocked_list)
+
+    except Exception as ex:
+        return False
+
+    return True

@@ -370,6 +370,29 @@ def update_quiz_information(BaseClass, username, genres_str):
     session.commit()
     session.close()
 
+def update_user_blocklist(username, user_blocked_list):
+    session = Session()
+    session.query(User_Credentials).filter(User_Credentials.username == username).update(
+            {
+            User_Credentials.blocked: user_blocked_list
+            }
+    )
+    session.commit()
+    session.close()
+
+
+def update_private_like_info(username, post_id, private_boolean_value):
+    session = Session()
+
+    session.query(Likes).filter(Likes.username == username).filter(Likes.post_id == post_id).update(
+        {
+            Likes.private: private_boolean_value
+
+        }
+    )
+    session.commit()
+    session.close()
+
 def add_follower(BaseClass, follower_str, user_to_follow):
     session = Session()
 

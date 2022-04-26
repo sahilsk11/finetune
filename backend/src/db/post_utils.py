@@ -19,7 +19,8 @@ from src.db.crud import (
     fetch_user_post,
     fetch_genres_following,
     update_post_details,
-    insert_row_posts
+    insert_row_posts,
+    update_private_like_info
 )
 
 #Might bhave trouble i naudio files - check
@@ -245,3 +246,34 @@ def fetch_user_genres(username):
     return df.to_dict("records")
 
 
+def private_like(username, post_id):
+    try:
+        likes_df = fetch_rows(Likes)
+
+        # get the row associated with the user parameter
+        user_liked_post_df = likes_df[ (likes_df['username'] == username) & (likes_df['post_id'] == post_id)]
+
+        user_liked_post_df_private = user_liked_post_df['private'].values[0]
+        
+        if user_liked_post_df_private is None:
+            user_liked_post_df_private = True
+        
+        else:
+            # make it public
+            if user_liked_post_df_private:
+                user_liked_post_df_private = False
+
+            # make it private
+            else:
+                user_liked_post_df_private = True
+
+
+        # call database to make changes
+        update_private_like_info(username, post_id, user_liked_post_df_private)
+
+    except Exception as ex:
+        return False
+
+    return True
+
+#print(private_like("mal", 4))

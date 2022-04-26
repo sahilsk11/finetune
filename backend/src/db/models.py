@@ -28,6 +28,7 @@ class User_Credentials(Base):
     followers = Column(ARRAY(String), nullable=True)
     following = Column(ARRAY(String), nullable=True)
     genres_following = Column(ARRAY(String), nullable=True)
+    blocked = Column(ARRAY(String), nullable=True)
 
 class Profile_Page(Base):
     __tablename__ = "profile_page"
@@ -60,6 +61,7 @@ class Likes(Base):
     username = Column(String, nullable=False)
     liked = Column(Boolean, nullable=True)
     disliked = Column(Boolean, nullable=True)
+    private = Column(Boolean, nullable=True)
 
 class Comments(Base):
     __tablename__ = "comments"
