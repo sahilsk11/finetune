@@ -18,11 +18,28 @@ export default function MusicPost({username,
     const [isLiked, updateLiked] = useState(false);
 
     const [deleteModalOpen, setDeleteModal] = useState(false);
+    const [addCommentsModalOpen, setAddCommentsModal] = useState(false);
+
+
     const API_URL = "http://127.0.0.1:5000"
     const [new_description, setNewDescription] = useState("");
   const [new_genre, setNewGenre] = useState("rock")
   const [new_image, saveNewImage] = useState(null);
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([])
+  const [errorMessage, setErrorMessage] = useState("");
+  const [sendingComment, setSendingComment] = useState(false);
+  const [showCommentBox, setShowCommentBox] = useState(false);
+  const [isFetchingComments, setIsFetchingComments] = useState(true);
 
+
+  function openAddCommentsModal() {
+    setAddCommentsModal(true);
+  }
+
+  function closeAddCommentsModal() {
+    setAddCommentsModal(false);
+  }
 
   function openDeleteModal() {
     setDeleteModal(true);
@@ -32,6 +49,10 @@ export default function MusicPost({username,
     setDeleteModal(false);
   }
 
+  function handleCommentChange(e) {
+    setComment(e.target.value)
+  }
+
   function handleDescriptionChange(e) {
     setNewDescription(e.target.value)
   }
@@ -39,6 +60,44 @@ export default function MusicPost({username,
   function handleGenreChange(e) {
     setNewGenre(e.target.value)
   }
+
+   //comment
+   function postComment() {
+    setComment(comment.trim());
+    if (comment === '') return;
+    setSendingComment(true);
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token"),
+        post_id: post_id,
+        comment: comment,
+        profile_user: localStorage.getItem('username')
+      }
+    };
+
+    fetch(API_URL + "/comment", requestOptions)
+    .then(res => res.json())
+    .then(data => {
+      if (data === 'failed') {
+        setErrorMessage('Could not perform the action.');
+      } else {
+        setComment('');
+        setShowCommentBox(false);
+        setComments([...comments])
+      }
+      setSendingComment(false);
+      console.log(data)
+    })
+    .catch(err => {
+      console.log(err);
+      setSendingComment(false);
+      setErrorMessage('Could not connect to the server');
+    })
+  }
+
 
   function edit() {
     console.log("editing post");
@@ -161,10 +220,46 @@ export default function MusicPost({username,
       <a href={"/profile/" + username}><button className='play-btn'>View Artist</button></a>
       <button className='play-btn'>Save Post</button>
       <button onClick={likePost} class={classes}></button>
-      <button className='play-btn'>Add Comment</button>
+      <button onClick={openAddCommentsModal} className='play-btn'>Add Comment</button>
+      <button className='play-btn'>Delete Post</button>
+      <button className='play-btn'>View Comments</button>
 
       <button onClick={openDeleteModal} className={'play-btn '+modalClasses}>Edit Post</button>
      
+      <Modal
+              isOpen={addCommentsModalOpen}
+              onRequestClose={closeAddCommentsModal}
+              contentLabel="Add Comment"
+              className='delete-modal'
+            >
+              <div style={{alignItems: "center"}}>
+        <h1 style={{color: "black"}} className="create-account-title">
+        Add Comment
+        </h1>
+        <div className='edit-container'>
+        <form onSubmit={postComment}>
+        <div className='edit-profile-form-div'>
+        
+            <label>
+              Add  comment:
+              <input className='edit-text-box'  onChange={handleCommentChange} value={comment} /><br />
+            </label>
+           
+        
+
+        </div>
+          <div className='submit-container'>
+            <input className='create-submit-button' type="submit" value="Submit" />
+          </div>
+          </form>
+
+      </div>
+        </div>
+              <button className='modal-delete-button' onClick={closeAddCommentsModal}>Go back</button>
+            </Modal>
+
+
+
      <Modal
               isOpen={deleteModalOpen}
               onRequestClose={closeDeleteModal}

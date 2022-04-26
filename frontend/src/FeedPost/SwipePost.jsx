@@ -29,6 +29,8 @@ export default function Feedpost({username,
     const [errorMessage, setErrorMessage] = useState("");
     const [sendingComment, setSendingComment] = useState(false);
     const [showCommentBox, setShowCommentBox] = useState(false);
+    const [isFetchingComments, setIsFetchingComments] = useState(true);
+
 
     function openDeleteModal() {
       setDeleteModal(true);
@@ -71,29 +73,28 @@ export default function Feedpost({username,
     }, [isLiked]);
 
 
-    useEffect(() => {
-      if (post_id) {
-        const requestOptionsComments = {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            username: localStorage.getItem("username"),
-            auth_token: localStorage.getItem("auth_token"),
-            post_id: post_id
-          }
-        };
-        fetch(API_URL + "/get_commented_post_by_id", requestOptionsComments)
-          .then(res => res.json())
-          .then(data => {
-            setComments(data)
-          })
-          .catch(err => {
-            console.error(err)
-          })
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [sendingComment])
-  
+    // const requestOptionsComments = {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     username: localStorage.getItem("username"),
+    //     auth_token: localStorage.getItem("auth_token"),
+    //     post_id: post_id
+    //   }
+    // };
+    // setIsFetchingComments(true)
+    //   fetch(API_URL + "/get_commented_post_by_id", requestOptionsComments)
+    //     .then(res => res.json())
+    //     .then(data => {
+    //       console.log(data)
+    //       setComments(data)
+    //       console.log(data)
+    //       setIsFetchingComments(false)
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //       setIsFetchingComments(false)
+    //     })
 
     function likePost(e) {
       e.preventDefault();
