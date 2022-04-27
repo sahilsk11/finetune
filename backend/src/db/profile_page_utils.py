@@ -3,7 +3,7 @@ import datetime as dt
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from src.db.crud import update_table, fetch_rows, update_authentication_token, update_user_profile, update_user_credentials, update_profile_photo, change_username, update_user_email, update_phone_number, change_spotify, update_quiz_information, update_user_blocklist
+from src.db.crud import update_table, fetch_rows, fetch_user_info, update_authentication_token, update_user_profile, update_user_credentials, update_profile_photo, change_username, update_user_email, update_phone_number, change_spotify, update_quiz_information, update_user_blocklist
 
 from src.db.models import User_Credentials, Profile_Page
 
@@ -138,3 +138,16 @@ def block_or_unblock_user(username, blocked_user):
         return False
 
     return True
+
+
+def get_blocked_users(username):
+    df = fetch_user_info(username)
+    blocked_list = df['blocked'].values[0]
+    
+    if not blocked_list:
+        return []
+
+    return blocked_list
+
+
+print(get_blocked_users("jamesjim"))

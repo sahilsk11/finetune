@@ -284,5 +284,13 @@ def private_like(username, post_id):
     return True
 
 
+def fetch_private_likes(username):
+    likes_df = fetch_liked_posts_by_user(username)
+    liked_posts = likes_df[ (likes_df['liked'] == True) & (likes_df['private'] == True)]
+    
+    if liked_posts.empty:
+        return []
 
-#print(private_like("mal", 4))
+    result = liked_posts['post_id'].tolist()
+
+    return result

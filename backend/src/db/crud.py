@@ -433,7 +433,7 @@ def fetch_comments_by_user(username, post_id):
         return None
         
 
-create_tables()
+#create_tables()
 
 
 if __name__ == '__main__':

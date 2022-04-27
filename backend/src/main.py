@@ -24,7 +24,8 @@ from db.profile_page_utils import (
     update_email,
     update_user_phone_number,
     update_quiz_info,
-    block_or_unblock_user
+    block_or_unblock_user,
+    get_blocked_users
 )
 
 from db.post_utils import (
@@ -40,7 +41,8 @@ from db.post_utils import (
     edit_post_details,
     fetch_own_posts,
     fetch_user_genres,
-    private_like
+    private_like,
+    fetch_private_likes
 )
 
 from db.following_utils import (
@@ -716,8 +718,8 @@ def make_app():
     @app.route("/private_like", methods=["GET"])
     def private_like_route():
         username = request.headers.get("username")
-        post_id = request.headers.get("username")
-        auth_token = request.headers.get("post_id")
+        post_id = request.headers.get("post_id")
+        auth_token = request.headers.get("auth_token")
   
         status = token_validation(username, auth_token)
         if not status:
@@ -731,7 +733,7 @@ def make_app():
     @app.route("/liked_posts_of_following_users", methods=["GET"])
     def get_liked_posts_of_following_users():
         username = request.headers.get("username")
-        auth_token = request.headers.get("post_id")
+        auth_token = request.headers.get("auth_token")
   
         status = token_validation(username, auth_token)
         if not status:
@@ -741,7 +743,32 @@ def make_app():
         return jsonify(get_liked_posts_of_followed_users(username))
 
 
+    # returns users that are blocekd
+    @app.route("/fetch_blocked_list", methods=["GET"])
+    def fetch_all_blocked_users():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+  
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
 
+        # block or unbblock user
+        return jsonify(get_blocked_users(username))
+
+
+    # returns list of post ids that are liked and private by user
+    @app.route("/fetch_private_likes", methods=["GET"])
+    def fetch_post_ids_of_private():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+  
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+
+        # block or unbblock user
+        return jsonify(fetch_private_likes(username))
 
 
     return app
