@@ -729,7 +729,7 @@ def make_app():
     
     #get liked posts of followed users
     @app.route("/liked_posts_of_following_users", methods=["GET"])
-    def private_like_route():
+    def get_liked_posts_of_following_users():
         username = request.headers.get("username")
         auth_token = request.headers.get("post_id")
   
