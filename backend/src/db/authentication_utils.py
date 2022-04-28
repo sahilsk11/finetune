@@ -12,8 +12,13 @@ from uuid import uuid4
 
 from sqlalchemy import false
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+<<<<<<< HEAD
 from src.db.crud import update_table, fetch_rows, update_authentication_token, delete_rows, update_user_password, fetch_user_info, fetch_user_post, delete_post_likes_or_comments
 from src.db.models import User_Credentials, Profile_Page, Posts, Likes, Comments
+=======
+from src.db.crud import update_table, fetch_rows, update_authentication_token, delete_rows, update_user_password, fetch_user_info, add_report 
+from src.db.models import User_Credentials, Profile_Page, Posts, Likes
+>>>>>>> 10a72feb1c8e779bc6fb9ab581268faece059a58
 
 def hash_password(password):
     """
@@ -253,6 +258,27 @@ def search_for_user_util(username):
     if df is None or df.empty:
         return []
     return df.to_dict('records')
-    
 
-    
+def report_user_util(user_to_report, user_who_reported, report_reason):
+    user_credentials_df = fetch_rows(User_Credentials)
+    # get the row associated with the user parameter and the user_to_follow parameter
+    user_to_report_df = user_credentials_df.loc[user_credentials_df['username'] == user_to_report]
+    # get the user's following list and user_tf's followers list
+    print(user_to_report_df)
+    user_reports = user_to_report_df['reports'].values[0]
+    if user_reports is None:
+        report_str = [user_who_reported + ', ' + report_reason]
+
+        add_report(User_Credentials, report_str, user_to_report)
+        return True
+    else:      
+        user_reports.append(user_who_reported + ', ' + report_reason)
+        add_report(User_Credentials, user_reports, user_to_report)
+        return True
+
+def get_user_reports_util(username):
+    user_credentials_df = fetch_rows(User_Credentials)
+    # get the row associated with the user parameter and the user_to_follow parameter
+    user_to_report_df = user_credentials_df.loc[user_credentials_df['username'] == username]
+    return user_to_report_df['reports'].values[0]
+

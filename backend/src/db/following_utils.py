@@ -97,7 +97,7 @@ def unfollow_user_util(username, user_to_unfollow):
     user_following = user_df['following'].values[0]
     user_tf_followers = user_tf_df['followers'].values[0]
     if user_following is None or user_tf_followers is None:
-        return false
+        return False
     else:
         if (user_tf_followers is not None and username not in user_tf_followers) or (user_following is not None and user_to_unfollow not in user_following):
             return False

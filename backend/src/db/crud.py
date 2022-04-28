@@ -439,6 +439,28 @@ def delete_post_likes_or_comments(BaseClass, post_id):
     session.commit()
     session.close()
         
+#function to report user
+def add_report(BaseClass, report_str, user_to_report):
+    session = Session()
+
+    session.query(BaseClass).filter(BaseClass.username == user_to_report).update(
+        {
+            BaseClass.reports: report_str
+        }
+    )
+    session.commit()
+    session.close()
+
+def add_post_report(BaseClass, report_str, post_to_report):
+    session = Session()
+
+    session.query(BaseClass).filter(BaseClass.post_id == post_to_report).update(
+        {
+            BaseClass.reports: report_str
+        }
+    )
+    session.commit()
+    session.close()
 
 #create_tables()
 

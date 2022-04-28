@@ -20,7 +20,8 @@ from src.db.crud import (
     fetch_genres_following,
     update_post_details,
     insert_row_posts,
-    update_private_like_info
+    update_private_like_info,
+    add_post_report
 )
 
 #Might bhave trouble i naudio files - check
@@ -294,3 +295,26 @@ def fetch_private_likes(username):
     result = liked_posts['post_id'].tolist()
 
     return result
+
+def report_post_util(post_to_report, user_who_reported, report_reason):
+    post_df = fetch_rows(Posts)
+    # get the row associated with the user parameter and the user_to_follow parameter
+    post_to_report_df = post_df.loc[post_df['post_id'] == post_to_report]
+    # get the user's following list and user_tf's followers list
+    print(post_to_report)
+    post_reports = post_to_report_df['reports'].values[0]
+    if post_reports is None:
+        report_str = [user_who_reported + ', ' + report_reason]
+
+        add_post_report(Posts, report_str, post_to_report)
+        return True
+    else:      
+        post_reports.append(user_who_reported + ', ' + report_reason)
+        add_post_report(Posts, post_reports, post_to_report)
+        return True
+
+def get_post_reports_util(post_id):
+    post_df = fetch_rows(Posts)
+    # get the row associated with the user parameter and the user_to_follow parameter
+    post_to_report_df = post_df.loc[post_df['post_id'] == post_id]
+    return post_to_report_df['reports'].values[0]
