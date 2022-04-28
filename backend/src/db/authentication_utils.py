@@ -12,8 +12,8 @@ from uuid import uuid4
 
 from sqlalchemy import false
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from src.db.crud import update_table, fetch_rows, update_authentication_token, delete_rows, update_user_password, fetch_user_info
-from src.db.models import User_Credentials, Profile_Page, Posts, Likes
+from src.db.crud import update_table, fetch_rows, update_authentication_token, delete_rows, update_user_password, fetch_user_info, fetch_user_post, delete_post_likes_or_comments
+from src.db.models import User_Credentials, Profile_Page, Posts, Likes, Comments
 
 def hash_password(password):
     """
@@ -189,11 +189,42 @@ def update_password(username,new_password):
     update_user_password(User_Credentials, username, hashed_password)
 
 
+def get_posts(username):
+    user_df = fetch_user_post(username).to_dict("records")
+    return user_df
 
-# for this sprint, only deleting frm these 2 tables
+def delete_user_comments(username):
+    delete_rows(Comments, username)
+
+def delete_user_posts_votes_and_comments(username):
+    userPosts = get_posts(username)
+    for post in userPosts:
+        delete_post_likes_or_comments(Likes, post['post_id'])
+        delete_post_likes_or_comments(Comments, post['post_id'])
+    delete_rows(Comments, username)
+
+def delete_user_votes(username):
+    upvotedPosts = get_upvoted_posts_by_user(username)
+    for post in upvotedPosts:
+        likes = post["likes"]
+        dislikes = post["dislikes"]
+        likes -= 1
+        update_post_likes(post["post_id"], likes, dislikes)
+
+    downvotedPosts = get_downvoted_posts_by_user(username)
+    for post in downvotedPosts:
+        likes = post["likes"]
+        dislikes = post["dislikes"]
+        dislikes -= 1
+        update_post_likes(post["post_id"], likes, dislikes)
+    delete_rows(Likes, username)
+    
+
 def delete_user_information(username):
-    delete_rows(User_Credentials, username)
-    delete_rows(Profile_Page, username)
+    
+
+
+
 
 # Recover password by spending an email to the user with their hashed password
 def recover_user_password(email):
