@@ -171,24 +171,20 @@ def get_upvoted_posts_by_user(username):
 
 def get_top_trending_songs(number_of_songs):
     df = fetch_rows(Posts)
-    result = []
-
+    
     if df is None or df.empty:
         return []
 
     sorted_df = df.sort_values(by=['likes'], ascending=False)
+    number_to_sort = 0
 
     if number_of_songs >= len(df):
-        sorted_df = sorted_df.head(len(df))
+        number_to_sort = len(df)
     else:
-        sorted_df = sorted_df.head(number_of_songs)
-    print("sorted_df: ", sorted_df)
+        number_to_sort = number_of_songs
 
-    result += sorted_df.to_dict("records")
+    result = sorted_df.head(number_to_sort).to_dict("records")
     return result
-
-val = get_top_trending_songs(5)
-print(val)
 
 
 def lookup_song(song_name):
