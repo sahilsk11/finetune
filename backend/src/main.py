@@ -31,6 +31,8 @@ from db.profile_page_utils import (
 )
 
 from db.post_utils import (
+    get_post_reports_util,
+    report_post_util,
     save_or_unsave_post,
     get_saved_posts_by_user,
     vote_post_db,
@@ -44,7 +46,9 @@ from db.post_utils import (
     fetch_own_posts,
     fetch_user_genres,
     private_like,
-    fetch_private_likes
+    fetch_private_likes,
+    report_post_util,
+    get_post_reports_util
 )
 
 from db.following_utils import (
@@ -794,4 +798,26 @@ def make_app():
             return jsonify("failed")
         return jsonify(get_user_reports_util(username))
 
+    @app.route("/report_post", methods=["POST"])
+    def report_post():
+        post_to_report = request.headers.get("post_to_report")
+        user_who_reported = request.headers.get("user_who_reported")
+        auth_token = request.headers.get("auth_token")
+        report_reason = request.headers.get("report_reason")
+  
+        status = token_validation(user_who_reported, auth_token)
+        if not status:
+            return jsonify("failed")
+        return jsonify(report_post_util(post_to_report, user_who_reported, report_reason))
+
+    @app.route("/get_post_reports", methods=["GET"])
+    def get_post_rewards():
+        username = request.headers.get("username")
+        post_id = request.headers.get("post_id")
+        auth_token = request.headers.get("auth_token")
+  
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+        return jsonify(get_post_reports_util(post_id))
     return app

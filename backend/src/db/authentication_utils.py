@@ -231,7 +231,7 @@ def report_user_util(user_to_report, user_who_reported, report_reason):
     print(user_to_report_df)
     user_reports = user_to_report_df['reports'].values[0]
     if user_reports is None:
-        report_str = user_who_reported + ', ' + report_reason
+        report_str = [user_who_reported + ', ' + report_reason]
 
         add_report(User_Credentials, report_str, user_to_report)
         return True
@@ -239,13 +239,10 @@ def report_user_util(user_to_report, user_who_reported, report_reason):
         user_reports.append(user_who_reported + ', ' + report_reason)
         add_report(User_Credentials, user_reports, user_to_report)
         return True
-        
+
 def get_user_reports_util(username):
     user_credentials_df = fetch_rows(User_Credentials)
     # get the row associated with the user parameter and the user_to_follow parameter
     user_to_report_df = user_credentials_df.loc[user_credentials_df['username'] == username]
     return user_to_report_df['reports'].values[0]
 
-    
-
-    
