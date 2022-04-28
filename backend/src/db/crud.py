@@ -432,6 +432,17 @@ def fetch_comments_by_user(username, post_id):
     else:
         return None
         
+#function to report user
+def add_report(BaseClass, report_str, user_to_report):
+    session = Session()
+
+    session.query(BaseClass).filter(BaseClass.username == user_to_report).update(
+        {
+            BaseClass.reports: report_str
+        }
+    )
+    session.commit()
+    session.close()
 
 #create_tables()
 

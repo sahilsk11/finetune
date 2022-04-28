@@ -29,6 +29,7 @@ class User_Credentials(Base):
     following = Column(ARRAY(String), nullable=True)
     genres_following = Column(ARRAY(String), nullable=True)
     blocked = Column(ARRAY(String), nullable=True)
+    reports = Column(ARRAY(String), nullable = True)
 
 class Profile_Page(Base):
     __tablename__ = "profile_page"

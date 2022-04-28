@@ -11,7 +11,9 @@ from db.authentication_utils import (
     update_password,
     emailIsValid,
     recover_user_password,
-    search_for_user_util
+    search_for_user_util,
+    report_user_util,
+    get_user_reports_util
 )
 
 from db.profile_page_utils import (
@@ -770,5 +772,26 @@ def make_app():
         # block or unbblock user
         return jsonify(fetch_private_likes(username))
 
+    @app.route("/report_user", methods=["POST"])
+    def report_user():
+        user_to_report = request.headers.get("user_to_report")
+        user_who_reported = request.headers.get("user_who_reported")
+        auth_token = request.headers.get("auth_token")
+        report_reason = request.headers.get("report_reason")
+  
+        status = token_validation(user_who_reported, auth_token)
+        if not status:
+            return jsonify("failed")
+        return jsonify(report_user_util(user_to_report, user_who_reported, report_reason))
+
+    @app.route("/get_user_reports", methods=["GET"])
+    def get_user_reports():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+  
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+        return jsonify(get_user_reports_util(username))
 
     return app
