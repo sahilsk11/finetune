@@ -13,7 +13,8 @@ from db.authentication_utils import (
     recover_user_password,
     search_for_user_util,
     report_user_util,
-    get_user_reports_util
+    get_user_reports_util,
+    delete_only_post
 )
 
 from db.profile_page_utils import (
@@ -821,4 +822,18 @@ def make_app():
         if not status:
             return jsonify("failed")
         return jsonify(get_post_reports_util(post_id))
+
+
+    @app.route("/delete_only_post", methods=["GET"])
+    def only_remvoe_post():
+        username = request.headers.get("username")
+        post_id = request.headers.get("post_id")
+        auth_token = request.headers.get("auth_token")
+  
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+
+        return jsonify(delete_only_post(post_id))
+    
     return app

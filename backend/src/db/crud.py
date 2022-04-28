@@ -199,6 +199,12 @@ def delete_rows(BaseClass, username):
     session.commit()
     session.close()
 
+def delete_rows_postid(BaseClass, post_id):
+    session = Session()
+    session.query(BaseClass).filter(BaseClass.post_id == post_id).delete()
+    session.commit()
+    session.close()
+
 
 def fetch_post(BaseClass, post_id):
     session = Session()

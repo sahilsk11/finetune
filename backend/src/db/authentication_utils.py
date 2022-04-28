@@ -27,7 +27,8 @@ from src.db.crud import (
     update_post_likes,
     update_followers,
     update_post_saved,
-    delete_account_likes
+    delete_account_likes,
+    delete_rows_postid
     ) 
 from src.db.models import User_Credentials, Profile_Page, Posts, Likes, Comments
 
@@ -349,6 +350,12 @@ def remove_user_from_bookmared(username):
                 row['saved'].remove(username)
                 update_post_saved(row['post_id'], row['saved'])
 
+def delete_only_post(post_id):
+    #delete the posts that user posted
+    delete_rows_postid(Posts, post_id)
+    delete_rows_postid(Comments, post_id)
+    delete_rows_postid(Likes, post_id)
+    return "Post is deleted with all comments and likes"
 
 def delete_user_information(username):
     delete_user_votes(username)
@@ -427,5 +434,3 @@ def get_user_reports_util(username):
     user_to_report_df = user_credentials_df.loc[user_credentials_df['username'] == username]
     return user_to_report_df['reports'].values[0]
 
-
-print(delete_user_information("onur"))
