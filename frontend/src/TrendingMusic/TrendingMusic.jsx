@@ -14,6 +14,7 @@ export default function TrendingMusic() {
   });
   const [pageErr, updatePageErr] = useState(null);
   const [posts, updatePosts] = useState([]);
+  const [numSongs, setNumSongs] = useState(5);
 
 
 
@@ -36,7 +37,8 @@ export default function TrendingMusic() {
       method: "POST",
       headers: {
         username: localStorage.getItem("username"),
-        auth_token: localStorage.getItem("auth_token")
+        auth_token: localStorage.getItem("auth_token"),
+        number_of_songs: numSongs
       },
     }).then(response => {
       console.log("hit")
@@ -73,7 +75,7 @@ export default function TrendingMusic() {
     }).catch(err => {
       updatePageErr(err);
     })
-  }, []);
+  }, [numSongs]);
 
   useEffect(function() {
     if (pageErr != null) {
