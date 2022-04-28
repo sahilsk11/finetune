@@ -55,8 +55,10 @@ export default function Feed() {
     }
   };
   fetch(API_URL + "/view_feed", requestOptions)
-    .then(res => res.json())
-    .then(data => {
+    .then(res => {
+      console.log(res)
+      return res.json()
+    }).then(data => {
       setLoading(false);
       console.log("get  post request back is: ", data);
       console.log(data);

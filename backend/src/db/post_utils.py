@@ -6,9 +6,9 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from src.db.models import User_Credentials, Profile_Page, Posts, Likes
 from src.db.crud import (
-    update_table, 
-    fetch_rows, 
-    fetch_post, 
+    update_table,
+    fetch_rows,
+    fetch_post,
     update_post_saved,
     delete_row_likes,
     update_post_likes,
@@ -169,8 +169,9 @@ def get_upvoted_posts_by_user(username):
     return result
 
 
-def get_top_trending_songs(number_of_songs):    
+def get_top_trending_songs(number_of_songs):
     df = fetch_rows(Posts)
+    result = []
 
     if df is None or df.empty:
         return []
@@ -181,9 +182,13 @@ def get_top_trending_songs(number_of_songs):
         sorted_df = sorted_df.head(len(df))
     else:
         sorted_df = sorted_df.head(number_of_songs)
-    
-    result= sorted_df.to_dict("records")
+    print("sorted_df: ", sorted_df)
+
+    result += sorted_df.to_dict("records")
     return result
+
+val = get_top_trending_songs(5)
+print(val)
 
 
 def lookup_song(song_name):
@@ -210,7 +215,7 @@ def get_posts_for_feed(username):
     user_df = fetch_user_info(username)
     if user_df is None or user_df.empty:
         return []
-    
+
     artists_following = user_df['following'].values[0]
 
     result = []
@@ -223,7 +228,7 @@ def get_posts_for_feed(username):
         for user in artists_following:
             result += fetch_user_post(user).to_dict("records")
 
-    
+
     genres_following = fetch_genres_following(username)
     genres_following = genres_following.iloc[0]['genres_following']
 
@@ -262,10 +267,10 @@ def private_like(username, post_id):
         user_liked_post_df = likes_df[ (likes_df['username'] == username) & (likes_df['post_id'] == post_id)]
 
         user_liked_post_df_private = user_liked_post_df['private'].values[0]
-        
+
         if user_liked_post_df_private is None:
             user_liked_post_df_private = True
-        
+
         else:
             # make it public
             if user_liked_post_df_private:
@@ -288,7 +293,7 @@ def private_like(username, post_id):
 def fetch_private_likes(username):
     likes_df = fetch_liked_posts_by_user(username)
     liked_posts = likes_df[ (likes_df['liked'] == True) & (likes_df['private'] == True)]
-    
+
     if liked_posts.empty:
         return []
 
@@ -308,7 +313,7 @@ def report_post_util(post_to_report, user_who_reported, report_reason):
 
         add_post_report(Posts, report_str, post_to_report)
         return True
-    else:      
+    else:
         post_reports.append(user_who_reported + ', ' + report_reason)
         add_post_report(Posts, post_reports, post_to_report)
         return True

@@ -299,9 +299,9 @@ def make_app():
         if not status:
             return jsonify("failed")
 
-        
+
         return jsonify(delete_user_information(username))
-        
+
 
     @app.route("/recoverpassword", methods=["POST"])
     def recover_password():
@@ -398,12 +398,11 @@ def make_app():
     def get_trending_songs():
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
-        number_of_songs = request.headers.get("number_of_songs")
+        number_of_songs = int(request.headers.get("number_of_songs"))
 
         status = token_validation(username, auth_token)
         if not status:
             return jsonify({"message": "failed token verification"})
-
         return jsonify(get_top_trending_songs(number_of_songs))
 
 
@@ -713,7 +712,7 @@ def make_app():
         username = request.headers.get("username")
         blocked_user = request.headers.get("blocked_user")
         auth_token = request.headers.get("auth_token")
-  
+
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
@@ -728,7 +727,7 @@ def make_app():
         username = request.headers.get("username")
         post_id = request.headers.get("post_id")
         auth_token = request.headers.get("auth_token")
-  
+
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
@@ -736,13 +735,13 @@ def make_app():
         # block or unbblock user
         return jsonify(private_like(username, post_id))
 
-    
+
     #get liked posts of followed users
     @app.route("/liked_posts_of_following_users", methods=["GET"])
     def get_liked_posts_of_following_users():
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
-  
+
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
@@ -756,7 +755,7 @@ def make_app():
     def fetch_all_blocked_users():
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
-  
+
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
@@ -770,7 +769,7 @@ def make_app():
     def fetch_post_ids_of_private():
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
-  
+
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
@@ -784,7 +783,7 @@ def make_app():
         user_who_reported = request.headers.get("user_who_reported")
         auth_token = request.headers.get("auth_token")
         report_reason = request.headers.get("report_reason")
-  
+
         status = token_validation(user_who_reported, auth_token)
         if not status:
             return jsonify("failed")
@@ -794,7 +793,7 @@ def make_app():
     def get_user_reports():
         username = request.headers.get("username")
         auth_token = request.headers.get("auth_token")
-  
+
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
@@ -806,7 +805,7 @@ def make_app():
         user_who_reported = request.headers.get("user_who_reported")
         auth_token = request.headers.get("auth_token")
         report_reason = request.headers.get("report_reason")
-  
+
         status = token_validation(user_who_reported, auth_token)
         if not status:
             return jsonify("failed")
@@ -817,7 +816,7 @@ def make_app():
         username = request.headers.get("username")
         post_id = request.headers.get("post_id")
         auth_token = request.headers.get("auth_token")
-  
+
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
@@ -829,11 +828,11 @@ def make_app():
         username = request.headers.get("username")
         post_id = request.headers.get("post_id")
         auth_token = request.headers.get("auth_token")
-  
+
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
 
         return jsonify(delete_only_post(post_id))
-    
+
     return app
