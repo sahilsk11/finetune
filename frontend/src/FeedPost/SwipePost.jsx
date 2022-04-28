@@ -202,9 +202,30 @@ export default function Feedpost({username,
     const audioSrc = audioHost + audioPath + audioFileName
 
 
-    const reportPost = () => {
+    function reportPost(e) {
       if (window.confirm("Are you sure you want to flag this post for inappropriate use?")) {
         alert("post reported")
+        fetch(API_URL + "/report_user", {
+          method: "POST",
+          headers: {
+            user_who_reported: localStorage.getItem("username"),
+            auth_token: localStorage.getItem("auth_token"),
+            post_to_report: post_id,
+            report_reason: "inapropriate use"
+          },
+        }).then(response => {
+          if(response.status === 200) {
+            return response.json()
+          }
+        }).then(data => {
+          console.log(data)
+          if(data === "success") {
+            alert("Post reported!")
+          }
+        }).catch(err => {
+          alert(err);
+          alert("did not report oops");
+        })
       }
     }
 
@@ -214,12 +235,13 @@ export default function Feedpost({username,
       }) {
   
       return (
-          <div className='edit-profile-form-div'>
+          <div style={{marginBottom: "10px"}} className='edit-profile-form-div'>
           <h3 className='trending-song-subtitle1'>{username}</h3>
           <h3 className='trending-song-subtitle2'>{comment}</h3>
           <h3 className='trending-song-subtitle2'>{date}</h3>
   
       </div>
+ 
   
       )
       }
