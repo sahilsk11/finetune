@@ -184,7 +184,8 @@ export default function MusicPost({username,
         alert(err);
         alert("did not delete oops");
       })
-      alert("Post Deleted!")
+      alert("Post Deleted!");
+      window.location.reload();
     }
     }
 
