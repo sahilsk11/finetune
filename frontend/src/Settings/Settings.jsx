@@ -180,7 +180,7 @@ function FollowedGenres() {
       <ul>
         {genres.map(genre => {
           return(
-            <GenreItem genre={genre} followedGenres={followedGenres} />
+            <GenreItem key={genre} genre={genre} followedGenres={followedGenres} />
           );
         })}
       </ul>
