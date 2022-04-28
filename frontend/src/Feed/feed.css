@@ -190,3 +190,20 @@
   border: 3px;
   padding: 10px;
 }
+
+
+.trending-song-subtitle1 {
+  color: maroon;
+  margin: 0px;
+  padding: 0px;
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+
+.trending-song-subtitle2 {
+  color: black;
+  margin: 0px;
+  padding: 0px;
+  margin-bottom: 10px;
+  font-weight: 400;
+}

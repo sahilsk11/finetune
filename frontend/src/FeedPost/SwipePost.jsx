@@ -72,29 +72,32 @@ export default function Feedpost({username,
       })
     }, [isLiked]);
 
+    useEffect(() => {
+    const requestOptionsComments = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token"),
+        post_id: post_id
+      }
+    };
+    setIsFetchingComments(true)
+      fetch(API_URL + "/get_commented_post_by_id", requestOptionsComments)
+        .then(res => res.json())
+        .then(data => {
+          console.log("get comment request back is: ", data);
+          console.log(data)
+          setComments(data)
+          console.log(data)
+          setIsFetchingComments(false)
+        })
+        .catch(err => {
+          console.log(err);
+          setIsFetchingComments(false)
+        });
 
-    // const requestOptionsComments = {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     username: localStorage.getItem("username"),
-    //     auth_token: localStorage.getItem("auth_token"),
-    //     post_id: post_id
-    //   }
-    // };
-    // setIsFetchingComments(true)
-    //   fetch(API_URL + "/get_commented_post_by_id", requestOptionsComments)
-    //     .then(res => res.json())
-    //     .then(data => {
-    //       console.log(data)
-    //       setComments(data)
-    //       console.log(data)
-    //       setIsFetchingComments(false)
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //       setIsFetchingComments(false)
-    //     })
+      }, [])
 
     function likePost(e) {
       e.preventDefault();
@@ -205,6 +208,31 @@ export default function Feedpost({username,
       }
     }
 
+    function Content({username,
+      comment,
+      date,
+      }) {
+  
+      return (
+          <div className='edit-profile-form-div'>
+          <h3 className='trending-song-subtitle1'>{username}</h3>
+          <h3 className='trending-song-subtitle2'>{comment}</h3>
+          <h3 className='trending-song-subtitle2'>{date}</h3>
+  
+      </div>
+  
+      )
+      }
+
+    const CommentPost = comments.map(com => {
+      return (
+        <Content
+        username={com.username}
+        comment = {com.comment}
+        date={com.post_time}
+        />
+      )
+    })
 
   return (
     <div style={{display: "inline-block", marginLeft: "50px", marginRight: "50px"}}className='trending-song'>
@@ -250,20 +278,26 @@ export default function Feedpost({username,
       <button onClick={openDeleteModal} className='play-btn'>Add Comment</button>
       <button onClick={openCommentsModal} className='play-btn'>View Comments</button>
 
+      
+
       <Modal
               isOpen={commentsModalOpen}
               onRequestClose={closeCommentsModal}
               contentLabel="Add Comment"
               className='delete-modal'
             >
+
+
               <div style={{alignItems: "center"}}>
         <h1 style={{color: "black"}} className="create-account-title">
        Comments
         </h1>
         <div className='edit-container'>
        
-
-      </div>
+        {CommentPost}
+       
+       </div>
+        
         </div>
               <button className='modal-delete-button' onClick={closeCommentsModal}>Go back</button>
             </Modal>

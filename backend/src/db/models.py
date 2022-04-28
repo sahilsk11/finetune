@@ -29,6 +29,7 @@ class User_Credentials(Base):
     following = Column(ARRAY(String), nullable=True)
     genres_following = Column(ARRAY(String), nullable=True)
     blocked = Column(ARRAY(String), nullable=True)
+    reports = Column(ARRAY(String), nullable = True)
 
 class Profile_Page(Base):
     __tablename__ = "profile_page"
@@ -53,6 +54,7 @@ class Posts(Base):
     audio = Column(String, nullable=True)
     date_created = Column(String, nullable=True)
     saved = Column(ARRAY(String), nullable=True)
+    reports = Column(ARRAY(String), nullable=True)
     
 class Likes(Base):
     __tablename__ = "likes"

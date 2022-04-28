@@ -12,8 +12,24 @@ from uuid import uuid4
 
 from sqlalchemy import false
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from src.db.crud import update_table, fetch_rows, update_authentication_token, delete_rows, update_user_password, fetch_user_info
-from src.db.models import User_Credentials, Profile_Page, Posts, Likes
+from src.db.crud import (
+    update_table, 
+    fetch_rows, 
+    update_authentication_token, 
+    delete_rows, 
+    update_user_password, 
+    fetch_user_info, 
+    fetch_user_post,
+    fetch_liked_posts_by_user,
+    fetch_post, 
+    delete_post_likes_or_comments, 
+    add_report, 
+    update_post_likes,
+    update_followers,
+    update_post_saved,
+    delete_account_likes
+    ) 
+from src.db.models import User_Credentials, Profile_Page, Posts, Likes, Comments
 
 def hash_password(password):
     """
@@ -189,11 +205,176 @@ def update_password(username,new_password):
     update_user_password(User_Credentials, username, hashed_password)
 
 
+def get_posts(username):
+    user_df = fetch_user_post(username).to_dict("records")
+    return user_df
 
-# for this sprint, only deleting frm these 2 tables
+def delete_user_comments(username):
+    delete_rows(Comments, username)
+
+def delete_user_posts_votes_and_comments(username):
+    userPosts = get_posts(username)
+    for post in userPosts:
+        delete_post_likes_or_comments(Likes, post['post_id'])
+        delete_post_likes_or_comments(Comments, post['post_id'])
+    delete_rows(Comments, username)
+
+def get_upvoted_posts_by_user(username):
+    user_votes = fetch_liked_posts_by_user(username)
+
+    if user_votes.empty:
+        return []
+
+    result = []
+
+    upvotes = user_votes.loc[(user_votes['liked'] == True)]
+
+    if upvotes.empty:
+        return []
+
+    post_ids = upvotes['post_id'].to_dict()
+
+    for postid in post_ids:
+        post_df = fetch_post(Posts, post_ids[postid]).to_dict("records")
+        result += post_df
+
+    return result
+
+def get_downvoted_posts_by_user(username):
+    user_votes = fetch_liked_posts_by_user(username)
+
+    if user_votes.empty:
+        return []
+
+    result = []
+
+    downvotes = user_votes.loc[(user_votes['disliked'] == True)]
+
+    if downvotes.empty:
+        return []
+
+    post_ids = downvotes['post_id'].to_dict()
+
+    for postid in post_ids:
+        post_df = fetch_post(Posts, post_ids[postid]).to_dict("records")
+        result += post_df
+
+    return result
+
+def delete_user_votes(username):
+    upvotedPosts = get_upvoted_posts_by_user(username)
+    for post in upvotedPosts:
+        likes = post["likes"]
+        dislikes = post["dislikes"]
+        likes -= 1
+        update_post_likes(post["post_id"], likes, dislikes)
+
+    downvotedPosts = get_downvoted_posts_by_user(username)
+    for post in downvotedPosts:
+        likes = post["likes"]
+        dislikes = post["dislikes"]
+        dislikes -= 1
+        update_post_likes(post["post_id"], likes, dislikes)
+    delete_rows(Likes, username)
+
+def mass_remove_followings(user_credentials_df, username, user_followed):
+    # this function does not retreive the user_credentials table, it is passed to it
+    # by the function that removes a user's followers/following when deleting the account
+    try:
+        # get the row associated with the user parameter
+        user_df = user_credentials_df.loc[user_credentials_df['username'] == username]
+
+        # get the followed user credentials
+        followed_df = user_credentials_df.loc[user_credentials_df['username'] == user_followed]
+
+        # get the followed user followers list
+        followed_followers  = followed_df['followers'].values[0]
+
+        # if no followers, then the call failed.
+        if followed_followers is None or len(followed_followers) == 0:
+            return False
+        else:
+            # update the user's followers list
+            followed_followers.remove(username)
+
+        # since we don't care about the deleted user anymore, just pass an empty
+        # list. The list fo deletion is already returieved
+        user_following = []
+
+        #make the call to the database to make changes
+        update_followers(User_Credentials, username, user_followed,
+                                user_following, followed_followers)
+
+    except Exception as inst:
+        print('error deleting ', username, user_followed)
+        return False
+    return True
+    
+def remove_deleted_followings(username):
+    user_credentials_df = fetch_rows(User_Credentials)
+
+    # get the row associated with the user parameter
+    user_df = user_credentials_df.loc[user_credentials_df['username'] == username]
+    # get the user's following list
+    user_following = user_df['following'].values[0]
+
+    # get the followed user followers list
+    user_followers = user_df['followers'].values[0]
+
+    # remove the the user from ther "followers" list in other accounts
+    if user_following is not None:
+        user_following_copy = user_following[:]
+        for user in user_following_copy:
+            print(user)
+            mass_remove_followings(user_credentials_df, username, user)
+
+
+    # remove the the user from ther "following" list in other accounts
+    if user_followers is not None:
+        user_followers_copy = user_followers[:]
+        for user in user_followers_copy:
+            print(user)
+            mass_remove_followings(user_credentials_df, user, username)
+
+
+def remove_user_from_bookmared(username):
+    df = fetch_rows(Posts)
+    if df is None or df.empty:
+        return
+
+    # if the username is already bookmarked, remove the username, (the user wants to remove bookmark)
+    for _, row in df.iterrows():
+        if row['saved'] is not None:
+            if username in row['saved']:
+                row['saved'].remove(username)
+                update_post_saved(row['post_id'], row['saved'])
+
+
 def delete_user_information(username):
+    delete_user_votes(username)
+    delete_user_posts_votes_and_comments(username)
+    delete_user_comments(username)
+    remove_deleted_followings(username)
     delete_rows(User_Credentials, username)
     delete_rows(Profile_Page, username)
+    remove_user_from_bookmared(username)
+
+    posts_to_deleted = get_posts(username)
+    if not posts_to_deleted:
+        return
+
+    #delete the posts that user posted
+    delete_rows(Posts, username)
+
+    post_ids = []
+    #delete each entry with the post id in likes
+    for post in posts_to_deleted:
+        post_ids.append(post['post_id'])
+        delete_account_likes(post['post_id'])
+
+    
+    return "All account information is deleted"
+
 
 # Recover password by spending an email to the user with their hashed password
 def recover_user_password(email):
@@ -222,6 +403,29 @@ def search_for_user_util(username):
     if df is None or df.empty:
         return []
     return df.to_dict('records')
-    
 
-    
+def report_user_util(user_to_report, user_who_reported, report_reason):
+    user_credentials_df = fetch_rows(User_Credentials)
+    # get the row associated with the user parameter and the user_to_follow parameter
+    user_to_report_df = user_credentials_df.loc[user_credentials_df['username'] == user_to_report]
+    # get the user's following list and user_tf's followers list
+    print(user_to_report_df)
+    user_reports = user_to_report_df['reports'].values[0]
+    if user_reports is None:
+        report_str = [user_who_reported + ', ' + report_reason]
+
+        add_report(User_Credentials, report_str, user_to_report)
+        return True
+    else:      
+        user_reports.append(user_who_reported + ', ' + report_reason)
+        add_report(User_Credentials, user_reports, user_to_report)
+        return True
+
+def get_user_reports_util(username):
+    user_credentials_df = fetch_rows(User_Credentials)
+    # get the row associated with the user parameter and the user_to_follow parameter
+    user_to_report_df = user_credentials_df.loc[user_credentials_df['username'] == username]
+    return user_to_report_df['reports'].values[0]
+
+
+print(delete_user_information("onur"))
