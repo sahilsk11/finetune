@@ -85,7 +85,7 @@ export default function TrendingMusic() {
 
   function handleSelectChange(e) {
     const numPosts = e.target.value;
-    //TODO call backend to retrieve new number of posts
+    setNumSongs(numPosts)
   }
 
   return (
@@ -97,8 +97,8 @@ export default function TrendingMusic() {
         </h5>
         <label style={{marginLeft: "90px"}}>Choose number of trending songs...</label><br />
         <select style={{marginLeft: "90px"}} className="feed-select" onChange={handleSelectChange}>
-          <option value="house">5</option>
-          <option value="techno">10</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
           <option value="15">15</option>
         </select>
       <div className='trending-music-container'>
