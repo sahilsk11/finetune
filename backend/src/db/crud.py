@@ -53,6 +53,22 @@ def update_table(new_df, BaseClass):
     session.close()
 
 
+def update_followers(BaseClass, username, followed_username, user_following, followed_followers):
+    session = Session()
+
+    session.query(BaseClass).filter(BaseClass.username == username).update(
+        {
+            BaseClass.following: user_following,
+        }
+    )
+    session.query(BaseClass).filter(BaseClass.username == followed_username).update(
+        {
+            BaseClass.followers: followed_followers,
+        }
+    )
+    session.commit()
+    session.close()
+
 def insert_row_posts(username, song_title, likes, dislikes, description, image, genre, audio, date_created):
     session = Session()
     new_post = Posts(username= username, song_title = song_title, likes = likes, 
@@ -60,7 +76,6 @@ def insert_row_posts(username, song_title, likes, dislikes, description, image, 
     session.add(new_post)
     session.commit()
     session.close()
-
 
 def update_authentication_token(BaseClass, username, token):
     """
@@ -212,6 +227,12 @@ def update_post_saved(post_id, saved_users):
     session.commit()
     session.close()
 
+
+def delete_account_likes(post_id):
+    session = Session()
+    session.query(Likes).filter(Likes.post_id == post_id).delete()
+    session.commit()
+    session.close()
 
 def delete_row_likes(BaseClass, post_id, username):
     session = Session()

@@ -295,11 +295,12 @@ def make_app():
 
         # check if the authentication token is valid
         status = token_validation(username, auth_token)
-        if status:
-            delete_user_information(username)
-            return jsonify("success")
-        else:
+        if not status:
             return jsonify("failed")
+
+        
+        return jsonify(delete_user_information(username))
+        
 
     @app.route("/recoverpassword", methods=["POST"])
     def recover_password():
