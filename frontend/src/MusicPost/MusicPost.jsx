@@ -161,6 +161,33 @@ export default function MusicPost({username,
     })
   }, [isLiked]);
 
+  function deletePost(e) {
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      fetch(API_URL + "/delete_only_post", {
+        method: "GET",
+        headers: {
+          username: localStorage.getItem("username"),
+          post_id: post_id,
+          auth_token: localStorage.getItem("auth_token")
+        },
+      }).then(response => {
+        if(response.status === 200) {
+          return response.json()
+
+        }
+      }).then(data => {
+        console.log(data)
+        if(data === "success") {
+          alert("Post Deleted!")
+        }
+      }).catch(err => {
+        alert(err);
+        alert("did not delete oops");
+      })
+      alert("Post Deleted!")
+    }
+    }
+
   function likePost(e) {
     e.preventDefault();
     e.currentTarget.classList.toggle('liked');
@@ -221,7 +248,7 @@ export default function MusicPost({username,
       <button className='play-btn'>Save Post</button>
       <button onClick={likePost} class={classes}></button>
       <button onClick={openAddCommentsModal} className='play-btn'>Add Comment</button>
-      <button className='play-btn'>Delete Post</button>
+      <button onClick={deletePost} className='play-btn'>Delete Post</button>
       <button className='play-btn'>View Comments</button>
 
       <button onClick={openDeleteModal} className={'play-btn '+modalClasses}>Edit Post</button>
