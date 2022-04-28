@@ -2,8 +2,7 @@ import React, { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 
-
-
+import GenreItem from "./GenreItem";
 import NavBar from "../NavBar/NavBar";
 
 
@@ -127,7 +126,6 @@ function Settings() {
 function FollowedGenres() {
   const [genres, updateGenres] = useState([]);
   const [followedGenres, updateFollowedGenres] = useState([]);
-  const [updateFlag, changeUpdateFlag] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:5000/get_users_genres", {
@@ -141,7 +139,7 @@ function FollowedGenres() {
     }).then(data => {
       updateFollowedGenres(data[0].genres_following)
     })
-  }, [updateFlag]);
+  }, []);
 
   useEffect(() => {
     fetch("http://localhost:5000/genres", {
@@ -153,21 +151,12 @@ function FollowedGenres() {
     }).then(response => {
       return response.json()
     }).then(data => {
-      let tmpGenres = [];
-      data.forEach(e => {
-        let checked = followedGenres.includes(e);
-        tmpGenres.push(
-          <div>
-            <input type="checkbox" id={e} name={e} value={e} onClick={() => followGenre(e, checked)} checked={checked} />
-            <label for={e}>{e}</label><br />
-          </div>
-        );
-      })
-      updateGenres(tmpGenres);
+      updateGenres(data);
+      console.log(data)
     })
-  }, [followedGenres])
+  }, [])
 
-  function followGenre(name, checked) {
+  /* function followGenre(name, checked) {
     let endpoint = checked ? "/unfollow_genre" : "/follow_genre";
 
     fetch("http://localhost:5000"+endpoint, {
@@ -183,13 +172,17 @@ function FollowedGenres() {
       console.log(data)
       changeUpdateFlag(!updateFlag);
     })
-  }
+  } */
 
   return (
     <div>
-      <h3>followed genres:</h3>
+      <h3>Followed genres:</h3>
       <ul>
-        {genres}
+        {genres.map(genre => {
+          return(
+            <GenreItem genre={genre} followedGenres={followedGenres} />
+          );
+        })}
       </ul>
     </div>
   )

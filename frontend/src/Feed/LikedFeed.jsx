@@ -51,18 +51,17 @@ export default function LikedFeed() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        auth_token: localStorage.getItem("auth_token"),
+        post_id: localStorage.getItem("auth_token"),
         username: localStorage.getItem("username"),
-        profile_user: localStorage.getItem("username")
       }
     };
-    fetch(API_URL + "/all_saved_posts", requestOptions)
+    fetch(API_URL + "/liked_posts_of_following_users", requestOptions)
       .then(res => res.json())
       .then(data => {
         setLoading(false);
         console.log("get  post request back is: ", data);
         console.log(data);
-        if (data !== "failed") {
+        if (data !== "failed" && data != "The user is not following anyone") {
           setPosts(data.sort((a,b)=>b.post_id-a.post_id));
           setError(null);
         } else {

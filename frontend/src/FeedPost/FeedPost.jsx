@@ -50,14 +50,17 @@ export default function Feedpost({username,
           username: localStorage.getItem("username"),
           auth_token: localStorage.getItem("auth_token"),
           post_id: post_id,
-          liked: !isLiked
+          liked: !isLiked,
+          disliked: isLiked
         },
       }).then(response => {
+        console.log(response)
         return response.json()
       }).then(data => {
         console.log(data)
       }).catch(err => {
         alert(err);
+        console.log(err)
       })
     }
 
@@ -127,7 +130,7 @@ export default function Feedpost({username,
       <a href={"/profile/" + username}><button className='play-btn'>View Artist</button></a>
       <button onClick={savePost} className='play-btn'>Save Post</button>
       <button onClick={likePost} class="like-button"></button>
-    
+
       </div>
     </div>
   );
