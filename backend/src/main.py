@@ -49,7 +49,8 @@ from db.post_utils import (
     private_like,
     fetch_private_likes,
     report_post_util,
-    get_post_reports_util
+    get_post_reports_util,
+    get_notifications
 )
 
 from db.following_utils import (
@@ -837,4 +838,12 @@ def make_app():
 
         return jsonify(delete_only_post(post_id))
 
+    @app.route("/get_notification", methods=["GET"])
+    def get_notification():
+        username = request.headers.get("username")
+        auth_token = request.headers.get("auth_token")
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+        return jsonify(get_notifications(username))
     return app

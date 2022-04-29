@@ -2,9 +2,10 @@ import pandas as pd
 import datetime as dt
 import os
 import sys
+from flask import request, jsonify
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from src.db.models import User_Credentials, Profile_Page, Posts, Likes
+from src.db.models import User_Credentials, Profile_Page, Posts, Likes, Notifications
 from src.db.crud import (
     update_table,
     fetch_rows,
@@ -319,3 +320,22 @@ def get_post_reports_util(post_id):
     # get the row associated with the user parameter and the user_to_follow parameter
     post_to_report_df = post_df.loc[post_df['post_id'] == post_id]
     return post_to_report_df['reports'].values[0]
+
+def generate_notification(username, notification_type, notification_content):
+    data = {
+        "username": [username],
+        "notification_type": [notification_type],
+        "notification_content": [notification_content],
+        "date_created": [dt.datetime.utcnow()],
+    }
+    new_df = pd.DataFrame(data)
+
+    print(new_df)
+
+    update_table(new_df, Notifications)
+
+def get_notifications(username):
+    df= fetch_rows(Notifications)
+    notif_df = df.loc[df['username'] == username]
+    notif_arr = notif_df.to_numpy()
+    return len(notif_arr), notif_arr

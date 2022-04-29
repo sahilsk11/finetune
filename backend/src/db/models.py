@@ -73,6 +73,14 @@ class Comments(Base):
     comment = Column(String, nullable=False)
     post_time = Column(String, nullable=True)
 
+class Notifications(Base):
+    __tablename__ = "notifications"
+    notif_id = Column(Integer, primary_key = True, autoincrement=True)
+    username = Column(String, nullable = False)
+    notification_type = Column(String, nullable = False)
+    notification_content = Column(String, nullable = True)
+    date_created = Column(String, nullable = True)
+
 
 if __name__ == "__main__":
     pass

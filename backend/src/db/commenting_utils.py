@@ -8,9 +8,15 @@ sys.path.append(
 )
 from src.db.crud import fetch_rows, fetch_comments_by_user, update_table, fetch_post
 from src.db.models import Comments, Posts
+from src.db.post_utils import generate_notification
 
 
 def save_comment(username, post_id, comment):
+
+    post_df = fetch_rows(Posts)
+    post_user = post_df.loc[post_df['post_id'] == post_id]['username'].to_string()
+    generate_notification(post_user[5:], 'comment', username + ' commented on your post!')
+
     # check for an empty comment
     if len(comment) == 0:
         return False

@@ -5,7 +5,7 @@ import sys
 
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from src.db.models import User_Credentials, Profile_Page, Posts, Likes
+from src.db.models import Notifications, User_Credentials, Profile_Page, Posts, Likes
 
 from src.db.crud import (
     update_table, 
@@ -15,6 +15,10 @@ from src.db.crud import (
     add_follower,
     add_following,
     fetch_liked_posts_by_user
+)
+
+from src.db.post_utils import (
+    generate_notification
 )
 
 def follow_genre(username, genre):
@@ -55,6 +59,9 @@ def unfollow_genre(username, genre):
     return True
 
 def follow_user_util(username, user_to_follow):
+
+    generate_notification(user_to_follow, 'follow', username + ' followed you!')
+
     user_credentials_df = fetch_rows(User_Credentials)
     # get the row associated with the user parameter and the user_to_follow parameter
     user_df = user_credentials_df.loc[user_credentials_df['username'] == username]
@@ -158,7 +165,7 @@ def get_liked_posts_of_followed_users(username):
     return final_post_df
 
 
-
+follow_user_util('fgfg', 'aswin')
 
 
 

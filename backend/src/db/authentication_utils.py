@@ -416,8 +416,9 @@ def report_user_util(user_to_report, user_who_reported, report_reason):
     # get the row associated with the user parameter and the user_to_follow parameter
     user_to_report_df = user_credentials_df.loc[user_credentials_df['username'] == user_to_report]
     # get the user's following list and user_tf's followers list
-    print(user_to_report_df)
+    
     user_reports = user_to_report_df['reports'].values[0]
+
     if user_reports is None:
         report_str = [user_who_reported + ', ' + report_reason]
 
