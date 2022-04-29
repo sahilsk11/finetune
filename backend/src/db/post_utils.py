@@ -311,14 +311,15 @@ def report_post_util(post_to_report, user_who_reported, report_reason):
     # get the row associated with the user parameter and the user_to_follow parameter
     post_to_report_df = post_df.loc[post_df['post_id'] == post_to_report]
     # get the user's following list and user_tf's followers list
-    print(post_to_report)
-    post_reports = post_to_report_df['reports'].values[0]
-    if post_reports is None:
+    post_reports = post_to_report_df['reports'].values
+    if post_reports[0] is None:
         report_str = [user_who_reported + ', ' + report_reason]
 
         add_post_report(Posts, report_str, post_to_report)
         return True
     else:
+        print(post_reports)
+        post_reports = post_reports[0]
         post_reports.append(user_who_reported + ', ' + report_reason)
         add_post_report(Posts, post_reports, post_to_report)
         return True
@@ -327,7 +328,7 @@ def get_post_reports_util(post_id):
     post_df = fetch_rows(Posts)
     # get the row associated with the user parameter and the user_to_follow parameter
     post_to_report_df = post_df.loc[post_df['post_id'] == post_id]
-    if post_to_report_df['reports'].values == None:
+    if post_to_report_df['reports'].values[0] == None:
         return 0
     return post_to_report_df['reports'].values[0]
 
@@ -353,5 +354,3 @@ def get_notifications(username):
 def view_notification_util(notif_id):
     update_viewed_notif(Notifications, notif_id)
     return True
-
-
