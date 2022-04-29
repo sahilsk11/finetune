@@ -346,9 +346,10 @@ def generate_notification(username, notification_type, notification_content):
 def get_notifications(username):
     df= fetch_rows(Notifications)
     notif_df = df.loc[df['username'] == username]
-    return notif_df.to_json
+    return notif_df.to_json(orient='records')
 
 def view_notification_util(notif_id):
     update_viewed_notif(notif_id)
     return True
+
 
