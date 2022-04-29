@@ -50,7 +50,8 @@ from db.post_utils import (
     fetch_private_likes,
     report_post_util,
     get_post_reports_util,
-    get_notifications
+    get_notifications,
+    view_notification_util
 )
 
 from db.following_utils import (
@@ -846,4 +847,15 @@ def make_app():
         if not status:
             return jsonify("failed")
         return jsonify(get_notifications(username))
+
+    @app.route("/view_notification", methods=["POST"])
+    def view_notification():
+        username = request.headers.get("username")
+        post_id = request.headers.get("post_id")
+        auth_token = request.headers.get("auth_token")
+        status = token_validation(username, auth_token)
+        if not status:
+            return jsonify("failed")
+        return jsonify(view_notification_util(post_id))
+
     return app

@@ -489,7 +489,17 @@ def add_post_report(BaseClass, report_str, post_to_report):
     session.commit()
     session.close()
 
-#create_tables()
+def update_viewed_notif(BaseClass, notif_id):
+    session = Session()
+
+    session.query(BaseClass).filter(BaseClass.notif_id == notif_id).update(
+        {
+            BaseClass.viewed: True,
+
+        }
+    )
+    session.commit()
+    session.close()
 
 
 if __name__ == '__main__':

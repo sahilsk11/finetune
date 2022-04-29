@@ -22,11 +22,19 @@ from src.db.crud import (
     update_post_details,
     insert_row_posts,
     update_private_like_info,
-    add_post_report
+    add_post_report,
+    update_viewed_notif
 )
 
 #Might bhave trouble i naudio files - check
 def create_post_details(username, song_title, description, image, genre, audio):
+
+    users_follow_arr = []
+    user_df = fetch_rows(User_Credentials)
+    for index, row in user_df.iterrows():
+        if genre in row['genres_following']:
+            generate_notification(row['username'], 'new_song', 'Song ' + song_title + ' posted in your followed genre ' + genre )
+
     data = {
         "username": [username],
         "song_title": [song_title],
@@ -327,6 +335,7 @@ def generate_notification(username, notification_type, notification_content):
         "notification_type": [notification_type],
         "notification_content": [notification_content],
         "date_created": [dt.datetime.utcnow()],
+        "viewed": [False]
     }
     new_df = pd.DataFrame(data)
 
@@ -339,3 +348,8 @@ def get_notifications(username):
     notif_df = df.loc[df['username'] == username]
     notif_arr = notif_df.to_numpy()
     return len(notif_arr), notif_arr
+
+def view_notification_util(notif_id):
+    update_viewed_notif(notif_id)
+    return True
+

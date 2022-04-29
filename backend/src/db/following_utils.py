@@ -165,8 +165,6 @@ def get_liked_posts_of_followed_users(username):
     return final_post_df
 
 
-follow_user_util('fgfg', 'aswin')
-
 
 
 

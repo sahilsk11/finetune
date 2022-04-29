@@ -149,5 +149,3 @@ def get_blocked_users(username):
 
     return blocked_list
 
-
-print(get_blocked_users("jamesjim"))

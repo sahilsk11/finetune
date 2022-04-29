@@ -80,6 +80,7 @@ class Notifications(Base):
     notification_type = Column(String, nullable = False)
     notification_content = Column(String, nullable = True)
     date_created = Column(String, nullable = True)
+    viewed = Column(Boolean, nullable = True)
 
 
 if __name__ == "__main__":
