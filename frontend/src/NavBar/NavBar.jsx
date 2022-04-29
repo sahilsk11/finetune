@@ -89,7 +89,7 @@ function NotificationBell() {
 			updateNotifs(x);
 			updateNumUnread(unread);
 		})
-	}, []);
+	}, [modalIsOpen]);
 
 	const markAsRead = (postId) => {
 		fetch("http://localhost:5000/view_notification", {
