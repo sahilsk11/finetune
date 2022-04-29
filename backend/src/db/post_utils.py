@@ -349,7 +349,7 @@ def get_notifications(username):
     return notif_df.to_json(orient='records')
 
 def view_notification_util(notif_id):
-    update_viewed_notif(notif_id)
+    update_viewed_notif(Notifications, notif_id)
     return True
 
 
