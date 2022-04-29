@@ -83,7 +83,7 @@ function NotificationBell() {
 					unread++;
 				}
 				x.push(
-					<Notification title={n.notification_type} subtitle={n.notification_content} isViewed={n.isViewed} />
+					<Notification title={n.notification_type} subtitle={n.notification_content} isViewed={n.viewed} postId={n.notif_id} />
 				)
 			})
 			updateNotifs(x);
@@ -111,7 +111,8 @@ function NotificationBell() {
 
 	const markAllAsRead = () => {
 		notifs.forEach(n => {
-			markAsRead(n.notif_id);
+			console.log(n.props);
+			markAsRead(n.props.postId);
 		})
 	}
 
