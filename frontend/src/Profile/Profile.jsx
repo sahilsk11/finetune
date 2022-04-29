@@ -312,19 +312,19 @@ function UserActions({loggedInUser, profilePageUser}) {
     const isBlocked = !blocksUser;
     updateBlocksUsers(isBlocked)
     //TODO make request to block user
-    /* let host = "http://localhost:5000";
+    let host = "http://localhost:5000";
     if (blocksUser) {
-      host += "/block_user"
+      host += "/block"
     } else {
-      host += "/unblock_user"
+      host += "/block"
     }
     fetch(host, {
-      method: "POST",
+      method: "GET",
       headers: {
         username: localStorage.getItem("username"),
         auth_token: localStorage.getItem("auth_token"),
-        user_to_block: profilePageUser,
-        user_to_unblock: profilePageUser,
+        blocked_user: profilePageUser,
+        blocked_user: profilePageUser,
       },
     }).then(response => {
       if (response.status !== 200) {
@@ -333,9 +333,9 @@ function UserActions({loggedInUser, profilePageUser}) {
       return response.json()
     }).then(data => {
       if (data === true) {
-        updateBlocksUser(!blocksUser);
+        updateBlocksUsers(!blocksUser);
       }
-    }) */
+    })
   }
 
   const reportUser = () => {
@@ -369,8 +369,8 @@ function UserActions({loggedInUser, profilePageUser}) {
   }, [followsUser]);
 
   //TODO useEffect function to see if user is already blocked or not
-  /* useEffect(() => {
-    fetch( *Need backend endpoint* , {
+  useEffect(() => {
+    fetch( "http://localhost:5000/fetch_blocked_list" , {
       method: "GET",
       headers: {
         username: localStorage.getItem("username"),
@@ -386,10 +386,12 @@ function UserActions({loggedInUser, profilePageUser}) {
         return
       }
       data.forEach(e => {
-        //TODO Update Blocks user if blocked
+        if (e === profilePageUser) {
+          updateBlocksUsers(true);
+        }
       })
     })
-  }, [blocksUser]) */
+  }, [blocksUser])
 
   const text = followsUser ? "Unfollow User" : "Follow User";
 
