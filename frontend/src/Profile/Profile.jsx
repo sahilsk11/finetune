@@ -340,7 +340,25 @@ function UserActions({loggedInUser, profilePageUser}) {
 
   const reportUser = () => {
     if (window.confirm("Are you sure you want to flag this user for inappropriate account use?")) {
-      alert("user reported")
+      fetch("http://localhost:5000/report_user", {
+        method: "POST",
+        headers: {
+          user_who_reported: localStorage.getItem("username"),
+          user_to_report: profilePageUser,
+          auth_token: localStorage.getItem("auth_token"),
+          report_reason: "default"
+        },
+      }).then(response => {
+        if (response.status !== 200) {
+          return null;
+        }
+        return response.json()
+      }).then(data => {
+        if (data === null || data === []) {
+          return
+        }
+        alert("User reported.")
+      })
     }
   }
 
