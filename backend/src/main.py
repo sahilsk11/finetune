@@ -846,7 +846,7 @@ def make_app():
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
-        return jsonify(get_notifications(username).tolist())
+        return get_notifications(username)
 
     @app.route("/view_notification", methods=["POST"])
     def view_notification():
@@ -856,6 +856,6 @@ def make_app():
         status = token_validation(username, auth_token)
         if not status:
             return jsonify("failed")
-        return view_notification_util(post_id)
+        return jsonify(view_notification_util(post_id))
 
     return app
