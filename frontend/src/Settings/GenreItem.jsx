@@ -13,6 +13,7 @@ function GenreItem(props) {
   }, [props.followedGenres])
 
   function handleClick() {
+    setIsFollowing(!isFollowing)
     let endpoint = isFollowing ? "/unfollow_genre" : "/follow_genre";
     fetch("http://localhost:5000"+endpoint, {
       method: "POST",
@@ -27,7 +28,7 @@ function GenreItem(props) {
       console.log(data)
 
     })
-    setIsFollowing(!isFollowing)
+    
 
   }
 
