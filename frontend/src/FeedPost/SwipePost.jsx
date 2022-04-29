@@ -205,7 +205,7 @@ export default function Feedpost({username,
     function reportPost(e) {
       if (window.confirm("Are you sure you want to flag this post for inappropriate use?")) {
         alert("post reported")
-        fetch(API_URL + "/report_user", {
+        fetch(API_URL + "/report_post", {
           method: "POST",
           headers: {
             user_who_reported: localStorage.getItem("username"),
@@ -217,6 +217,7 @@ export default function Feedpost({username,
           if(response.status === 200) {
             return response.json()
           }
+          console.log(post_id);
         }).then(data => {
           console.log(data)
           if(data === "success") {
@@ -227,6 +228,7 @@ export default function Feedpost({username,
           alert("did not report oops");
         })
       }
+      alert("Post Reported! :)");
     }
 
     function Content({username,
