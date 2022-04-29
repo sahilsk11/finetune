@@ -327,6 +327,8 @@ def get_post_reports_util(post_id):
     post_df = fetch_rows(Posts)
     # get the row associated with the user parameter and the user_to_follow parameter
     post_to_report_df = post_df.loc[post_df['post_id'] == post_id]
+    if post_to_report_df['reports'].values == None:
+        return 0
     return post_to_report_df['reports'].values[0]
 
 def generate_notification(username, notification_type, notification_content):
