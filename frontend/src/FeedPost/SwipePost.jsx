@@ -204,31 +204,30 @@ export default function Feedpost({username,
 
     function reportPost(e) {
       if (window.confirm("Are you sure you want to flag this post for inappropriate use?")) {
-        alert("post reported")
+       
         fetch(API_URL + "/report_post", {
           method: "POST",
           headers: {
+            post_to_report: post_id,
             user_who_reported: localStorage.getItem("username"),
             auth_token: localStorage.getItem("auth_token"),
-            post_to_report: post_id,
             report_reason: "inapropriate use"
           },
         }).then(response => {
-          if(response.status === 200) {
-            return response.json()
+          if (response.status !== 200) {
+            return null;
           }
           console.log(post_id);
+          return response.json()
         }).then(data => {
-          console.log(data)
-          if(data === "success") {
-            alert("Post reported!")
+          if (data === null || data === []) {
+            return
           }
-        }).catch(err => {
-          alert(err);
-          alert("did not report oops");
+          alert("User reported.")
         })
       }
-      alert("Post Reported! :)");
+     
+      console.log(post_id);
     }
 
     function Content({username,

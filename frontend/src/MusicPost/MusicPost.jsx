@@ -19,6 +19,7 @@ export default function MusicPost({username,
 
     const [deleteModalOpen, setDeleteModal] = useState(false);
     const [addCommentsModalOpen, setAddCommentsModal] = useState(false);
+    const [commentsModalOpen, setCommentsModal] = useState(false);
 
 
     const API_URL = "http://127.0.0.1:5000"
@@ -32,6 +33,14 @@ export default function MusicPost({username,
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [isFetchingComments, setIsFetchingComments] = useState(true);
 
+
+  function openCommentsModal() {
+    setCommentsModal(true);
+  }
+
+  function closeCommentsModal() {
+    setCommentsModal(false);
+  }
 
   function openAddCommentsModal() {
     setAddCommentsModal(true);
@@ -60,6 +69,33 @@ export default function MusicPost({username,
   function handleGenreChange(e) {
     setNewGenre(e.target.value)
   }
+
+  useEffect(() => {
+    const requestOptionsComments = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        username: localStorage.getItem("username"),
+        auth_token: localStorage.getItem("auth_token"),
+        post_id: post_id
+      }
+    };
+    setIsFetchingComments(true)
+      fetch(API_URL + "/get_commented_post_by_id", requestOptionsComments)
+        .then(res => res.json())
+        .then(data => {
+          console.log("get comment request back is: ", data);
+          console.log(data)
+          setComments(data)
+          console.log(data)
+          setIsFetchingComments(false)
+        })
+        .catch(err => {
+          console.log(err);
+          setIsFetchingComments(false)
+        });
+
+      }, [])
 
    //comment
    function postComment() {
@@ -97,6 +133,34 @@ export default function MusicPost({username,
       setErrorMessage('Could not connect to the server');
     })
   }
+
+  function Content({username,
+    comment,
+    date,
+    }) {
+
+    return (
+        <div style={{marginBottom: "10px"}} className='edit-profile-form-div'>
+        <h3 className='trending-song-subtitle1'>{username}</h3>
+        <h3 className='trending-song-subtitle2'>{comment}</h3>
+        <h3 className='trending-song-subtitle2'>{date}</h3>
+
+    </div>
+
+
+    )
+    }
+
+  const CommentPost = comments.map(com => {
+    return (
+      <Content
+      username={com.username}
+      comment = {com.comment}
+      date={com.post_time}
+      />
+    )
+  })
+
 
 
   function edit() {
@@ -250,9 +314,32 @@ export default function MusicPost({username,
       <button onClick={likePost} class={classes}></button>
       <button onClick={openAddCommentsModal} className='play-btn'>Add Comment</button>
       <button onClick={deletePost} className='play-btn'>Delete Post</button>
-      <button className='play-btn'>View Comments</button>
+      <button onClick={openCommentsModal} className='play-btn'>View Comments</button>
 
       <button onClick={openDeleteModal} className={'play-btn '+modalClasses}>Edit Post</button>
+
+
+      <Modal
+              isOpen={commentsModalOpen}
+              onRequestClose={closeCommentsModal}
+              contentLabel="Add Comment"
+              className='delete-modal'
+            >
+
+
+              <div style={{alignItems: "center"}}>
+        <h1 style={{color: "black"}} className="create-account-title">
+       Comments
+        </h1>
+        <div className='edit-container'>
+       
+        {CommentPost}
+       
+       </div>
+        
+        </div>
+              <button className='modal-delete-button' onClick={closeCommentsModal}>Go back</button>
+            </Modal>
      
       <Modal
               isOpen={addCommentsModalOpen}

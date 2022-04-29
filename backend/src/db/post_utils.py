@@ -309,16 +309,17 @@ def fetch_private_likes(username):
 def report_post_util(post_to_report, user_who_reported, report_reason):
     post_df = fetch_rows(Posts)
     # get the row associated with the user parameter and the user_to_follow parameter
-    post_to_report_df = post_df.loc[post_df['post_id'] == post_to_report]
+    post_to_report_df = post_df.loc[post_df['post_id'] == int(post_to_report)]
+   # print(post_df.loc[post_df['post_id'] == ])
     # get the user's following list and user_tf's followers list
     post_reports = post_to_report_df['reports'].values
-    if post_reports[0] is None:
+    print(post_df)
+    if not post_reports:
         report_str = [user_who_reported + ', ' + report_reason]
 
         add_post_report(Posts, report_str, post_to_report)
         return True
     else:
-        print(post_reports)
         post_reports = post_reports[0]
         post_reports.append(user_who_reported + ', ' + report_reason)
         add_post_report(Posts, post_reports, post_to_report)
